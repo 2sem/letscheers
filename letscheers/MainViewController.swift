@@ -9,7 +9,7 @@
 import UIKit
 import GoogleMobileAds
 
-class MainViewController: UIViewController, LSUnvisibleBottomBanner, GADBannerViewDelegate {
+class MainViewController: UIViewController, LSUnvisibleGoogleBottomBanner, GADBannerViewDelegate {
     @IBOutlet var constraint_bottomBanner_Bottom: NSLayoutConstraint!
     var constraint_bottomBanner_Top : NSLayoutConstraint!;
     
@@ -34,7 +34,7 @@ class MainViewController: UIViewController, LSUnvisibleBottomBanner, GADBannerVi
         UIApplication.shared.openReview();
     }
     
-    // MARK: UnvisibleBottomBanner
+    // MARK: LSUnvisibleGoogleBottomBanner
     var bottomBannerVisibleLayoutConstraint: NSLayoutConstraint!{
         return self.constraint_bottomBanner_Bottom;
     }

@@ -24,14 +24,14 @@ struct LSGoogleBannerContainer<Container>{
  
     usage: self.google.loadUnvisibleBottomBanner(self.bottomBannerView);
  */
-protocol LSUnvisibleBottomBanner{
+protocol LSUnvisibleGoogleBottomBanner{
     associatedtype View
     var google : LSGoogleBannerContainer<View>{ get }
     var bottomBannerVisibleLayoutConstraint : NSLayoutConstraint!{ get }
     var bottomBannerUnvisibleLayoutConstraint : NSLayoutConstraint!{ get }
 }
 
-extension LSUnvisibleBottomBanner{
+extension LSUnvisibleGoogleBottomBanner{
     var google : LSGoogleBannerContainer<Self>{
         get{print("");
             return LSGoogleBannerContainer(self); //
