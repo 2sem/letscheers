@@ -79,14 +79,18 @@ extension LSUnvisibleBottomBanner{
 
 extension LSGoogleBannerContainer where Container : UIViewController{
     /**
-        load unit id for admob and start showing bottom banner.
+        load unit id for admob(and start showing bottom banner).
+        you don't need to implment GADBannerViewDelegate to toggle layout constraints
         * require inherit from GADBannerViewDelegate
  
      - Parameter banner: banner for google admob
+     - Parameter unitName: default unit id name - you should write unit name of bottom banner info.Plist GoogleADUnitID/{unitName}
+     - Parameter autoLoad need to load banner auto matically
     */
-    func loadUnvisibleBottomBanner(_ banner: GADBannerView){
+    func loadUnvisibleBottomBanner(_ banner: GADBannerView, unitName : String = LSGoogleBannerContainer.bannerName, autoLoad : Bool = false){
         banner.isHidden = false;
-        banner.loadUnitId(name: LSGoogleBannerContainer.bannerName);
+        banner.isAutoloadEnabled = autoLoad;
+        banner.loadUnitId(name: unitName);
     }
 }
 
