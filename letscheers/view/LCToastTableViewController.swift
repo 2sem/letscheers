@@ -14,7 +14,7 @@ class LCToastTableViewController: UITableViewController, UISearchBarDelegate {
     
     private(set) var toasts : [LCToast] = [];
     func updateToasts(){
-        var value = LCExcelController.Default.categories.first { (category) -> Bool in
+        var value = LCExcelController.shared.categories.first { (category) -> Bool in
             return category.name == self.category;
             }?.toasts ?? [];
         if self.searchBar.text?.isEmpty == false{
@@ -40,7 +40,7 @@ class LCToastTableViewController: UITableViewController, UISearchBarDelegate {
     @IBOutlet weak var searchBar: UISearchBar!
     
     @IBAction func onRandomButton(_ sender: UIBarButtonItem) {
-        var toast = LCExcelController.Default.randomToast(self.category ?? "");
+        var toast = LCExcelController.shared.randomToast(self.category ?? "");
         //self.showAlert(title: toast.title, msg: toast.contents, actions: [UIAlertAction(title: "확인", style: .default, handler: nil)], style: .alert);
         self.popupAndShare(title: toast.title, contents: toast.contents);
     }

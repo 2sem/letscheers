@@ -19,14 +19,6 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "GADBannerView.loadUnitId(name:):GADBannerView+.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "adUnitID">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
          contextName = "UIViewController.displayAppName.getter:UIViewController+.swift">
          <PersistentStrings>
             <PersistentString
@@ -43,10 +35,26 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "GADBannerView.loadUnitId(name:):GADBannerView+.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "adUnitID">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "ViewController.viewDidLoad() -&gt; ():MainViewController.swift">
          <PersistentStrings>
             <PersistentString
                value = "self.bottomBannerView.adUnitID">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #1 in closure #1 in Reactive&lt;A&gt;.items&lt;A, B, C&gt;(cellIdentifier:cellType:):UITableView+Rx.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "indexPath.row">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

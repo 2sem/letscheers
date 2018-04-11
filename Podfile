@@ -11,8 +11,8 @@ target 'letscheers' do
   pod 'Firebase/AdMob'
   pod 'XlsxReaderWriter'
   pod 'KakaoOpenSDK'
-  pod 'RxSwift'
-  pod 'RxCocoa'
+  pod 'RxSwift',  '~> 4.0'
+  pod 'RxCocoa', '~> 4.0'
 
   target 'letscheersTests' do
     inherit! :search_paths

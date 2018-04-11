@@ -24,7 +24,7 @@ class LCExcelController : NSObject{
         }
     }
     
-    static let Default = LCExcelController();
+    static let shared = LCExcelController();
     
     var categories : [LCToastCategory] = [];
     

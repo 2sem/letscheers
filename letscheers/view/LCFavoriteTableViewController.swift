@@ -106,7 +106,7 @@ class LCFavoriteTableViewController: UITableViewController {
         
         var toast = self.favorites[indexPath.row];
         cell?.nameLabel.text = toast.name;
-        cell?.contentLabel.text = LCExcelController.Default.findToast(toast.name!)?.contents;
+        cell?.contentLabel.text = LCExcelController.shared.findToast(toast.name!)?.contents;
         cell?.selectedBackgroundView = UIView();
 //        cell?.contentLabel.text = toast.contents;
         //        cell.textLabel?.text = toast.title;

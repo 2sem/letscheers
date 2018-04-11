@@ -20,9 +20,7 @@ class MainViewController: UIViewController, LSUnvisibleGoogleBottomBanner, GADBa
         super.viewDidLoad()
         
         self.constraint_bottomBanner_Top = self.bottomBannerView.topAnchor.constraint(equalTo: self.view.bottomAnchor);
-        self.google.loadUnvisibleBottomBanner(self.bottomBannerView);
-        self.bottomBannerView.isAutoloadEnabled = true;
-        // Do any additional setup after loading the view, typically from a nib.
+        self.google.loadUnvisibleBottomBanner(self.bottomBannerView, autoLoad: true);
     }
 
     override func didReceiveMemoryWarning() {

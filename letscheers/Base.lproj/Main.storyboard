@@ -191,10 +191,6 @@
                                 </connections>
                             </tableViewCell>
                         </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="gFb-LU-CYa" id="cEo-fk-rNf"/>
-                            <outlet property="delegate" destination="gFb-LU-CYa" id="8zK-Ue-Ycj"/>
-                        </connections>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="건배사" image="beer_off.png" selectedImage="beer_on.png" id="baG-7v-seM"/>
                     <navigationItem key="navigationItem" title="건배사" id="nNn-iN-c1b">
@@ -321,7 +317,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="490"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <searchBar key="tableHeaderView" contentMode="redraw" placeholder="검색어" id="NZm-Xd-Soz">
+                        <searchBar key="tableHeaderView" contentMode="redraw" misplaced="YES" placeholder="검색어" id="NZm-Xd-Soz">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <textInputTraits key="textInputTraits"/>

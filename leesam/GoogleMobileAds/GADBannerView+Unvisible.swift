@@ -84,7 +84,7 @@ extension LSGoogleBannerContainer where Container : UIViewController{
         * require inherit from GADBannerViewDelegate
  
      - Parameter banner: banner for google admob
-     - Parameter unitName: default unit id name - you should write unit name of bottom banner info.Plist GoogleADUnitID/{unitName}
+     - Parameter unitName: default unit id name - you should write unit name of bottom banner info.Plist GoogleADUnitID/{unitName} -- default "ButtomBanner"
      - Parameter autoLoad need to load banner auto matically
     */
     func loadUnvisibleBottomBanner(_ banner: GADBannerView, unitName : String = LSGoogleBannerContainer.bannerName, autoLoad : Bool = false){
