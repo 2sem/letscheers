@@ -33,7 +33,7 @@ protocol LSUnvisibleBottomBanner{
 
 extension LSUnvisibleBottomBanner{
     var google : LSGoogleBannerContainer<Self>{
-        get{
+        get{print("");
             return LSGoogleBannerContainer(self); //
         }
     }
