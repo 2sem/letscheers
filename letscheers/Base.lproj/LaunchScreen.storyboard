@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="FYG-YQ-Iqw">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="ecv-de-QC1">
+            <objects>
+                <viewController id="FYG-YQ-Iqw" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="9nc-LZ-9NJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="UaC-Ml-Xyv"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="I04-md-ada">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="credif.png" translatesAutoresizingMaskIntoConstraints="NO" id="lWk-Zg-TQj">
+                                <rect key="frame" x="74.5" y="133.5" width="225" height="400"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Icons8" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Otk-AY-lT6">
+                                <rect key="frame" x="300" y="615" width="59" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="U0z-iq-BY4"/>
+                                    <constraint firstAttribute="width" constant="59" id="i5C-af-oYz"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.60000002384185791" green="0.40000000596046448" blue="0.20000000298023224" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icons7.png" translatesAutoresizingMaskIntoConstraints="NO" id="El7-LP-aFZ">
+                                <rect key="frame" x="248" y="603" width="44" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="El7-LP-aFZ" secondAttribute="height" multiplier="1:1" id="1eB-CE-4PJ"/>
+                                    <constraint firstAttribute="height" constant="44" id="a5D-Qu-aAu"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="El7-LP-aFZ" firstAttribute="trailing" secondItem="Otk-AY-lT6" secondAttribute="leading" constant="-8" id="1hQ-7w-j3K"/>
+                            <constraint firstItem="lWk-Zg-TQj" firstAttribute="width" secondItem="I04-md-ada" secondAttribute="width" multiplier="0.6" id="8q7-eM-Sqs"/>
+                            <constraint firstItem="Otk-AY-lT6" firstAttribute="centerY" secondItem="El7-LP-aFZ" secondAttribute="centerY" id="G1p-oC-plm"/>
+                            <constraint firstItem="lWk-Zg-TQj" firstAttribute="centerY" secondItem="I04-md-ada" secondAttribute="centerY" id="OFx-fi-EaU"/>
+                            <constraint firstItem="lWk-Zg-TQj" firstAttribute="height" secondItem="I04-md-ada" secondAttribute="height" multiplier="0.6" id="Z2w-Vn-zI2"/>
+                            <constraint firstItem="lWk-Zg-TQj" firstAttribute="centerX" secondItem="I04-md-ada" secondAttribute="centerX" id="bB0-rf-vG2"/>
+                            <constraint firstItem="Otk-AY-lT6" firstAttribute="trailing" secondItem="I04-md-ada" secondAttribute="trailingMargin" id="gJf-Zo-Kn7"/>
+                            <constraint firstItem="El7-LP-aFZ" firstAttribute="bottom" secondItem="UaC-Ml-Xyv" secondAttribute="top" constant="-20" id="l5T-DT-Q0V"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9ac-bi-C2H" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="52" y="374.66266866566718"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Icons7.png" width="75" height="75"/>
+        <image name="credif.png" width="1508" height="554"/>
+    </resources>
+</document>
