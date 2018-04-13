@@ -31,6 +31,7 @@
 		2C172B451F70E7CE00962B6F /* UIApplication+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C172B441F70E7CE00962B6F /* UIApplication+.swift */; };
 		2C172B491F70F80800962B6F /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C172B481F70F80800962B6F /* String+.swift */; };
 		2C172B4B1F70F89700962B6F /* Character+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C172B4A1F70F89700962B6F /* Character+.swift */; };
+		2C1FDC5F207F9BD40071CC22 /* ObservableType+UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1FDC5E207F9BD40071CC22 /* ObservableType+UITableView.swift */; };
 		2C8937BD1E20A9A900497CAA /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8937BC1E20A9A900497CAA /* UIViewController+.swift */; };
 		2C8937BF1E20A9F700497CAA /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8937BE1E20A9F700497CAA /* UIView+.swift */; };
 		2C8937C21E20ADB000497CAA /* beer_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C8937C11E20ADB000497CAA /* beer_off.png */; };
@@ -123,6 +124,7 @@
 		2C172B441F70E7CE00962B6F /* UIApplication+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+.swift"; sourceTree = "<group>"; };
 		2C172B481F70F80800962B6F /* String+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		2C172B4A1F70F89700962B6F /* Character+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Character+.swift"; sourceTree = "<group>"; };
+		2C1FDC5E207F9BD40071CC22 /* ObservableType+UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ObservableType+UITableView.swift"; sourceTree = "<group>"; };
 		2C8937BC1E20A9A900497CAA /* UIViewController+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		2C8937BE1E20A9F700497CAA /* UIView+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		2C8937C11E20ADB000497CAA /* beer_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beer_off.png; sourceTree = "<group>"; };
@@ -301,6 +303,7 @@
 		2C0AE47A1E20A4AD00ADAA1A /* leesam */ = {
 			isa = PBXGroup;
 			children = (
+				2C1FDC5D207F9BAB0071CC22 /* RxCocoa */,
 				2C100F6120777ED6003962DC /* GoogleMobileAds */,
 				2C172B441F70E7CE00962B6F /* UIApplication+.swift */,
 				2C172B481F70F80800962B6F /* String+.swift */,
@@ -324,6 +327,14 @@
 				2C100F6220777F4E003962DC /* GADBannerView+Unvisible.swift */,
 			);
 			path = GoogleMobileAds;
+			sourceTree = "<group>";
+		};
+		2C1FDC5D207F9BAB0071CC22 /* RxCocoa */ = {
+			isa = PBXGroup;
+			children = (
+				2C1FDC5E207F9BD40071CC22 /* ObservableType+UITableView.swift */,
+			);
+			path = RxCocoa;
 			sourceTree = "<group>";
 		};
 		2C8937C01E20ABB900497CAA /* icon */ = {
@@ -668,6 +679,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2CFA892F1E210E9900E56F6B /* LCCategotyTableViewController.swift in Sources */,
+				2C1FDC5F207F9BD40071CC22 /* ObservableType+UITableView.swift in Sources */,
 				2C172B3F1F70E75100962B6F /* GADRewardManager.swift in Sources */,
 				2C8937E91E20D80300497CAA /* LCToastCategory.swift in Sources */,
 				2CEEA4C21E9D0FA800D44F78 /* LCDefaults.swift in Sources */,

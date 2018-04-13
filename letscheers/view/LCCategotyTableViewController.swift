@@ -68,6 +68,7 @@ class LCCategotyTableViewController: UITableViewController {
         //let items = Observable.just(["a", "b", "c"])
         //self.tableView.delegate = nil;
         self.tableView.dataSource = nil;
+        
         self.filteredCategories
             .bind(to: self.tableView.rx.items(cellIdentifier: LCCategotyTableViewController.CellID, cellType: LCCategoryTableViewCell.self)){ (tableView, category, cell) in
         //items.bind(to: self.tableView.rx.items(cellIdentifier: "", cellType: UITableViewCell.self)){ (a, b, c) in
@@ -75,6 +76,13 @@ class LCCategotyTableViewController: UITableViewController {
             cell.titleLabel.text = category.name;
                 print("create category cell. name[\(category.name)]");
         }.disposed(by: self.disposeBag);
+        
+        /*self.filteredCategories.bindTable(to: self.tableView, cellIdentifier: LCCategotyTableViewController.CellID, cellType: LCCategoryTableViewCell.self) { (table, categoryy, cell) -> Disposable in
+            
+        }*/
+        self.filteredCategories.bindTableView(to: self.tableView, cellIdentifier: LCCategotyTableViewController.CellID, cellType: LCCategoryTableViewCell.self) { (table, category, cell) in
+            
+        }
     }
 
     @IBAction func onShareButton(_ button: UIBarButtonItem){
