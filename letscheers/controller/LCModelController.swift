@@ -17,12 +17,20 @@ class LCModelController : NSObject{
     
     internal static let dispatchGroupForInit = DispatchGroup();
     //    var SingletonQ = DispatchQueue(label: "RSModelController.Default");
-    private static var _instance = LCModelController();
-    static var Default : LCModelController{
-        get{
-            var timeout = DispatchTime.now() + DispatchTimeInterval.seconds(3);
+    //private static var _instance = LCModelController();
+    static let shared : LCModelController = {
+        print("enter LCModelController instance - \(LCModelController.self) - \(Thread.current)");
+        let value = LCModelController();
+        
+        print("wait LCModelController instance - \(LCModelController.self) - \(Thread.current)");
+        LCModelController.dispatchGroupForInit.wait();
+        print("exit LCModelController instance - \(self) - \(Thread.current)");
+        
+        return value;
+        /*get{
+            //let timeout = DispatchTime.now() + DispatchTimeInterval.seconds(3);
             print("enter LCModelController instance - \(self) - \(Thread.current)");
-            var value = _instance;
+            let value = _instance;
             //            value.waitInit();
             print("wait LCModelController instance - \(self) - \(Thread.current)");
             //            self.semaphore.signal();
@@ -34,8 +42,8 @@ class LCModelController : NSObject{
             //            }
             
             return value;
-        }
-    }
+        }*/
+    }()
     static let semaphore = DispatchSemaphore.init(value: 1);
     //    {
     //        get{
@@ -142,6 +150,7 @@ class LCModelController : NSObject{
         return self.loadFavorites(predicate: predicate, sortWays: nil);
     }
     
+    @discardableResult
     func createFavorite(name: String, contents: String) -> FavoriteToast{
         let toast = NSEntityDescription.insertNewObject(forEntityName: EntityNames.FavoriteToast, into: self.context) as! FavoriteToast;
         
@@ -168,10 +177,12 @@ class LCModelController : NSObject{
     }
     
     func saveChanges(){
-        do{
-            try self.context.save();
-        } catch {
-            fatalError("Save failed Error(\(error))");
+        self.context.performAndWait {
+            do{
+                try self.context.save();
+            } catch {
+                fatalError("Save failed Error(\(error))");
+            }
         }
     }
 }

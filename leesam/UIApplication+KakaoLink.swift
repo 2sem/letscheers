@@ -9,6 +9,7 @@
 import Foundation
 import KakaoLink
 import KakaoMessageTemplate
+import LSExtensions
 
 extension UIApplication{
     func shareByKakao(){

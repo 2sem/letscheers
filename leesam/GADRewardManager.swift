@@ -8,6 +8,7 @@
 
 import UIKit
 import GoogleMobileAds
+import LSExtensions
 
 protocol GADRewardManagerDelegate : NSObjectProtocol{
     func GADRewardGetLastShowTime() -> Date;
@@ -140,7 +141,7 @@ class GADRewardManager : NSObject, GADRewardBasedVideoAdDelegate{
             return;
         }
         
-        print("present full ad view[\(self.window.rootViewController)]");
+        print("present full ad view[\(self.window.rootViewController.debugDescription)]");
         self.rewarded = false;
         self.rewardAd?.present(fromRootViewController: self.window.rootViewController!);
         self.delegate?.GADRewardUpdate(showTime: Date());

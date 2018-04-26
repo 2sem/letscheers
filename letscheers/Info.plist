@@ -40,6 +40,8 @@
 		<key>RewardAd</key>
 		<string>ca-app-pub-9684378399371172/2930865739</string>
 	</dict>
+	<key>Itunes App Id</key>
+	<string>1193053041</string>
 	<key>KAKAO_APP_KEY</key>
 	<string>3abbe5c2685a23c91e101aedb00c6d12</string>
 	<key>LSApplicationQueriesSchemes</key>

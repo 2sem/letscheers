@@ -8,6 +8,7 @@
 
 import UIKit
 import GoogleMobileAds
+import LSExtensions
 
 class MainViewController: UIViewController, LSUnvisibleGoogleBottomBanner, GADBannerViewDelegate {
     @IBOutlet var constraint_bottomBanner_Bottom: NSLayoutConstraint!
@@ -20,7 +21,7 @@ class MainViewController: UIViewController, LSUnvisibleGoogleBottomBanner, GADBa
         super.viewDidLoad()
         
         self.constraint_bottomBanner_Top = self.bottomBannerView.topAnchor.constraint(equalTo: self.view.bottomAnchor);
-        self.google.loadUnvisibleBottomBanner(self.bottomBannerView, autoLoad: true);
+        self.googlex.loadUnvisibleBottomBanner(self.bottomBannerView, autoLoad: true);
     }
 
     override func didReceiveMemoryWarning() {
@@ -44,25 +45,20 @@ class MainViewController: UIViewController, LSUnvisibleGoogleBottomBanner, GADBa
     var keyboardEnabled = false;
     func keyboardWillShow(noti: Notification){
         print("keyboard will show move view to upper");
-        //        if self.nativeTextView.isFirstResponder {
-        if !keyboardEnabled {
-            keyboardEnabled = true;
-            //            self.viewContainer.frame.origin.y -= 180;
-            let frame = noti.userInfo?[UIKeyboardFrameEndUserInfoKey] as? CGRect;
-            
-            // - self.bottomBannerView.frame.height
-            if true{ //!self.isIPhone
-                let remainHeight = (frame?.height ?? 0);//self.view.frame.height -
-                //                var remainHeight : CGFloat = 100.0;
-                self.constraint_bottomBanner_Top.constant = -remainHeight;
-                self.constraint_bottomBanner_Bottom.constant = -remainHeight;
-            }
-            
-            //            self.viewContainer.layoutIfNeeded();
-        };
-        //native y -= (keyboard height - bottom banner height)
-        // keyboard top == native bottom
-        //        }
+        guard !keyboardEnabled else{
+            return;
+        }
+        
+        keyboardEnabled = true;
+        let frame = noti.userInfo?[UIKeyboardFrameEndUserInfoKey] as? CGRect;
+        
+        // - self.bottomBannerView.frame.height
+        if true{ //!self.isIPhone
+            let remainHeight = (frame?.height ?? 0);//self.view.frame.height -
+            //                var remainHeight : CGFloat = 100.0;
+            self.constraint_bottomBanner_Top.constant = -remainHeight;
+            self.constraint_bottomBanner_Bottom.constant = -remainHeight;
+        }
     }
     
     func keyboardWillHide(noti: Notification){

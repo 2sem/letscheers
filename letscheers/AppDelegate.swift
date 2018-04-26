@@ -14,7 +14,7 @@ import GoogleMobileAds
 class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDelegate, ReviewManagerDelegate, GADRewardManagerDelegate {
 
     var window: UIWindow?
-    var fullAd : GADInterstialManager?;
+    var fullAd : GADInterstitialManager?;
     var rewardAd : GADRewardManager?;
     var reviewManager : ReviewManager?;
     
@@ -22,16 +22,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
         // Override point for customization after application launch.
         GADMobileAds.configure(withApplicationID: "ca-app-pub-9684378399371172~8024571245");
         
+        // MARK: Sets review Ads interval - 2 days
         self.reviewManager = ReviewManager(self.window!, interval: 60.0 * 60 * 24 * 2);
         self.reviewManager?.delegate = self;
         //self.reviewManager?.show();
         
+        // MARK: Sets reward Ads interval - 6 hours
         self.rewardAd = GADRewardManager(self.window!, unitId: GADInterstitial.loadUnitId(name: "RewardAd") ?? "", interval: 60.0 * 60.0 * 6); //
         self.rewardAd?.delegate = self;
-        self.fullAd = GADInterstialManager(self.window!, unitId: GADInterstitial.loadUnitId(name: "FullAd") ?? "", interval: 60.0 * 60 * 3);
+        
+        // MARK: Sets interstitial Ads interval - 3 hours
+        self.fullAd = GADInterstitialManager(self.window!, unitId: GADInterstitial.loadUnitId(name: "FullAd") ?? "", interval: 60.0 * 60 * 3);
         self.fullAd?.delegate = self;
         self.fullAd?.canShowFirstTime = false;
         
+        //Shows interstitial Ads If this time is over reward ads interval
         if self.rewardAd?.canShow ?? false{
             self.fullAd?.show();
         }
@@ -64,58 +69,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
-        self.saveContext()
-    }
-
-    // MARK: - Core Data stack
-
-    lazy var persistentContainer: NSPersistentContainer = {
-        /*
-         The persistent container for the application. This implementation
-         creates and returns a container, having loaded the store for the
-         application to it. This property is optional since there are legitimate
-         error conditions that could cause the creation of the store to fail.
-        */
-        let container = NSPersistentContainer(name: "letscheers")
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-            if let error = error as NSError? {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                 
-                /*
-                 Typical reasons for an error here include:
-                 * The parent directory does not exist, cannot be created, or disallows writing.
-                 * The persistent store is not accessible, due to permissions or data protection when the device is locked.
-                 * The device is out of space.
-                 * The store could not be migrated to the current model version.
-                 Check the error message to determine what the actual problem was.
-                 */
-                fatalError("Unresolved error \(error), \(error.userInfo)")
-            }
-        })
-        return container
-    }()
-
-    // MARK: - Core Data Saving support
-
-    func saveContext () {
-        let context = persistentContainer.viewContext
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-            }
-        }
+        //self.saveContext()
+        LCModelController.shared.saveChanges();
     }
 
     // MARK: GADInterstialManagerDelegate
     func GADInterstialGetLastShowTime() -> Date {
         return LCDefaults.LastFullAdShown;
-        //Calendar.current.component(<#T##component: Calendar.Component##Calendar.Component#>, from: <#T##Date#>)
     }
     
     func GADInterstialUpdate(showTime: Date) {

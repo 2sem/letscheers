@@ -42,8 +42,9 @@ class LCExcelController : NSObject{
         self.loadCategories(categories: self.categories);
     }
     
+    @discardableResult
     func loadCategories(categories : [LCToastCategory]? = nil) -> [LCToastCategory]{
-        var value : [LCToastCategory] = [];
+        let value : [LCToastCategory] = [];
         var i = 1;
         var map : [String : LCToastCategory] = [:];
         var category : LCToastCategory!;
@@ -56,10 +57,10 @@ class LCExcelController : NSObject{
         }
         
         while(true){
-            var cell = self.defaultSheet?.cell(forCellReference: "A\(i)");
+            let cell = self.defaultSheet?.cell(forCellReference: "A\(i)");
             var title = cell?.stringValue() ?? "";
-            var contents = self.defaultSheet?.cell(forCellReference: "B\(i)")?.stringValue() ?? "";
-            var category_name = self.defaultSheet?.cell(forCellReference: "C\(i)")?.stringValue() ?? "";
+            let contents = self.defaultSheet?.cell(forCellReference: "B\(i)")?.stringValue() ?? "";
+            let category_name = self.defaultSheet?.cell(forCellReference: "C\(i)")?.stringValue() ?? "";
             
             if cell?.value != nil{
                 title = cell?.value ?? "";
@@ -69,7 +70,7 @@ class LCExcelController : NSObject{
                 break;
             }
 
-            var toast = LCToast();
+            let toast = LCToast();
             toast.title = title;
             toast.contents = contents;
             
@@ -91,9 +92,9 @@ class LCExcelController : NSObject{
         var i = 2;
         
         while(true){
-            var title = self.defaultSheet?.cell(forCellReference: "A\(i)")?.stringValue() ?? "";
-            var contents = self.defaultSheet?.cell(forCellReference: "B\(i)")?.stringValue() ?? "";
-            var category_name = self.defaultSheet?.cell(forCellReference: "C\(i)")?.stringValue() ?? "";
+            let title = self.defaultSheet?.cell(forCellReference: "A\(i)")?.stringValue() ?? "";
+            let contents = self.defaultSheet?.cell(forCellReference: "B\(i)")?.stringValue() ?? "";
+            let category_name = self.defaultSheet?.cell(forCellReference: "C\(i)")?.stringValue() ?? "";
             
             guard !title.isEmpty else{
                 break;
@@ -104,7 +105,7 @@ class LCExcelController : NSObject{
                 continue;
             }
             
-            var toast = LCToast();
+            let toast = LCToast();
             toast.title = title;
             toast.contents = contents;
             
@@ -116,15 +117,16 @@ class LCExcelController : NSObject{
         return value;
     }
     
+    @discardableResult
     func loadFollowToasts(withCategory category : LCToastCategory) -> [LCToast]{
 //        var value : [LCToast] = category.toasts;
         var i = 2;
         var space = 1;
         
         while(true){
-            var first = self.followSheet?.cell(forCellReference: "A\(i)")?.stringValue() ?? "";
-            var second = self.followSheet?.cell(forCellReference: "B\(i)")?.stringValue() ?? "";
-            var contents = self.followSheet?.cell(forCellReference: "C\(i)")?.stringValue() ?? "";
+            let first = self.followSheet?.cell(forCellReference: "A\(i)")?.stringValue() ?? "";
+            let second = self.followSheet?.cell(forCellReference: "B\(i)")?.stringValue() ?? "";
+            let contents = self.followSheet?.cell(forCellReference: "C\(i)")?.stringValue() ?? "";
 //            var category_name = self.defaultSheet?.cell(forCellReference: "D\(i)")?.stringValue() ?? "";
             
             guard !first.isEmpty else{
@@ -136,10 +138,8 @@ class LCExcelController : NSObject{
                 break;
             }
 
-            var title = "(선)\(first) (후)\(second)";
-            
-            var toast = LCToast();
-            toast.title = title;
+            let toast = LCToast();
+            toast.title = "(선)\(first) (후)\(second)";
 //            toast.contents = contents.isEmpty ? contents : "의미 : \(contents)";
             toast.contents = contents
             
@@ -153,7 +153,7 @@ class LCExcelController : NSObject{
 
     func findToast(_ title : String, withCategory categoryName : String = "") -> LCToast?{
         var value : LCToast?;
-        var categories = categoryName.isEmpty ? self.categories : self.categories.filter({ (c) -> Bool in
+        let categories = categoryName.isEmpty ? self.categories : self.categories.filter({ (c) -> Bool in
             return c.name == categoryName;
         });
         
@@ -172,14 +172,14 @@ class LCExcelController : NSObject{
     func randomToast(_ category : String = "") -> LCToast{
         var value : LCToast;
         var toasts : [LCToast] = [];
-        var categories = category.isEmpty ? self.categories : self.categories.filter { (cg) -> Bool in
+        let categories = category.isEmpty ? self.categories : self.categories.filter { (cg) -> Bool in
             return cg.name == category;
         }
         for cg in categories{
             toasts.append(contentsOf: cg.toasts);
         }
         
-        var cnt = UInt32(toasts.count);
+        let cnt = UInt32(toasts.count);
         value = toasts[Int(arc4random_uniform(cnt - 1))];
         
         return value;

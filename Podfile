@@ -13,6 +13,7 @@ target 'letscheers' do
   pod 'KakaoOpenSDK'
   pod 'RxSwift',  '~> 4.0'
   pod 'RxCocoa', '~> 4.0'
+  pod 'LSExtensions', :path => '~/Projects/leesam/pods/LSExtensions/src/LSExtensions'
 
   target 'letscheersTests' do
     inherit! :search_paths
@@ -24,4 +25,23 @@ target 'letscheers' do
     # Pods for testing
   end
 
+    #script to do after install pod projects
+    post_install do |installer|
+        #find target name of "XlsxReaderWriter" from targets in Pods
+        XlsxReaderWriter = installer.pods_project.targets.find{ |t| t.name == "XlsxReaderWriter" }
+        #puts "capture #{XlsxReaderWriter}";
+        #find target name of "XMLDictionary" from targets in Pods
+        XMLDictionary = installer.pods_project.targets
+        .find{ |t| t.name == "XMLDictionary" }
+        #puts "capture #{XMLDictionary}";
+        #find file reference for "XMLDictionary.h" of a Project "XMLDictionary"
+        XMLDictionaryHeader = XMLDictionary.headers_build_phase.files
+        .find{ |b| b.file_ref.name == "XMLDictionary.h" }.file_ref
+        
+        #add reference for "XMLDictionary.h" into project "XlsxReaderWriter"
+        XMLDictionaryHeaderBuild = XlsxReaderWriter.headers_build_phase.add_file_reference(XMLDictionaryHeader, avoid_duplicates = true);
+        #make new file appended public
+        XMLDictionaryHeaderBuild.settings = { "ATTRIBUTES" => ["Public"] }
+        puts "add #{XMLDictionaryHeader} into XlsxReaderWriter";
+    end
 end

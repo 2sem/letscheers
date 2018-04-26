@@ -8,6 +8,7 @@
 
 import UIKit
 import GoogleMobileAds
+import LSExtensions
 
 protocol ReviewManagerDelegate : NSObjectProtocol{
     func reviewGetLastShowTime() -> Date;

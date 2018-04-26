@@ -7,29 +7,45 @@
 //
 
 import UIKit
-//import XMLDictionary
+import LSExtensions
+import RxSwift
+import RxCocoa
+import CoreData
 
-class LCToastTableViewController: UITableViewController, UISearchBarDelegate {
+class LCToastTableViewController: UITableViewController, UISearchBarDelegate, NSFetchedResultsControllerDelegate {
     static let CellID = "LCToastTableViewCell";
     
-    private(set) var toasts : [LCToast] = [];
-    func updateToasts(){
-        var value = LCExcelController.shared.categories.first { (category) -> Bool in
+    lazy var favoriteController : LCFavoriteModelViewController! = LCFavoriteModelViewController(self);
+    private(set) var toasts : Variable<[LCToast]>
+        = Variable<[LCToast]>([]);
+    
+    lazy var filteredToasts : Observable<[LCToast]> = {
+        return self.toasts.asObservable();
+    }()
+    
+    lazy var currentCategory : LCToastCategory! = {
+        return LCExcelController.shared.categories.first { (category) -> Bool in
             return category.name == self.category;
-            }?.toasts ?? [];
+        }
+    }()
+    
+    func updateToasts(){
+        var value = self.currentCategory?.toasts ?? [];
+        
+        //Filters toasts by keyword
         if self.searchBar.text?.isEmpty == false{
             value = value.filter({ (toast) -> Bool in
                 return toast.title.contains(self.searchBar.text ?? "");
-            }) ?? [];
+            });
         }
         
-        self.toasts = value;
+        self.toasts.value = value;
     }
     
     var category : String?;
     var modelController : LCModelController{
         get{
-            return LCModelController.Default;
+            return LCModelController.shared;
         }
     }
     
@@ -40,7 +56,8 @@ class LCToastTableViewController: UITableViewController, UISearchBarDelegate {
     @IBOutlet weak var searchBar: UISearchBar!
     
     @IBAction func onRandomButton(_ sender: UIBarButtonItem) {
-        var toast = LCExcelController.shared.randomToast(self.category ?? "");
+        // MARK: Shows random toast with alert
+        let toast = LCExcelController.shared.randomToast(self.category ?? "");
         //self.showAlert(title: toast.title, msg: toast.contents, actions: [UIAlertAction(title: "확인", style: .default, handler: nil)], style: .alert);
         self.popupAndShare(title: toast.title, contents: toast.contents);
     }
@@ -56,6 +73,11 @@ class LCToastTableViewController: UITableViewController, UISearchBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        _ = self.favoriteController;
+        self.updateToasts();
+        self.setupCellGeneration();
+        
+        // MARK: Sets background image if there is image for the category
         guard self.background != nil else{
             return;
         }
@@ -66,18 +88,6 @@ class LCToastTableViewController: UITableViewController, UISearchBarDelegate {
         self.backgroundView?.image = self.background;
         self.tableView.addSubview(self.backgroundView!);
         self.tableView.sendSubview(toBack: self.backgroundView!);
-        
-        
-//        var controller = UISearchController();
-//        self.searchBar = controller.searchBar;
-//        self.tableView.tableHeaderView = self.searchBar;
-//        self.navigationController?.navigationBar.isHidden = false;
-//        self.toasts = LCExcelController.Default.loadToasts(withCategory: self.category ?? "");
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
     override func didReceiveMemoryWarning() {
@@ -85,14 +95,40 @@ class LCToastTableViewController: UITableViewController, UISearchBarDelegate {
         // Dispose of any resources that can be recreated.
     }
     
+    var disposeBag = DisposeBag();
+    func setupCellGeneration(){
+        // MARK: Disables delegate for binding action
+        //Unless this, the app will be crashed by conflict
+        //self.tableView.delegate = nil;
+        self.tableView.dataSource = nil;
+        
+        // MARK: Binds categories to tableView
+        self.disposeBag = self.filteredToasts.bindTableView(to: self.tableView, cellIdentifier: type(of: self).CellID, cellType: LCToastTableViewCell.self) { [unowned self](row, toast, cell) in
+            cell.nameLabel.text = toast.title;
+            cell.contentLabel.text = toast.contents;
+            cell.selectedBackgroundView = UIView();
+            //cell?.selectedBackgroundView.alpha = 0.5;
+            
+            //        cell.textLabel?.text = toast.title;
+            // Configure the cell...
+            cell.favoriteButton.addTarget(self, action: #selector(self.onCheckFav(button:)), for: .touchUpInside);
+            
+            let isFav = self.modelController.isExistFavorite(withName: cell.nameLabel.text ?? "") ? true : false;
+            
+            let img = cell.favoriteButton.image(for: .selected)?.withRenderingMode(.alwaysTemplate);
+            cell.favoriteButton.setImage(img, for: .selected);
+            
+            cell.favoriteButton.isSelected = isFav;
+            print("check cell[\(row.description)] name[\(cell.nameLabel.text?.description ?? "")] button[\(cell.favoriteButton.description)] selected[\(isFav.description)]");
+        }
+    }
+    
     @IBAction func onCheckFav(button : UIButton){
         let cell = button.superview?.superview as! LCToastTableViewCell;
-        //        print("check fav cell -> \(cell)");
-        var value = !button.isSelected;
+        let value = !button.isSelected;
         
-        var toast = self.modelController.findFavorite(withName: cell.nameLabel.text ?? "").first;
+        let toast = self.modelController.findFavorite(withName: cell.nameLabel.text ?? "").first;
         if cell.favoriteButton.isSelected{
-            
             guard toast != nil else{
                 return;
             }
@@ -103,7 +139,8 @@ class LCToastTableViewController: UITableViewController, UISearchBarDelegate {
                 return;
             }
             
-            self.modelController.createFavorite(name: cell.nameLabel.text ?? "", contents: cell.contentLabel.text ?? "");
+            var fav = self.modelController.createFavorite(name: cell.nameLabel.text ?? "", contents: cell.contentLabel.text ?? "");
+            fav.category = self.category;
         }
         
         cell.favoriteButton.isSelected = value;
@@ -119,7 +156,7 @@ class LCToastTableViewController: UITableViewController, UISearchBarDelegate {
         return 1
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    /*override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         self.updateToasts();
         return self.toasts.count;
@@ -128,7 +165,7 @@ class LCToastTableViewController: UITableViewController, UISearchBarDelegate {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: LCToastTableViewController.CellID, for: indexPath) as? LCToastTableViewCell;
 
-        var toast = self.toasts[indexPath.row];
+        let toast = self.toasts[indexPath.row];
         cell?.nameLabel.text = toast.title;
         cell?.contentLabel.text = toast.contents;
         cell?.selectedBackgroundView = UIView();
@@ -138,16 +175,16 @@ class LCToastTableViewController: UITableViewController, UISearchBarDelegate {
         // Configure the cell...
         cell?.favoriteButton.addTarget(self, action: #selector(onCheckFav(button:)), for: .touchUpInside);
         
-        var isFav = self.modelController.isExistFavorite(withName: cell?.nameLabel.text ?? "") ? true : false;
+        let isFav = self.modelController.isExistFavorite(withName: cell?.nameLabel.text ?? "") ? true : false;
         
-        var img = cell?.favoriteButton.image(for: .selected)?.withRenderingMode(.alwaysTemplate);
+        let img = cell?.favoriteButton.image(for: .selected)?.withRenderingMode(.alwaysTemplate);
         cell?.favoriteButton.setImage(img, for: .selected);
         
         cell?.favoriteButton.isSelected = isFav;
-        print("check cell[\(indexPath.row)] name[\(cell?.nameLabel.text)] button[\(cell?.favoriteButton)] selected[\(isFav)]");
+        print("check cell[\(indexPath.row.description)] name[\(cell?.nameLabel.text?.description ?? "")] button[\(cell?.favoriteButton.description ?? "")] selected[\(isFav.description)]");
         
         return cell!;
-    }
+    }*/
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell : LCToastTableViewCell! = tableView.cellForRow(at: indexPath) as? LCToastTableViewCell;
@@ -157,13 +194,13 @@ class LCToastTableViewController: UITableViewController, UISearchBarDelegate {
         }
         //return;
         
-        var name = cell?.nameLabel?.text ?? "";
-        var contents = cell?.contentLabel?.text ?? "";
+        let name = cell?.nameLabel?.text ?? "";
+        let contents = cell?.contentLabel?.text ?? "";
 //        if !contents.isEmpty{
 //            contents = "\n- " + contents;
 //        }
 //        contents = contents + "\n#" + self.displayAppName;
-        var msg = "\(name)\(contents)";
+        let msg = "\(name)\(contents)";
         
         self.popupAndShare(title: name, contents: contents);
 
@@ -180,7 +217,7 @@ class LCToastTableViewController: UITableViewController, UISearchBarDelegate {
                 contents = "\n- " + contents;
             }
             
-            var tag = "\n#" + self.displayAppName;
+            let tag = (UIApplication.shared.displayName != nil) ? "" : "\n#" + UIApplication.shared.displayName!;
             self.share([title + contents + tag]);
         }), UIAlertAction(title: "확인", style: .default, handler: nil)], style: .alert);
     }
@@ -235,15 +272,43 @@ class LCToastTableViewController: UITableViewController, UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        self.updateToasts();
         self.tableView.reloadData();
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = "";
+        self.updateToasts();
         searchBar.resignFirstResponder();
         self.tableView.reloadData();
     }
 
+    // MARK: NSFetchedResultsControllerDelegate
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        
+        switch type{
+            case .insert:
+                print("inserting favorite is detected in toast tableView");
+                break;
+            case .delete:
+                print("deleting favorite is detected in toast tableView");
+                guard let favorite = anObject as? FavoriteToast else{
+                    return;
+                }
+                
+                guard let toastIndex = self.toasts.value.index(where: { $0.title == favorite.name }) else{
+                    return;
+                }
+                
+                let cell = self.tableView.cellForRow(at: IndexPath.init(row: toastIndex, section: 0)) as? LCToastTableViewCell;
+                cell?.favoriteButton.isSelected = false;
+                //self.tableView.deleteRows(at: [indexPath!], with: .fade);
+                break;
+        default:
+            break;
+        }
+    }
+    
     /*
     // MARK: - Navigation
 
