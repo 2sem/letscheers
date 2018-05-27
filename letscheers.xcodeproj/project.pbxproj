@@ -491,14 +491,14 @@
 					};
 					2C0AE4571E20954C00ADAA1A = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = XRWEC2S728;
+						DevelopmentTeam = M29A6H95KD;
 						LastSwiftMigration = 0930;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 2C0AE4401E20954C00ADAA1A;
 					};
 					2C0AE4621E20954C00ADAA1A = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = XRWEC2S728;
+						DevelopmentTeam = M29A6H95KD;
 						LastSwiftMigration = 0930;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 2C0AE4401E20954C00ADAA1A;
@@ -937,7 +937,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = XRWEC2S728;
+				DEVELOPMENT_TEAM = M29A6H95KD;
 				INFOPLIST_FILE = letscheersTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.credif.letscheersTests;
@@ -954,7 +954,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = XRWEC2S728;
+				DEVELOPMENT_TEAM = M29A6H95KD;
 				INFOPLIST_FILE = letscheersTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.credif.letscheersTests;
@@ -970,7 +970,7 @@
 			baseConfigurationReference = 47E788859AE6644296EC1B3C /* Pods-letscheersUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				DEVELOPMENT_TEAM = XRWEC2S728;
+				DEVELOPMENT_TEAM = M29A6H95KD;
 				INFOPLIST_FILE = letscheersUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.credif.letscheersUITests;
@@ -986,7 +986,7 @@
 			baseConfigurationReference = D776E270AE50F36FC008644A /* Pods-letscheersUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				DEVELOPMENT_TEAM = XRWEC2S728;
+				DEVELOPMENT_TEAM = M29A6H95KD;
 				INFOPLIST_FILE = letscheersUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.credif.letscheersUITests;

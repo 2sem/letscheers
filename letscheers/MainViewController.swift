@@ -42,8 +42,9 @@ class MainViewController: UIViewController, LSUnvisibleGoogleBottomBanner, GADBa
         return self.constraint_bottomBanner_Top;
     }
     
+    // unused keyboard toggle
     var keyboardEnabled = false;
-    func keyboardWillShow(noti: Notification){
+    @objc func keyboardWillShow(noti: Notification){
         print("keyboard will show move view to upper");
         guard !keyboardEnabled else{
             return;
@@ -61,7 +62,7 @@ class MainViewController: UIViewController, LSUnvisibleGoogleBottomBanner, GADBa
         }
     }
     
-    func keyboardWillHide(noti: Notification){
+    @objc func keyboardWillHide(noti: Notification){
         print("keyboard will hide move view to lower");
         //        if self.nativeTextView.isFirstResponder{
         
