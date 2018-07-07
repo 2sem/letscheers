@@ -1,48 +1,50 @@
 PODS:
-  - Firebase/AdMob (4.13.0):
+  - Firebase/AdMob (5.2.0):
     - Firebase/Core
-    - Google-Mobile-Ads-SDK (= 7.30.0)
-  - Firebase/Core (4.13.0):
-    - FirebaseAnalytics (= 4.2.0)
-    - FirebaseCore (= 4.0.20)
-  - FirebaseAnalytics (4.2.0):
-    - FirebaseCore (~> 4.0)
-    - FirebaseInstanceID (~> 2.0)
+    - Google-Mobile-Ads-SDK (= 7.31.0)
+  - Firebase/Core (5.2.0):
+    - Firebase/CoreOnly
+    - FirebaseAnalytics (= 5.0.1)
+  - Firebase/CoreOnly (5.2.0):
+    - FirebaseCore (= 5.0.3)
+  - FirebaseAnalytics (5.0.1):
+    - FirebaseCore (~> 5.0)
+    - FirebaseInstanceID (~> 3.0)
     - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
     - nanopb (~> 0.3)
-  - FirebaseCore (4.0.20):
+  - FirebaseCore (5.0.3):
     - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
-  - FirebaseInstanceID (2.0.10):
-    - FirebaseCore (~> 4.0)
-  - Google-Mobile-Ads-SDK (7.30.0)
+  - FirebaseInstanceID (3.1.0):
+    - FirebaseCore (~> 5.0)
+  - Google-Mobile-Ads-SDK (7.31.0)
   - GoogleToolboxForMac/Defines (2.1.4)
   - "GoogleToolboxForMac/NSData+zlib (2.1.4)":
     - GoogleToolboxForMac/Defines (= 2.1.4)
-  - KakaoOpenSDK (1.7.0):
-    - KakaoOpenSDK/KakaoCommon (= 1.7.0)
-    - KakaoOpenSDK/KakaoLink (= 1.7.0)
-    - KakaoOpenSDK/KakaoMessageTemplate (= 1.7.0)
-    - KakaoOpenSDK/KakaoNavi (= 1.7.0)
-    - KakaoOpenSDK/KakaoOpenSDK (= 1.7.0)
-    - KakaoOpenSDK/KakaoS2 (= 1.7.0)
-  - KakaoOpenSDK/KakaoCommon (1.7.0)
-  - KakaoOpenSDK/KakaoLink (1.7.0):
+  - KakaoOpenSDK (1.8.2):
+    - KakaoOpenSDK/KakaoCommon (= 1.8.2)
+    - KakaoOpenSDK/KakaoLink (= 1.8.2)
+    - KakaoOpenSDK/KakaoMessageTemplate (= 1.8.2)
+    - KakaoOpenSDK/KakaoNavi (= 1.8.2)
+    - KakaoOpenSDK/KakaoOpenSDK (= 1.8.2)
+    - KakaoOpenSDK/KakaoS2 (= 1.8.2)
+  - KakaoOpenSDK/KakaoCommon (1.8.2)
+  - KakaoOpenSDK/KakaoLink (1.8.2):
     - KakaoOpenSDK/KakaoCommon
-  - KakaoOpenSDK/KakaoMessageTemplate (1.7.0)
-  - KakaoOpenSDK/KakaoNavi (1.7.0):
+  - KakaoOpenSDK/KakaoMessageTemplate (1.8.2)
+  - KakaoOpenSDK/KakaoNavi (1.8.2):
     - KakaoOpenSDK/KakaoCommon
-  - KakaoOpenSDK/KakaoOpenSDK (1.7.0)
-  - KakaoOpenSDK/KakaoS2 (1.7.0):
+  - KakaoOpenSDK/KakaoOpenSDK (1.8.2)
+  - KakaoOpenSDK/KakaoS2 (1.8.2):
     - KakaoOpenSDK/KakaoCommon
-  - LSExtensions (0.0.4)
+  - LSExtensions (0.0.7)
   - nanopb (0.3.8):
     - nanopb/decode (= 0.3.8)
     - nanopb/encode (= 0.3.8)
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
-  - RxCocoa (4.1.2):
+  - RxCocoa (4.2.0):
     - RxSwift (~> 4.0)
-  - RxSwift (4.1.2)
+  - RxSwift (4.2.0)
   - SSZipArchive (0.4.0)
   - XlsxReaderWriter (1.0.11):
     - SSZipArchive (~> 0.4)
@@ -59,7 +61,7 @@ DEPENDENCIES:
   - XlsxReaderWriter
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
     - Firebase
     - FirebaseAnalytics
     - FirebaseCore
@@ -79,21 +81,21 @@ EXTERNAL SOURCES:
     :path: "~/Projects/leesam/pods/LSExtensions/src/LSExtensions"
 
 SPEC CHECKSUMS:
-  Firebase: 5ec5e863d269d82d66b4bf56856726f8fb8f0fb3
-  FirebaseAnalytics: 7ef69e76a5142f643aeb47c780e1cdce4e23632e
-  FirebaseCore: 90cb1c53d69b556f112a1bf72b5fcfaad7650790
-  FirebaseInstanceID: 8d20d890d65c917f9f7d9950b6e10a760ad34321
-  Google-Mobile-Ads-SDK: 7404f68120ae8682afeb5af001fbf4aad731c78e
+  Firebase: 25ed0412036d7d008568d1fb4d2e9d81ea8a0a2c
+  FirebaseAnalytics: b3628aea54c50464c32c393fb2ea032566e7ecc2
+  FirebaseCore: a3c87242451633fff8490183898075ce77d168d2
+  FirebaseInstanceID: 05d779cbb97bd5bd5c51a38a903fc9cfe1b2454a
+  Google-Mobile-Ads-SDK: 6e529e748b45507a2ca904e0b5a52669ba3920c4
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
-  KakaoOpenSDK: 82e9c4d57c7d273360e4b49c2d8a0d8626216143
-  LSExtensions: f5efc4b7beb26d8db16bda5672ac87f9cd1d6334
+  KakaoOpenSDK: c09b1291ef293e2ef3faced8ca14b1d1c077bd96
+  LSExtensions: 89de8206e1bf08c5ada457964f17446e1571a03e
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
-  RxCocoa: d88ba0f1f6abf040011a9eb4b539324fc426843a
-  RxSwift: e49536837d9901277638493ea537394d4b55f570
+  RxCocoa: 0b54909c902e1e581212a03e690bbd94032d8baa
+  RxSwift: 99e10317ddfcc7fbe01356aafd118fde4a0be104
   SSZipArchive: d3d66fc0e3fb6ac0f723d95481aae71aae916cc3
   XlsxReaderWriter: 7e4c5c9fb7c4e78e4edc89fa11f50c086540277c
   XMLDictionary: fa07b6ff422b3a91d47a5de9bc82e3fc04fbd167
 
 PODFILE CHECKSUM: bfd5b055a8f290d2476d5da58fce4ad5313f048b
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.5.2
