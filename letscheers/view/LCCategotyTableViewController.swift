@@ -12,6 +12,10 @@ import RxSwift
 import LSExtensions
 
 class LCCategotyTableViewController: UITableViewController {
+    class Segues{
+        static let toasts = "toasts";
+    }
+    
     static let CellID = "LCCategoryTableViewCell";
 
     var categories : [LCToastCategory] = [];
@@ -151,11 +155,21 @@ class LCCategotyTableViewController: UITableViewController {
         return true
     }
     */
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) else{
+            return;
+        }
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.performSegue(withIdentifier: Segues.toasts, sender: cell);
+        }
+    }
 
     // MARK: - Navigation
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         var value = false;
-        guard let _ = self.tableView.indexPathForSelectedRow else{
+        guard let cell = sender as? LCCategoryTableViewCell else{
             return value;
         }
         value = true;
@@ -167,12 +181,8 @@ class LCCategotyTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        if let view = segue.destination as? LCToastTableViewController{
-            guard let selectedRow = self.tableView.indexPathForSelectedRow else{
-                return;
-            }
-            
-            let category = self.categories[selectedRow.row];
+        if let view = segue.destination as? LCToastTableViewController, let cell = sender as? LCCategoryTableViewCell, let indexPath = self.tableView.indexPath(for: cell){
+            let category = self.categories[indexPath.row];
             view.category = category.name;
             view.navigationItem.title = category.title;
             view.background = category.image;
