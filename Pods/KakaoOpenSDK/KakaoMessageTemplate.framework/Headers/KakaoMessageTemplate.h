@@ -14,6 +14,14 @@
  * limitations under the License.
  */
 
+#import <Foundation/Foundation.h>
+
+//! Project version number for KakaoMessageTemplate.
+FOUNDATION_EXPORT double KakaoMessageTemplateVersionNumber;
+
+//! Project version string for KakaoMessageTemplate.
+FOUNDATION_EXPORT const unsigned char KakaoMessageTemplateVersionString[];
+
 #import <KakaoMessageTemplate/KMTFeedTemplate.h>
 #import <KakaoMessageTemplate/KMTListTemplate.h>
 #import <KakaoMessageTemplate/KMTLocationTemplate.h>

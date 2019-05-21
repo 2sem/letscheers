@@ -31,11 +31,11 @@ class LCCategotyTableViewController: UITableViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        
+        AppDelegate.sharedGADManager?.show(unit: .full);
     }
     
     override func viewDidAppear(_ animated: Bool) {
-
+        AppDelegate.sharedGADManager?.show(unit: .full);
     }
     
     override func viewDidLoad() {

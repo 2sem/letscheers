@@ -16,6 +16,12 @@
 
 #import <Foundation/Foundation.h>
 
+//! Project version number for KakaoCommon.
+FOUNDATION_EXPORT double KakaoCommonVersionNumber;
+
+//! Project version string for KakaoCommon.
+FOUNDATION_EXPORT const unsigned char KakaoCommonVersionString[];
+
 #import <KakaoCommon/KCMConfiguration.h>
 #import <KakaoCommon/KCMAgent.h>
 #import <KakaoCommon/KCMError.h>

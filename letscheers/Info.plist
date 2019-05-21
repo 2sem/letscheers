@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.1.0</string>
+	<string>1.1.1</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -30,7 +30,14 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>8</string>
+	<string>4</string>
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-9684378399371172~8024571245</string>
+	<key>GADUnitIdentifiers</key>
+	<dict>
+		<key>FullAd</key>
+		<string>ca-app-pub-9684378399371172/4931504044</string>
+	</dict>
 	<key>GoogleADUnitID</key>
 	<dict>
 		<key>BottomBanner</key>

@@ -21,16 +21,15 @@
 		2C0AE4521E20954C00ADAA1A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C0AE4501E20954C00ADAA1A /* LaunchScreen.storyboard */; };
 		2C0AE45D1E20954C00ADAA1A /* letscheersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0AE45C1E20954C00ADAA1A /* letscheersTests.swift */; };
 		2C0AE4681E20954C00ADAA1A /* letscheersUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0AE4671E20954C00ADAA1A /* letscheersUITests.swift */; };
-		2C0AE4791E2099F600ADAA1A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C0AE4781E2099F600ADAA1A /* GoogleService-Info.plist */; };
 		2C0AE47C1E20A4E900ADAA1A /* GADBannerView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0AE47B1E20A4E900ADAA1A /* GADBannerView+.swift */; };
 		2C100F6320777F4E003962DC /* GADBannerView+Unvisible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C100F6220777F4E003962DC /* GADBannerView+Unvisible.swift */; };
 		2C10590920909DF30064E933 /* Y2K.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C10590820909DF30064E933 /* Y2K.png */; };
 		2C10590D2090BD8D0064E933 /* LCFavoriteModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C10590C2090BD8D0064E933 /* LCFavoriteModelController.swift */; };
-		2C172B3D1F70E6F300962B6F /* GADInterstitialManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C172B3C1F70E6F300962B6F /* GADInterstitialManager.swift */; };
 		2C172B3F1F70E75100962B6F /* GADRewardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C172B3E1F70E75100962B6F /* GADRewardManager.swift */; };
 		2C172B411F70E75900962B6F /* ReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C172B401F70E75900962B6F /* ReviewManager.swift */; };
 		2C172B431F70E76500962B6F /* UIApplication+KakaoLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C172B421F70E76500962B6F /* UIApplication+KakaoLink.swift */; };
 		2C18244E2091D9D1006AD230 /* NSFetchedResultsController+UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C18244D2091D9D1006AD230 /* NSFetchedResultsController+UITableView.swift */; };
+		2C1E0CE22292F20F00FC8F32 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C1E0CE12292F20F00FC8F32 /* GoogleService-Info.plist */; };
 		2C1FDC5F207F9BD40071CC22 /* ObservableType+UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1FDC5E207F9BD40071CC22 /* ObservableType+UITableView.swift */; };
 		2C8937C21E20ADB000497CAA /* beer_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C8937C11E20ADB000497CAA /* beer_off.png */; };
 		2C8937C41E20ADCC00497CAA /* beer_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C8937C31E20ADCC00497CAA /* beer_on.png */; };
@@ -62,7 +61,7 @@
 		2CA3E5FE1E37970C009CF079 /* bg_follow.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2CA3E5FD1E37970C009CF079 /* bg_follow.jpg */; };
 		2CD99DE31E262183007A26E6 /* review_white_line@x1.5.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CD99DE21E262182007A26E6 /* review_white_line@x1.5.png */; };
 		2CEEA4C01E9D0A0B00D44F78 /* GADInterstitial+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEA4BF1E9D0A0B00D44F78 /* GADInterstitial+.swift */; };
-		2CEEA4C21E9D0FA800D44F78 /* LCDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEA4C11E9D0FA800D44F78 /* LCDefaults.swift */; };
+		2CEEA4C21E9D0FA800D44F78 /* LSDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEA4C11E9D0FA800D44F78 /* LSDefaults.swift */; };
 		2CFA892D1E210DFB00E56F6B /* LCToastTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFA892C1E210DFB00E56F6B /* LCToastTableViewController.swift */; };
 		2CFA892F1E210E9900E56F6B /* LCCategotyTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFA892E1E210E9900E56F6B /* LCCategotyTableViewController.swift */; };
 		2CFA89311E210FBB00E56F6B /* LCCategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFA89301E210FBB00E56F6B /* LCCategoryTableViewCell.swift */; };
@@ -111,16 +110,15 @@
 		2C0AE4631E20954C00ADAA1A /* letscheersUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = letscheersUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C0AE4671E20954C00ADAA1A /* letscheersUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = letscheersUITests.swift; sourceTree = "<group>"; };
 		2C0AE4691E20954C00ADAA1A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2C0AE4781E2099F600ADAA1A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2C0AE47B1E20A4E900ADAA1A /* GADBannerView+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GADBannerView+.swift"; sourceTree = "<group>"; };
 		2C100F6220777F4E003962DC /* GADBannerView+Unvisible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GADBannerView+Unvisible.swift"; sourceTree = "<group>"; };
 		2C10590820909DF30064E933 /* Y2K.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Y2K.png; sourceTree = "<group>"; };
 		2C10590C2090BD8D0064E933 /* LCFavoriteModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCFavoriteModelController.swift; sourceTree = "<group>"; };
-		2C172B3C1F70E6F300962B6F /* GADInterstitialManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GADInterstitialManager.swift; sourceTree = "<group>"; };
 		2C172B3E1F70E75100962B6F /* GADRewardManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GADRewardManager.swift; sourceTree = "<group>"; };
 		2C172B401F70E75900962B6F /* ReviewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewManager.swift; sourceTree = "<group>"; };
 		2C172B421F70E76500962B6F /* UIApplication+KakaoLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+KakaoLink.swift"; sourceTree = "<group>"; };
 		2C18244D2091D9D1006AD230 /* NSFetchedResultsController+UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSFetchedResultsController+UITableView.swift"; sourceTree = "<group>"; };
+		2C1E0CE12292F20F00FC8F32 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2C1FDC5E207F9BD40071CC22 /* ObservableType+UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ObservableType+UITableView.swift"; sourceTree = "<group>"; };
 		2C8937C11E20ADB000497CAA /* beer_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beer_off.png; sourceTree = "<group>"; };
 		2C8937C31E20ADCC00497CAA /* beer_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beer_on.png; sourceTree = "<group>"; };
@@ -152,7 +150,7 @@
 		2CA3E5FD1E37970C009CF079 /* bg_follow.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg_follow.jpg; sourceTree = "<group>"; };
 		2CD99DE21E262182007A26E6 /* review_white_line@x1.5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "review_white_line@x1.5.png"; sourceTree = "<group>"; };
 		2CEEA4BF1E9D0A0B00D44F78 /* GADInterstitial+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GADInterstitial+.swift"; sourceTree = "<group>"; };
-		2CEEA4C11E9D0FA800D44F78 /* LCDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCDefaults.swift; sourceTree = "<group>"; };
+		2CEEA4C11E9D0FA800D44F78 /* LSDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LSDefaults.swift; sourceTree = "<group>"; };
 		2CFA892C1E210DFB00E56F6B /* LCToastTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCToastTableViewController.swift; sourceTree = "<group>"; };
 		2CFA892E1E210E9900E56F6B /* LCCategotyTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCCategotyTableViewController.swift; sourceTree = "<group>"; };
 		2CFA89301E210FBB00E56F6B /* LCCategoryTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCCategoryTableViewCell.swift; sourceTree = "<group>"; };
@@ -249,7 +247,7 @@
 				2C0AE44E1E20954C00ADAA1A /* Assets.xcassets */,
 				2C0AE4501E20954C00ADAA1A /* LaunchScreen.storyboard */,
 				2C0AE4531E20954C00ADAA1A /* Info.plist */,
-				2C0AE4781E2099F600ADAA1A /* GoogleService-Info.plist */,
+				2C1E0CE12292F20F00FC8F32 /* GoogleService-Info.plist */,
 				2C0AE44B1E20954C00ADAA1A /* letscheers.xcdatamodeld */,
 				2C8937D91E20B5B300497CAA /* cheers.xlsx */,
 				2CFA89351E212D9000E56F6B /* letscheers-Bridging-Header.h */,
@@ -303,7 +301,6 @@
 				2C100F6120777ED6003962DC /* GoogleMobileAds */,
 				2C0AE47B1E20A4E900ADAA1A /* GADBannerView+.swift */,
 				2CEEA4BF1E9D0A0B00D44F78 /* GADInterstitial+.swift */,
-				2C172B3C1F70E6F300962B6F /* GADInterstitialManager.swift */,
 				2C172B3E1F70E75100962B6F /* GADRewardManager.swift */,
 				2C172B401F70E75900962B6F /* ReviewManager.swift */,
 				2C172B421F70E76500962B6F /* UIApplication+KakaoLink.swift */,
@@ -362,7 +359,7 @@
 			children = (
 				2C8937E81E20D80300497CAA /* LCToastCategory.swift */,
 				2C8937EA1E20DA4900497CAA /* LCToast.swift */,
-				2CEEA4C11E9D0FA800D44F78 /* LCDefaults.swift */,
+				2CEEA4C11E9D0FA800D44F78 /* LSDefaults.swift */,
 			);
 			path = data;
 			sourceTree = "<group>";
@@ -538,6 +535,7 @@
 				2C0AE4521E20954C00ADAA1A /* LaunchScreen.storyboard in Resources */,
 				2CFA893E1E2134A900E56F6B /* health@x3.png in Resources */,
 				2CA3E5F61E3794A1009CF079 /* bg_follow_2.png in Resources */,
+				2C1E0CE22292F20F00FC8F32 /* GoogleService-Info.plist in Resources */,
 				2C8937E01E20BEAD00497CAA /* dining@x2.png in Resources */,
 				2C8937DC1E20BDB100497CAA /* follow@x2.png in Resources */,
 				2C8937DA1E20B5DA00497CAA /* cheers.xlsx in Resources */,
@@ -550,7 +548,6 @@
 				2C8937C61E20ADF200497CAA /* favorite_off.png in Resources */,
 				2CFA893A1E21346600E56F6B /* meeting@x3.png in Resources */,
 				2C8937D81E20B21900497CAA /* love_on.png in Resources */,
-				2C0AE4791E2099F600ADAA1A /* GoogleService-Info.plist in Resources */,
 				2CA3E5F31E378DA8009CF079 /* bg_cheers.png in Resources */,
 				2C10590920909DF30064E933 /* Y2K.png in Resources */,
 				2C8937D01E20AFCE00497CAA /* health_on.png in Resources */,
@@ -651,7 +648,6 @@
 				"${PODS_ROOT}/Target Support Files/Pods-letscheers/Pods-letscheers-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/LSExtensions/LSExtensions.framework",
-				"${BUILT_PRODUCTS_DIR}/RxAtomic/RxAtomic.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SSZipArchive/SSZipArchive.framework",
@@ -663,7 +659,6 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LSExtensions.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxAtomic.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
@@ -724,7 +719,7 @@
 				2C172B3F1F70E75100962B6F /* GADRewardManager.swift in Sources */,
 				2C8937E91E20D80300497CAA /* LCToastCategory.swift in Sources */,
 				2C18244E2091D9D1006AD230 /* NSFetchedResultsController+UITableView.swift in Sources */,
-				2CEEA4C21E9D0FA800D44F78 /* LCDefaults.swift in Sources */,
+				2CEEA4C21E9D0FA800D44F78 /* LSDefaults.swift in Sources */,
 				2CEEA4C01E9D0A0B00D44F78 /* GADInterstitial+.swift in Sources */,
 				2C10590D2090BD8D0064E933 /* LCFavoriteModelController.swift in Sources */,
 				2C09CA8D1E21E7BA006FBE56 /* LCExcelController.swift in Sources */,
@@ -741,7 +736,6 @@
 				2CFA89311E210FBB00E56F6B /* LCCategoryTableViewCell.swift in Sources */,
 				2C0AE4451E20954C00ADAA1A /* AppDelegate.swift in Sources */,
 				2C0AE47C1E20A4E900ADAA1A /* GADBannerView+.swift in Sources */,
-				2C172B3D1F70E6F300962B6F /* GADInterstitialManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

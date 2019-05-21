@@ -14,7 +14,11 @@ target 'letscheers' do
   pod 'RxSwift',  '~> 4.0'
   pod 'RxCocoa', '~> 4.0'
   pod 'LSExtensions', :path => '~/Projects/leesam/pods/LSExtensions/src/LSExtensions'
+  pod 'GADManager', :path => '~/Projects/leesam/pods/GADManager/src/GADManager'
 
+  pod 'Fabric'
+  pod 'Crashlytics'
+  
   target 'letscheersTests' do
     inherit! :search_paths
     # Pods for testing

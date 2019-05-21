@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LCDefaults{
+class LSDefaults{
     static var Defaults : UserDefaults{
         get{
             return UserDefaults.standard;
@@ -19,6 +19,8 @@ class LCDefaults{
         static let LastFullAdShown = "LastFullAdShown";
         static let LastShareShown = "LastShareShown";
         static let LastRewardAdShown = "LastRewardAdShown";
+        
+        static let LaunchCount = "LaunchCount";
     }
     
     static var LastFullAdShown : Date{
@@ -51,6 +53,21 @@ class LCDefaults{
         
         set(value){
             Defaults.set(value.timeIntervalSince1970, forKey: Keys.LastRewardAdShown);
+        }
+    }
+    
+    static func increaseLaunchCount(){
+        self.LaunchCount = self.LaunchCount.advanced(by: 1);
+    }
+    
+    static var LaunchCount : Int{
+        get{
+            //UIApplication.shared.version
+            return Defaults.integer(forKey: Keys.LaunchCount);
+        }
+        
+        set(value){
+            Defaults.set(value, forKey: Keys.LaunchCount);
         }
     }
 }

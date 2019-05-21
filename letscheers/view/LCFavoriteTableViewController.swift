@@ -19,6 +19,7 @@ class LCFavoriteTableViewController: UITableViewController, NSFetchedResultsCont
     
     override func viewDidAppear(_ animated: Bool) {
         self.refresh();
+        AppDelegate.sharedGADManager?.show(unit: .full);
     }
     
     var dataSource: UITableViewDataSource?;

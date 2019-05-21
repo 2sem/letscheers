@@ -9,14 +9,20 @@
 import UIKit
 import CoreData
 import GoogleMobileAds
+import StoreKit
+import GADManager
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDelegate, ReviewManagerDelegate, GADRewardManagerDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, ReviewManagerDelegate, GADRewardManagerDelegate {
 
     var window: UIWindow?
-    var fullAd : GADInterstitialManager?;
+    enum GADUnitName : String{
+        case full = "FullAd"
+    }
+    static var sharedGADManager : GADManager<GADUnitName>?;
     var rewardAd : GADRewardManager?;
     var reviewManager : ReviewManager?;
+    let reviewInterval = 10;
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -31,16 +37,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
         self.rewardAd = GADRewardManager(self.window!, unitId: GADInterstitial.loadUnitId(name: "RewardAd") ?? "", interval: 60.0 * 60.0 * 6); //
         self.rewardAd?.delegate = self;
         
-        // MARK: Sets interstitial Ads interval - 3 hours
-        self.fullAd = GADInterstitialManager(self.window!, unitId: GADInterstitial.loadUnitId(name: "FullAd") ?? "", interval: 60.0 * 60 * 3);
-        self.fullAd?.delegate = self;
-        self.fullAd?.canShowFirstTime = false;
+        let adManager = GADManager<GADUnitName>.init(self.window!);
+        AppDelegate.sharedGADManager = adManager;
+        adManager.delegate = self;
+        adManager.prepare(interstitialUnit: .full, interval: 60.0 * 60.0 * 2);
+        adManager.canShowFirstTime = true;
         
-        //Shows interstitial Ads If this time is over reward ads interval
-        if self.rewardAd?.canShow ?? false{
-            self.fullAd?.show();
-        }
-
+        LSDefaults.increaseLaunchCount();
+        
         return true
     }
 
@@ -56,6 +60,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        guard LSDefaults.LaunchCount % reviewInterval != 0 else{
+            if #available(iOS 10.3, *) {
+                SKStoreReviewController.requestReview()
+            }
+            LSDefaults.increaseLaunchCount();
+            return;
+        }
+        
         guard self.reviewManager?.canShow ?? false else{
             return;
         }
@@ -72,40 +84,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GADInterstialManagerDeleg
         //self.saveContext()
         LCModelController.shared.saveChanges();
     }
-
-    // MARK: GADInterstialManagerDelegate
-    func GADInterstialGetLastShowTime() -> Date {
-        return LCDefaults.LastFullAdShown;
-    }
-    
-    func GADInterstialUpdate(showTime: Date) {
-        LCDefaults.LastFullAdShown = showTime;
-    }
-    
-    func GADInterstialWillLoad() {
-        
-    }
     
     // MARK: ReviewManagerDelegate
     func reviewGetLastShowTime() -> Date {
-        return LCDefaults.LastShareShown;
+        return LSDefaults.LastShareShown;
     }
     
     func reviewUpdate(showTime: Date) {
-        LCDefaults.LastShareShown = showTime;
+        LSDefaults.LastShareShown = showTime;
     }
     
     // MARK: GADRewardManagerDelegate
     func GADRewardGetLastShowTime() -> Date {
-        return LCDefaults.LastRewardAdShown;
+        return LSDefaults.LastRewardAdShown;
     }
     
     func GADRewardUserCompleted() {
-        LCDefaults.LastRewardAdShown = Date();
+        LSDefaults.LastRewardAdShown = Date();
     }
     
     func GADRewardUpdate(showTime: Date) {
         
+    }
+}
+
+extension AppDelegate : GADManagerDelegate{
+    func GAD<GADUnitName>(manager: GADManager<GADUnitName>, lastShownTimeForUnit unit: GADUnitName) -> Date{
+        return LSDefaults.LastFullAdShown;
+        //Calendar.current.component(<#T##component: Calendar.Component##Calendar.Component#>, from: <#T##Date#>)
+    }
+    
+    func GAD<GADUnitName>(manager: GADManager<GADUnitName>, updatShownTimeForUnit unit: GADUnitName, showTime time: Date){
+        LSDefaults.LastFullAdShown = time;
+        
+        //RNInfoTableViewController.shared?.needAds = false;
+        //RNFavoriteTableViewController.shared?.needAds = false;
     }
 }
 

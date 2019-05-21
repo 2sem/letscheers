@@ -20,7 +20,9 @@
 
 + (NSCharacterSet *)defaultAllowedCharacterSet;
 + (NSString *)URLEncode:(NSString *)string;
++ (NSString *)URLDecode:(NSString *)string;
 + (NSString *)URLQueryWithDictionary:(NSDictionary *)dictionary;
++ (NSDictionary *)dictionaryFromURLQuery:(NSString *)URLQuery;
 + (NSURL *)URLWithScheme:(NSString *)scheme host:(NSString *)host path:(NSString *)path parameters:(NSDictionary *)parameters;
 
 + (NSString *)JSONStringWithObject:(id)object;
@@ -29,5 +31,6 @@
 + (UIViewController *)topViewController;
 
 + (NSString *)stringFromDate:(NSDate *)date;
++ (NSDate *)dateFromString:(NSString *)string;
 
 @end

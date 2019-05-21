@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2018 Kakao Corp.
+ * Copyright 2017 Kakao Corp.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,6 +40,8 @@ typedef NS_ENUM(NSInteger, KCMErrorCode) {
     KCMErrorCodeUnknown = 1,
     KCMErrorCodeCancelled = 2,
     KCMErrorCodeOperationInProgress = 3,
+    KCMErrorCodeBadResponse = 7,
+    KCMErrorCodeNetwork = 8,
     KCMErrorCodeNotSupported = 10,
     KCMErrorCodeBadParameter = 11,
     KCMErrorCodeMisconfigured = 12,

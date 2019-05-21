@@ -64,6 +64,7 @@ class LCToastTableViewController: UITableViewController, UISearchBarDelegate, NS
     
     override func viewWillAppear(_ animated: Bool) {
 //        self.navigationController?.navigationBar.isHidden = false;
+        AppDelegate.sharedGADManager?.show(unit: .full);
     }
     
     override func viewDidAppear(_ animated: Bool) {
