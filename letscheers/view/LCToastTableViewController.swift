@@ -64,7 +64,6 @@ class LCToastTableViewController: UITableViewController, UISearchBarDelegate, NS
     
     override func viewWillAppear(_ animated: Bool) {
 //        self.navigationController?.navigationBar.isHidden = false;
-        AppDelegate.sharedGADManager?.show(unit: .full);
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -140,7 +139,7 @@ class LCToastTableViewController: UITableViewController, UISearchBarDelegate, NS
                 return;
             }
             
-            var fav = self.modelController.createFavorite(name: cell.nameLabel.text ?? "", contents: cell.contentLabel.text ?? "");
+            let fav = self.modelController.createFavorite(name: cell.nameLabel.text ?? "", contents: cell.contentLabel.text ?? "");
             fav.category = self.category;
         }
         
@@ -201,7 +200,7 @@ class LCToastTableViewController: UITableViewController, UISearchBarDelegate, NS
 //            contents = "\n- " + contents;
 //        }
 //        contents = contents + "\n#" + self.displayAppName;
-        let msg = "\(name)\(contents)";
+        //let msg = "\(name)\(contents)";
         
         self.popupAndShare(title: name, contents: contents);
 
@@ -308,6 +307,14 @@ class LCToastTableViewController: UITableViewController, UISearchBarDelegate, NS
         default:
             break;
         }
+    }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad) in
+            self?.performSegue(withIdentifier: identifier, sender: sender);
+        }
+        
+        return false;
     }
     
     /*

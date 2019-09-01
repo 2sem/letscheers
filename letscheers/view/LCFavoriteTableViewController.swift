@@ -19,7 +19,6 @@ class LCFavoriteTableViewController: UITableViewController, NSFetchedResultsCont
     
     override func viewDidAppear(_ animated: Bool) {
         self.refresh();
-        AppDelegate.sharedGADManager?.show(unit: .full);
     }
     
     var dataSource: UITableViewDataSource?;
@@ -203,6 +202,14 @@ class LCFavoriteTableViewController: UITableViewController, NSFetchedResultsCont
             default:
                 break;
         }
+    }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad) in
+            self?.performSegue(withIdentifier: identifier, sender: sender);
+        }
+        
+        return false;
     }
     
     /*

@@ -10,7 +10,7 @@ import UIKit
 import GoogleMobileAds
 import LSExtensions
 
-class MainViewController: UIViewController, LSUnvisibleGoogleBottomBanner, GADBannerViewDelegate {
+class MainViewController: UIViewController, LSUnvisibleGoogleBottomBanner {
     @IBOutlet var constraint_bottomBanner_Bottom: NSLayoutConstraint!
     var constraint_bottomBanner_Top : NSLayoutConstraint!;
     

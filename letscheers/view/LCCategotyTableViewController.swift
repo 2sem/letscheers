@@ -27,15 +27,17 @@ class LCCategotyTableViewController: UITableViewController {
     @IBAction func onRandomButton(_ button: UIBarButtonItem) {
         // MARK: Shows random toast with alert
         let toast = LCExcelController.shared.randomToast();
-        self.showAlert(title: toast.title, msg: toast.contents, actions: [UIAlertAction(title: "확인", style: .default, handler: nil)], style: .alert);
+        AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad) in
+            self?.showAlert(title: toast.title, msg: toast.contents, actions: [UIAlertAction(title: "확인", style: .default, handler: nil)], style: .alert);
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        AppDelegate.sharedGADManager?.show(unit: .full);
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        AppDelegate.sharedGADManager?.show(unit: .full);
+
     }
     
     override func viewDidLoad() {
@@ -85,7 +87,7 @@ class LCCategotyTableViewController: UITableViewController {
         self.disposeBag = self.filteredCategories.asObservable().bindTableView(to: self.tableView, cellIdentifier: type(of: self).CellID, cellType: LCCategoryTableViewCell.self) { (table, category, cell) in
             cell.backgroundImageView.image = category.image;
             cell.titleLabel.text = category.name;
-            print("create category cell. name[\(category.name)]");
+            print("create category cell. name[\(category.name ?? "")]");
         }
     }
 
@@ -162,19 +164,22 @@ class LCCategotyTableViewController: UITableViewController {
         }
         
         DispatchQueue.main.async { [weak self] in
-            self?.performSegue(withIdentifier: Segues.toasts, sender: cell);
+            //self?.performSegue(withIdentifier: Segues.toasts, sender: cell);
+            self?.shouldPerformSegue(withIdentifier: Segues.toasts, sender: cell);
         }
     }
 
     // MARK: - Navigation
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        var value = false;
-        guard let cell = sender as? LCCategoryTableViewCell else{
-            return value;
+        guard let _ = sender as? LCCategoryTableViewCell else{
+            return false;
         }
-        value = true;
+
+        AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad) in
+            self?.performSegue(withIdentifier: identifier, sender: sender);
+        }
         
-        return value;
+        return false;
     }
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation

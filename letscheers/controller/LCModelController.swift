@@ -24,7 +24,7 @@ class LCModelController : NSObject{
         
         print("wait LCModelController instance - \(LCModelController.self) - \(Thread.current)");
         LCModelController.dispatchGroupForInit.wait();
-        print("exit LCModelController instance - \(self) - \(Thread.current)");
+        print("exit LCModelController instance - \(Thread.current.description)");
         
         return value;
         /*get{
@@ -131,22 +131,22 @@ class LCModelController : NSObject{
         
         do{
             values = try self.context.fetch(requester) as! [FavoriteToast];
-            print("fetch favorites with predicate[\(predicate)] count[\(values.count)]");
+            print("fetch favorites with predicate[\(predicate?.description ?? "")] count[\(values.count.description)]");
             completion?(values, nil);
         } catch let error{
-            fatalError("Can not load Stocks from DB");
+            fatalError("Can not load Stocks from DB. error[\(error.localizedDescription)]");
         }
         
         return values;
     }
     
     func isExistFavorite(withName name : String) -> Bool{
-        var predicate = NSPredicate(format: "name == \"\(name)\"");
+        let predicate = NSPredicate(format: "name == \"\(name)\"");
         return !self.loadFavorites(predicate: predicate, sortWays: nil).isEmpty;
     }
     
     func findFavorite(withName name : String) -> [FavoriteToast]{
-        var predicate = NSPredicate(format: "name == \"\(name)\"");
+        let predicate = NSPredicate(format: "name == \"\(name)\"");
         return self.loadFavorites(predicate: predicate, sortWays: nil);
     }
     
