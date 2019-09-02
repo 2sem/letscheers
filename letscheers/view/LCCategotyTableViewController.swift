@@ -165,7 +165,7 @@ class LCCategotyTableViewController: UITableViewController {
         
         DispatchQueue.main.async { [weak self] in
             //self?.performSegue(withIdentifier: Segues.toasts, sender: cell);
-            self?.shouldPerformSegue(withIdentifier: Segues.toasts, sender: cell);
+            _ = self?.shouldPerformSegue(withIdentifier: Segues.toasts, sender: cell);
         }
     }
 
