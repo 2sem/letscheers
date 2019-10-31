@@ -11,6 +11,7 @@ import CoreData
 import GoogleMobileAds
 import StoreKit
 import GADManager
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, ReviewManagerDelegate, GADRewardManagerDelegate {
@@ -27,6 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ReviewManagerDelegate, GA
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         GADMobileAds.configure(withApplicationID: "ca-app-pub-9684378399371172~8024571245");
+        FirebaseApp.configure()
         
         // MARK: Sets review Ads interval - 2 days
         self.reviewManager = ReviewManager(self.window!, interval: 60.0 * 60 * 24 * 2);

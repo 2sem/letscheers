@@ -25,11 +25,11 @@
 		2C100F6320777F4E003962DC /* GADBannerView+Unvisible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C100F6220777F4E003962DC /* GADBannerView+Unvisible.swift */; };
 		2C10590920909DF30064E933 /* Y2K.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C10590820909DF30064E933 /* Y2K.png */; };
 		2C10590D2090BD8D0064E933 /* LCFavoriteModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C10590C2090BD8D0064E933 /* LCFavoriteModelController.swift */; };
+		2C122CF3236B1ED2002CA031 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C122CF2236B1ED1002CA031 /* GoogleService-Info.plist */; };
 		2C172B3F1F70E75100962B6F /* GADRewardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C172B3E1F70E75100962B6F /* GADRewardManager.swift */; };
 		2C172B411F70E75900962B6F /* ReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C172B401F70E75900962B6F /* ReviewManager.swift */; };
 		2C172B431F70E76500962B6F /* UIApplication+KakaoLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C172B421F70E76500962B6F /* UIApplication+KakaoLink.swift */; };
 		2C18244E2091D9D1006AD230 /* NSFetchedResultsController+UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C18244D2091D9D1006AD230 /* NSFetchedResultsController+UITableView.swift */; };
-		2C1E0CE22292F20F00FC8F32 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2C1E0CE12292F20F00FC8F32 /* GoogleService-Info.plist */; };
 		2C1FDC5F207F9BD40071CC22 /* ObservableType+UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1FDC5E207F9BD40071CC22 /* ObservableType+UITableView.swift */; };
 		2C8937C21E20ADB000497CAA /* beer_off.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C8937C11E20ADB000497CAA /* beer_off.png */; };
 		2C8937C41E20ADCC00497CAA /* beer_on.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C8937C31E20ADCC00497CAA /* beer_on.png */; };
@@ -114,11 +114,11 @@
 		2C100F6220777F4E003962DC /* GADBannerView+Unvisible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GADBannerView+Unvisible.swift"; sourceTree = "<group>"; };
 		2C10590820909DF30064E933 /* Y2K.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Y2K.png; sourceTree = "<group>"; };
 		2C10590C2090BD8D0064E933 /* LCFavoriteModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCFavoriteModelController.swift; sourceTree = "<group>"; };
+		2C122CF2236B1ED1002CA031 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2C172B3E1F70E75100962B6F /* GADRewardManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GADRewardManager.swift; sourceTree = "<group>"; };
 		2C172B401F70E75900962B6F /* ReviewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewManager.swift; sourceTree = "<group>"; };
 		2C172B421F70E76500962B6F /* UIApplication+KakaoLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+KakaoLink.swift"; sourceTree = "<group>"; };
 		2C18244D2091D9D1006AD230 /* NSFetchedResultsController+UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSFetchedResultsController+UITableView.swift"; sourceTree = "<group>"; };
-		2C1E0CE12292F20F00FC8F32 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2C1FDC5E207F9BD40071CC22 /* ObservableType+UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ObservableType+UITableView.swift"; sourceTree = "<group>"; };
 		2C8937C11E20ADB000497CAA /* beer_off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beer_off.png; sourceTree = "<group>"; };
 		2C8937C31E20ADCC00497CAA /* beer_on.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = beer_on.png; sourceTree = "<group>"; };
@@ -247,7 +247,7 @@
 				2C0AE44E1E20954C00ADAA1A /* Assets.xcassets */,
 				2C0AE4501E20954C00ADAA1A /* LaunchScreen.storyboard */,
 				2C0AE4531E20954C00ADAA1A /* Info.plist */,
-				2C1E0CE12292F20F00FC8F32 /* GoogleService-Info.plist */,
+				2C122CF2236B1ED1002CA031 /* GoogleService-Info.plist */,
 				2C0AE44B1E20954C00ADAA1A /* letscheers.xcdatamodeld */,
 				2C8937D91E20B5B300497CAA /* cheers.xlsx */,
 				2CFA89351E212D9000E56F6B /* letscheers-Bridging-Header.h */,
@@ -535,7 +535,7 @@
 				2C0AE4521E20954C00ADAA1A /* LaunchScreen.storyboard in Resources */,
 				2CFA893E1E2134A900E56F6B /* health@x3.png in Resources */,
 				2CA3E5F61E3794A1009CF079 /* bg_follow_2.png in Resources */,
-				2C1E0CE22292F20F00FC8F32 /* GoogleService-Info.plist in Resources */,
+				2C122CF3236B1ED2002CA031 /* GoogleService-Info.plist in Resources */,
 				2C8937E01E20BEAD00497CAA /* dining@x2.png in Resources */,
 				2C8937DC1E20BDB100497CAA /* follow@x2.png in Resources */,
 				2C8937DA1E20B5DA00497CAA /* cheers.xlsx in Resources */,
@@ -612,7 +612,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
 			);
 			outputFileListPaths = (
 			);
@@ -903,6 +903,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = M29A6H95KD;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
@@ -921,6 +922,7 @@
 				INFOPLIST_FILE = letscheers/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.credif.letscheers;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "letscheers/letscheers-Bridging-Header.h";
@@ -937,6 +939,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = M29A6H95KD;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
@@ -955,6 +958,7 @@
 				INFOPLIST_FILE = letscheers/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.credif.letscheers;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "letscheers/letscheers-Bridging-Header.h";

@@ -9,6 +9,8 @@ target 'letscheers' do
   # Pods for letscheers
   pod 'Firebase/Core'
   pod 'Firebase/AdMob'
+  pod 'Firebase/Analytics'
+
   pod 'XlsxReaderWriter'
   pod 'KakaoOpenSDK'
   pod 'RxSwift',  '~> 4.0'
