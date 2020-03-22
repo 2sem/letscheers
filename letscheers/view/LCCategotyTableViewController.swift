@@ -87,6 +87,7 @@ class LCCategotyTableViewController: UITableViewController {
         self.disposeBag = self.filteredCategories.asObservable().bindTableView(to: self.tableView, cellIdentifier: type(of: self).CellID, cellType: LCCategoryTableViewCell.self) { (table, category, cell) in
             cell.backgroundImageView.image = category.image;
             cell.titleLabel.text = category.name;
+            
             print("create category cell. name[\(category.name ?? "")]");
         }
     }
@@ -107,16 +108,15 @@ class LCCategotyTableViewController: UITableViewController {
         // #warning Incomplete implementation, return the number of rows
         return self.categories.value.count;
     }
-
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell : LCCategoryTableViewCell!;
+        /*var cell : LCCategoryTableViewCell!;
         
         cell = tableView.dequeueReusableCell(withIdentifier: LCCategotyTableViewController.CellID, for: indexPath) as? LCCategoryTableViewCell;
         
         var category = self.categories.value[indexPath.row];
 //        cell.iconImageView.image = category.icon?.withRenderingMode(.alwaysTemplate);
         cell.backgroundImageView.image = category.image;
-        cell.titleLabel.text = category.name;
+        cell.titleLabel.text = category.name;*/
         
         // Configure the cell...
 
@@ -164,23 +164,24 @@ class LCCategotyTableViewController: UITableViewController {
         }
         
         DispatchQueue.main.async { [weak self] in
-            //self?.performSegue(withIdentifier: Segues.toasts, sender: cell);
-            _ = self?.shouldPerformSegue(withIdentifier: Segues.toasts, sender: cell);
+            self?.performSegue(withIdentifier: Segues.toasts, sender: cell);
+            //_ = self?.shouldPerformSegue(withIdentifier: Segues.toasts, sender: cell);
         }
     }
 
     // MARK: - Navigation
-    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        guard let _ = sender as? LCCategoryTableViewCell else{
-            return false;
-        }
-
-        AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad) in
-            self?.performSegue(withIdentifier: identifier, sender: sender);
-        }
-        
-        return false;
-    }
+//    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+//        guard let _ = sender as? LCCategoryTableViewCell else{
+//            return false;
+//        }
+//
+//        //AppDelegate.sharedGADManager?.show(unit: .full, viewController: self.navigationController, completion: nil);
+//        AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad) in
+//            self?.performSegue(withIdentifier: identifier, sender: sender);
+//        }
+//
+//        return false;
+//    }
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

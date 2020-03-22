@@ -87,7 +87,9 @@ class LCToastTableViewController: UITableViewController, UISearchBarDelegate, NS
         self.backgroundView?.alpha = 0.3;
         self.backgroundView?.image = self.background;
         self.tableView.addSubview(self.backgroundView!);
-        self.tableView.sendSubview(toBack: self.backgroundView!);
+        self.tableView.sendSubviewToBack(self.backgroundView!);
+        
+        AppDelegate.sharedGADManager?.show(unit: .full, completion: nil);
     }
 
     override func didReceiveMemoryWarning() {
@@ -296,7 +298,7 @@ class LCToastTableViewController: UITableViewController, UISearchBarDelegate, NS
                     return;
                 }
                 
-                guard let toastIndex = self.toasts.value.index(where: { $0.title == favorite.name }) else{
+                guard let toastIndex = self.toasts.value.firstIndex(where: { $0.title == favorite.name }) else{
                     return;
                 }
                 

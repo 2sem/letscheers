@@ -106,7 +106,7 @@ class LxFetchTableViewDataSource<Entity, TableCell> : NSObject, UITableViewDataS
         return self.canDelete;
     }
     
-    internal func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    internal func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             guard let entity = self.controller.object(at: indexPath) as? Entity else{
                 return;

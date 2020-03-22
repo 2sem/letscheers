@@ -39,10 +39,10 @@ typedef void(^KNVNaviCompletionHandler)(NSError *_Nullable error);
 @interface KNVNaviLauncher : NSObject
 
 /*!
- @property appStoreURL
+ @method appStoreURL
  @abstract 카카오내비 앱스토어 URL
  */
-@property (readonly, class) NSURL *appStoreURL;
++ (NSURL *)appStoreURL;
 
 /*!
  @property enableWebNavi
@@ -55,6 +55,12 @@ typedef void(^KNVNaviCompletionHandler)(NSError *_Nullable error);
  @abstract 길안내 web view 가 present 될 뷰컨트롤러를 설정. 설정하지 않을 경우 자체적으로 최상단 뷰컨트롤러를 탐색하여 present 함.
  */
 @property (nonatomic, weak, nullable) UIViewController *presentingViewController;
+
+/*!
+ @property modalPresentationStyle
+ @abstract 길안내 웹뷰의 뷰컨트롤러가 노출되는 modalPresentationStyle을 지정합니다.
+ */
+@property (nonatomic, assign) UIModalPresentationStyle modalPresentationStyle;
 
 /*!
  @property presentedViewStatusBarStyle

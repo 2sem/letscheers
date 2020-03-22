@@ -39,19 +39,6 @@ typedef void(^KLKUploadImageSuccessHandler)(KLKImageInfo *original);
 typedef void(^KLKUploadImageFailureHandler)(NSError *error);
 
 /*!
- @typedef KLKDeleteImageSuccessHandler
- @abstract 이미지 삭제에 성공했을 경우 호출되는 완료 핸들러.
- */
-typedef void(^KLKDeleteImageSuccessHandler)(void);
-
-/*!
- @typedef KLKDeleteImageFailureHandler
- @abstract 이미지 삭제 도중 에러가 발생했을 경우 호출되는 완료 핸들러.
- @param error 발생한 에러.
- */
-typedef void(^KLKDeleteImageFailureHandler)(NSError *error);
-
-/*!
  @class KLKImageStorage
  @abstract 이미지를 카카오 이미지 서버로 업로드 할 수 있는 기능을 제공합니다.
  @discussion 최대 20일간 보관됩니다.
@@ -124,17 +111,6 @@ typedef void(^KLKDeleteImageFailureHandler)(NSError *error);
            secureResource:(BOOL)secureResource
                   success:(nullable KLKUploadImageSuccessHandler)success
                   failure:(nullable KLKUploadImageFailureHandler)failure;
-
-/*!
- @method deleteWithImageURL:success:failure:
- @abstract 카카오 이미지 서버에서 이미지를 임의로 삭제 합니다.
- @param imageURL 삭제할 이미지 URL.
- @param success 삭제 성공 핸들러.
- @param failure 삭제 실패 핸들러.
- */
-- (void)deleteWithImageURL:(NSURL *)imageURL
-                   success:(nullable KLKDeleteImageSuccessHandler)success
-                   failure:(nullable KLKDeleteImageFailureHandler)failure;
 
 @end
 

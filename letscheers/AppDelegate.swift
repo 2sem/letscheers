@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ReviewManagerDelegate, GA
     var reviewManager : ReviewManager?;
     let reviewInterval = 10;
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         GADMobileAds.configure(withApplicationID: "ca-app-pub-9684378399371172~8024571245");
         FirebaseApp.configure()
@@ -45,7 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ReviewManagerDelegate, GA
     #if DEBUG
         adManager.prepare(interstitialUnit: .full, interval: 60.0);
     #else
-        adManager.prepare(interstitialUnit: .full, interval: 60.0 * 60.0 * 6);
+        adManager.prepare(interstitialUnit: .full, interval: 60.0); // * 60.0 * 6
     #endif
         adManager.canShowFirstTime = true;
         

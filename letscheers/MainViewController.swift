@@ -10,7 +10,7 @@ import UIKit
 import GoogleMobileAds
 import LSExtensions
 
-class MainViewController: UIViewController, LSUnvisibleGoogleBottomBanner {
+class MainViewController: UIViewController {
     @IBOutlet var constraint_bottomBanner_Bottom: NSLayoutConstraint!
     var constraint_bottomBanner_Top : NSLayoutConstraint!;
     
@@ -21,7 +21,13 @@ class MainViewController: UIViewController, LSUnvisibleGoogleBottomBanner {
         super.viewDidLoad()
         
         self.constraint_bottomBanner_Top = self.bottomBannerView.topAnchor.constraint(equalTo: self.view.bottomAnchor);
-        self.googlex.loadUnvisibleBottomBanner(self.bottomBannerView, autoLoad: true);
+        
+        #if targetEnvironment(simulator)
+            self.bottomBannerVisibleLayoutConstraint.isActive = false;
+            self.bottomBannerUnvisibleLayoutConstraint.isActive = true;
+        #else
+            self.googlex.loadUnvisibleBottomBanner(self.bottomBannerView, autoLoad: true);
+        #endif
     }
 
     override func didReceiveMemoryWarning() {
@@ -32,16 +38,7 @@ class MainViewController: UIViewController, LSUnvisibleGoogleBottomBanner {
     @IBAction func onReviewButton(_ sender: UIButton) {
         UIApplication.shared.openReview();
     }
-    
-    // MARK: LSUnvisibleGoogleBottomBanner
-    var bottomBannerVisibleLayoutConstraint: NSLayoutConstraint!{
-        return self.constraint_bottomBanner_Bottom;
-    }
-    
-    var bottomBannerUnvisibleLayoutConstraint: NSLayoutConstraint!{
-        return self.constraint_bottomBanner_Top;
-    }
-    
+        
     // unused keyboard toggle
     var keyboardEnabled = false;
     @objc func keyboardWillShow(noti: Notification){
@@ -51,7 +48,7 @@ class MainViewController: UIViewController, LSUnvisibleGoogleBottomBanner {
         }
         
         keyboardEnabled = true;
-        let frame = noti.userInfo?[UIKeyboardFrameEndUserInfoKey] as? CGRect;
+        let frame = noti.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect;
         
         // - self.bottomBannerView.frame.height
         if true{ //!self.isIPhone
@@ -77,6 +74,16 @@ class MainViewController: UIViewController, LSUnvisibleGoogleBottomBanner {
             //            self.viewContainer.layoutIfNeeded();
         };
     }
+}
 
+// MARK: LSUnvisibleGoogleBottomBanner
+extension MainViewController: LSUnvisibleGoogleBottomBanner{
+    var bottomBannerVisibleLayoutConstraint: NSLayoutConstraint!{
+        return self.constraint_bottomBanner_Bottom;
+    }
+    
+    var bottomBannerUnvisibleLayoutConstraint: NSLayoutConstraint!{
+        return self.constraint_bottomBanner_Top;
+    }
 }
 
