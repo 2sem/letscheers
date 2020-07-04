@@ -80,10 +80,10 @@ extension GADNativeCollectionViewCell : GADUnifiedNativeAdLoaderDelegate{
         if let header = nativeAdView.headlineView as? UILabel{
             header.text = nativeAd.headline;
         }
-        if let advertiser = nativeAdView.advertiserView as? UILabel{
-            advertiser.text = nativeAd.advertiser;
-        }
-        self.nativeAdView?.advertiserView?.isHidden = nativeAd.advertiser == nil;
+//        if let advertiser = nativeAdView.advertiserView as? UILabel{
+//            advertiser.text = nativeAd.advertiser;
+//        }
+//        self.nativeAdView?.advertiserView?.isHidden = nativeAd.advertiser == nil;
         //self.nativeAdView?.starRatingView?.isHidden = true;// nativeAd.starRating == nil;
         if let button = nativeAdView.callToActionView as? UIButton{
             button.setTitle(nativeAd.callToAction, for: .normal);
@@ -110,6 +110,21 @@ extension GADNativeCollectionViewCell : GADUnifiedNativeAdLoaderDelegate{
             //imageView.image = nativeAd.icon?.image;
             print("[\(#function)] images[\(images)]")
         }
+        
+        self.nativeAdView?.advertiserView?.isHidden = true;
+        if let starLabel = nativeAdView.starRatingView as? UILabel, let star = nativeAd.starRating{
+            starLabel.text = star.description;
+            starLabel.isHidden = false;
+        }else if let priceLabel = nativeAdView.priceView as? UILabel, let price = nativeAd.price{
+            priceLabel.text = price;
+            priceLabel.isHidden = false;
+        }else if let advertiserLabel = nativeAdView.advertiserView as? UILabel, let advertiser = nativeAd.advertiser{
+            advertiserLabel.text = advertiser;
+            advertiserLabel.isHidden = false;
+        }
+        
+        print("[\(#function)] star[\(nativeAd.starRating)] price[\(nativeAd.price)]");
+        
         if let body = nativeAdView.bodyView as? UILabel{
             body.text = nativeAd.body;
         }

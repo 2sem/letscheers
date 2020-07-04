@@ -293,34 +293,34 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "6E345B54-7263-49B1-A537-144EB41C5590 - a18467a604a6117b"
+                  uuid = "6E345B54-7263-49B1-A537-144EB41C5590 - 2d592b21c19d2124"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "function signature specialization &lt;Arg[0] = Dead&gt; of letscheers.LCToastTableViewController.controller(_: __C.NSFetchedResultsController&lt;__C.NSFetchRequestResult&gt;, didChange: Any, at: Swift.Optional&lt;Foundation.IndexPath&gt;, for: __C.NSFetchedResultsChangeType, newIndexPath: Swift.Optional&lt;Foundation.IndexPath&gt;) -&gt; ()"
+                  symbolName = "letscheers.LCToastTableViewController.controller(_: __C.NSFetchedResultsController&lt;__C.NSFetchRequestResult&gt;, didChange: Any, at: Swift.Optional&lt;Foundation.IndexPath&gt;, for: __C.NSFetchedResultsChangeType, newIndexPath: Swift.Optional&lt;Foundation.IndexPath&gt;) -&gt; ()"
                   moduleName = "letscheers"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/LYJ/Projects/leesam/letscheers/src/letscheers/letscheers/letscheers/view/LCToastTableViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "301"
-                  endingLineNumber = "301"
-                  offsetFromSymbolStart = "392">
+                  startingLineNumber = "305"
+                  endingLineNumber = "305"
+                  offsetFromSymbolStart = "932">
                </Location>
                <Location
-                  uuid = "6E345B54-7263-49B1-A537-144EB41C5590 - a18467a604a6117b"
+                  uuid = "6E345B54-7263-49B1-A537-144EB41C5590 - f75d36e4037d2aac"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "function signature specialization &lt;Arg[0] = Dead&gt; of letscheers.LCToastTableViewController.controller(_: __C.NSFetchedResultsController&lt;__C.NSFetchRequestResult&gt;, didChange: Any, at: Swift.Optional&lt;Foundation.IndexPath&gt;, for: __C.NSFetchedResultsChangeType, newIndexPath: Swift.Optional&lt;Foundation.IndexPath&gt;) -&gt; ()"
+                  symbolName = "closure #1 (letscheers.LCToast) -&gt; Swift.Bool in letscheers.LCToastTableViewController.controller(_: __C.NSFetchedResultsController&lt;__C.NSFetchRequestResult&gt;, didChange: Any, at: Swift.Optional&lt;Foundation.IndexPath&gt;, for: __C.NSFetchedResultsChangeType, newIndexPath: Swift.Optional&lt;Foundation.IndexPath&gt;) -&gt; ()"
                   moduleName = "letscheers"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/LYJ/Projects/leesam/letscheers/src/letscheers/letscheers/letscheers/view/LCToastTableViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "301"
-                  endingLineNumber = "301"
-                  offsetFromSymbolStart = "536">
+                  startingLineNumber = "305"
+                  endingLineNumber = "305"
+                  offsetFromSymbolStart = "104">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -439,7 +439,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "167"
                   endingLineNumber = "167"
-                  offsetFromSymbolStart = "176">
+                  offsetFromSymbolStart = "416">
                </Location>
                <Location
                   uuid = "2E052C6A-0089-4C87-9D93-916672563BE1 - a859be622c690262"
@@ -454,7 +454,7 @@
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "167"
                   endingLineNumber = "167"
-                  offsetFromSymbolStart = "24">
+                  offsetFromSymbolStart = "88">
                </Location>
             </Locations>
          </BreakpointContent>

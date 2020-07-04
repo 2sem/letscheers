@@ -30,7 +30,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>133</string>
+	<string>151</string>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-9684378399371172~8024571245</string>
 	<key>GADUnitIdentifiers</key>
@@ -84,7 +84,6 @@
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>UIUserInterfaceStyle</key>
 	<string>Dark</string>

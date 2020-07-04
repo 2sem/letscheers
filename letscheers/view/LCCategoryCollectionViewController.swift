@@ -49,6 +49,12 @@ class LCCategoryCollectionViewController: UIViewController {
         
         self.updatesItemSize();
     }
+    
+    override func viewDidLayoutSubviews() {
+        self.updatesItemSize();
+
+        super.viewDidLayoutSubviews();
+    }
         
     func loadCategories(){
         // MARK: Creates category list and load toasts for them
@@ -79,13 +85,14 @@ class LCCategoryCollectionViewController: UIViewController {
     
     func updatesItemSize(){
         if let collectionView = self.collectionView, let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout{
-            let cols : CGFloat = 2.0;
-            let rows : CGFloat = 3.0;
+            let cols : CGFloat = (UIApplication.shared.isIPad && (UIDevice.current.orientation.isLandscape || UIDevice.current.orientation.isFlat)) ? 4.0 : 2.0;
+            let rows : CGFloat = (UIApplication.shared.isIPad && (UIDevice.current.orientation.isLandscape || UIDevice.current.orientation.isFlat)) ? 2.0 : 3.0;
+            //UIApplication.shared.openReview()
             
             let itemsWidth = collectionView.frame.size.width - (layout.minimumLineSpacing * cols.advanced(by: -1)) - layout.sectionInset.left - layout.sectionInset.right;
             let itemsHeight = collectionView.frame.size.height - (layout.minimumInteritemSpacing * rows.advanced(by: -1)) - layout.sectionInset.top - layout.sectionInset.bottom;
 //            self.itemSize = .init(width: 100, height: 100);
-            self.itemSize = .init(width: itemsWidth/2, height: itemsHeight/3);
+            self.itemSize = .init(width: itemsWidth/cols, height: itemsHeight/rows);
             layout.itemSize = self.itemSize;
             print("[\(#function)] screen[\(collectionView.frame.size)]");
             print("[\(#function)] size[\(self.itemSize)] left[\(layout.sectionInset.left)] right[\(layout.sectionInset.right)] minimumLineSpacing[\(layout.minimumLineSpacing)] minimumInteritemSpacing[\(layout.minimumInteritemSpacing)]");
@@ -114,7 +121,7 @@ class LCCategoryCollectionViewController: UIViewController {
         // MARK: Shows random toast with alert
         let toast = LCExcelController.shared.randomToast();
         AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad) in
-            self?.showAlert(title: toast.title, msg: toast.contents, actions: [UIAlertAction(title: "확인", style: .default, handler: nil)], style: .alert);
+            self?.showAlert(title: toast.title ?? "추천 건배사", msg: toast.contents, actions: [UIAlertAction(title: "확인", style: .default, handler: nil)], style: .alert);
         }
     }
 

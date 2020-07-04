@@ -124,7 +124,7 @@
             </objects>
             <point key="canvasLocation" x="1892" y="-349"/>
         </scene>
-        <!--Category Collection View Controller-->
+        <!-- -->
         <scene sceneID="rh6-Ki-35R">
             <objects>
                 <viewController interfaceStyle="dark" id="ndL-kg-EMo" customClass="LCCategoryCollectionViewController" customModule="letscheers" customModuleProvider="target" sceneMemberID="viewController">
@@ -311,9 +311,11 @@
                                                 <constraint firstItem="fW2-pY-ejo" firstAttribute="top" secondItem="xcj-dk-8Br" secondAttribute="top" constant="20" id="uAc-ZJ-rUq"/>
                                             </constraints>
                                             <connections>
+                                                <outlet property="advertiserView" destination="sA2-11-jH8" id="mFN-Y0-5qY"/>
                                                 <outlet property="headlineView" destination="yuF-ED-4cH" id="hu2-Bg-KAc"/>
                                                 <outlet property="iconView" destination="Lck-MD-oHX" id="Y3B-RE-W4T"/>
                                                 <outlet property="imageView" destination="Lck-MD-oHX" id="0Wm-tv-bh6"/>
+                                                <outlet property="priceView" destination="sA2-11-jH8" id="6dd-Qo-T3Y"/>
                                                 <outlet property="starRatingView" destination="sA2-11-jH8" id="7hM-3k-Yia"/>
                                             </connections>
                                         </collectionViewCellContentView>
@@ -430,7 +432,7 @@
                                 </connections>
                             </collectionView>
                         </subviews>
-                        <color key="backgroundColor" red="0.93758171800000001" green="0.92438894510000003" blue="0.98039990659999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="jgs-Fc-Idy" firstAttribute="top" secondItem="2qd-aT-6ag" secondAttribute="bottom" id="93g-7x-QjW"/>
                             <constraint firstItem="jgs-Fc-Idy" firstAttribute="bottom" secondItem="hEa-jt-fYe" secondAttribute="bottom" id="LhO-uy-6Hy"/>
@@ -439,7 +441,8 @@
                         </constraints>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="N6f-nd-3Vf">
+                    <navigationItem key="navigationItem" title=" " id="N6f-nd-3Vf">
+                        <barButtonItem key="backBarButtonItem" title=" " id="uL7-Yh-iCK"/>
                         <barButtonItem key="leftBarButtonItem" title="추천" image="recommend" id="1uN-pR-qzs">
                             <connections>
                                 <action selector="onRandomButton:" destination="ndL-kg-EMo" id="DQI-bz-Eh9"/>
@@ -644,6 +647,7 @@
                         <searchBar key="tableHeaderView" contentMode="redraw" placeholder="검색어" id="NZm-Xd-Soz">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <color key="barTintColor" red="0.37526226039999999" green="0.1311628819" blue="0.85495209689999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <textInputTraits key="textInputTraits" returnKeyType="done"/>
                             <connections>
                                 <outlet property="delegate" destination="UHW-aC-hRC" id="Tko-KU-Ayd"/>
