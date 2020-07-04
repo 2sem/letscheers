@@ -284,6 +284,10 @@ class LCToastTableViewController: UITableViewController, UISearchBarDelegate, NS
         searchBar.resignFirstResponder();
         self.tableView.reloadData();
     }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder();
+    }
 
     // MARK: NSFetchedResultsControllerDelegate
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {

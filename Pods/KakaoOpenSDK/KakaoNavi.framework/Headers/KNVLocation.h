@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2016 Kakao Corp.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,46 +14,31 @@
  * limitations under the License.
  */
 
-/*!
- @header KNVLocation.h
- 특정 장소에 대한 정보를 담고 있는 클래스. 목적지 또는 경유지로 사용된다.
- */
-
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-/*!
- @class KNVLocation
- @abstract 특정 장소에 대한 정보를 담고 있는 클래스. 목적지 또는 경유지로 사용된다.
- */
+/// 특정 장소에 대한 정보를 담고 있는 클래스. 목적지 또는 경유지로 사용된다.
 @interface KNVLocation : NSObject <NSCopying, NSCoding>
 
-/*!
- @property name
- @abstract 장소 이름. (required)
- */
+/// @abstract 장소 이름 (required)
 @property (copy, nonatomic) NSString *name;
 
-/*!
- @property x
- @abstract 장소의 경도 좌표. (required)
- */
+/// @abstract 장소의 경도 좌표 (required)
 @property (copy, nonatomic) NSNumber *x;
 
-/*!
- @property y
- @abstract 장소의 위도 좌표. (required)
- */
+/// @abstract 장소의 위도 좌표 (required)
 @property (copy, nonatomic) NSNumber *y;
 
 
+/// @abstract 도착링크 옵션 "G"
 @property (nullable, copy, nonatomic) NSString *rpflag;
+
 @property (nullable, copy, nonatomic) NSString *cid;
 
 @end
 
-@interface KNVLocation (Creation)
+@interface KNVLocation (Constructor)
 
 + (instancetype)locationWithName:(NSString *)name x:(NSNumber *)x y:(NSNumber *)y;
 - (instancetype)initWithName:(NSString *)name x:(NSNumber *)x y:(NSNumber *)y;

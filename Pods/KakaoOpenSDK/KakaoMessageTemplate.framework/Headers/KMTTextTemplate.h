@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017 Kakao Corp.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,11 +14,6 @@
  * limitations under the License.
  */
 
-/*!
- * @header KMTTextTemplate.h
- * @abstract 텍스트형 기본 템플릿 클래스.
- */
-
 #import <KakaoMessageTemplate/KMTTemplate.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -26,34 +21,19 @@ NS_ASSUME_NONNULL_BEGIN
 @class KMTLinkObject;
 @class KMTButtonObject;
 
-/*!
- * @class KMTTextTemplate
- * @abstract 텍스트형 기본 템플릿 클래스.
- */
+/// 텍스트형 기본 템플릿 클래스
 @interface KMTTextTemplate : KMTTemplate
 
-/*!
- * @property text
- * @abstract 메시지에 들어갈 텍스트. 최대 200자.
- */
+/// @abstract 메시지에 들어갈 텍스트 (최대 200자)
 @property (copy, nonatomic) NSString *text;
 
-/*!
- * @property link
- * @abstract 컨텐츠 클릭 시 이동할 링크 정보.
- */
+/// @abstract 컨텐츠 클릭 시 이동할 링크 정보
 @property (copy, nonatomic) KMTLinkObject *link;
 
-/*!
- * @property buttonTitle
- * @abstract 기본 버튼 타이틀("자세히 보기")을 변경하고 싶을 때 설정.
- */
+/// @abstract 기본 버튼 타이틀("자세히 보기")을 변경하고 싶을 때 설정
 @property (copy, nonatomic, nullable) NSString *buttonTitle;
 
-/*!
- * @property buttons
- * @abstract 버튼 목록. 버튼 타이틀과 링크를 변경하고 싶을때, 버튼 두개를 사용하고 싶을때 사용. (최대 2개)
- */
+/// @abstract 버튼 목록. 버튼 타이틀과 링크를 변경하고 싶을때, 버튼 두개를 사용하고 싶을때 사용 (최대 2개)
 @property (copy, nonatomic, nullable) NSArray<KMTButtonObject *> *buttons;
 
 @end

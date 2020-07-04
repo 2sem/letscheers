@@ -43,6 +43,7 @@ class LCCategotyTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
        
+        self.tableView.hideExtraRows = true;
         self.setupCellGeneration();
         
         self.loadCategories();

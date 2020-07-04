@@ -118,6 +118,22 @@ class LCModelController : NSObject{
         }
     }
     
+    func countForFavorites() -> Int{
+        var value : Int = 0;
+        let requester = NSFetchRequest<NSFetchRequestResult>(entityName: EntityNames.FavoriteToast);
+        
+        //        requester.predicate = NSPredicate(format: "name == %@", "Local");
+        
+        do{
+            value = try self.context.count(for: requester);
+            print("count favorites. count[\(value)]");
+        } catch let error{
+            //fatalError("Can not load Stocks from DB. error[\(error.localizedDescription)]");
+        }
+        
+        return value;
+    }
+    
     func loadFavorites(predicate : NSPredicate? = nil, sortWays: [NSSortDescriptor]? = [], completion: (([FavoriteToast], NSError?) -> Void)? = nil) -> [FavoriteToast]{
         //        self.waitInit();
         print("begin to load from \(self.classForCoder)");

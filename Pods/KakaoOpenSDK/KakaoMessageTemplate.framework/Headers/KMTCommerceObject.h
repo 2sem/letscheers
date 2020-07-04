@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017 Kakao Corp.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,45 +14,28 @@
  * limitations under the License.
  */
 
-/*!
- * @header KMTCommerceObject.h
- * @abstract 가격, 할인율 등 커머스 정보를 나타내는 오브젝트입니다.
- */
-
 #import <KakaoMessageTemplate/KMTParamObject.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-/*!
- * @class KMTCommerceObject
- * @abstract 가격, 할인율 등 커머스 정보를 나타내는 오브젝트입니다.
- * @discussion 필수 파라미터로 <b>정상 가격(regularPrice)</b>을 입력해야 합니다.
- */
+/// 가격, 할인율 등 커머스 정보를 나타내는 오브젝트입니다.
+/// @discussion 필수 파라미터로 <b>정상 가격(regularPrice)</b>을 입력해야 합니다.
 @interface KMTCommerceObject : KMTParamObject
 
-/*!
- * @property regularPrice
- * @abstract 정상 가격. (Integer)
- */
+/// @abstract 정상 가격 (Integer)
 @property (copy, nonatomic) NSNumber *regularPrice;
 
-/*!
- * @property discountPrice
- * @abstract 할인 가격. (Integer)
- */
+/// @abstract 할인 가격 (Integer)
 @property (copy, nonatomic, nullable) NSNumber *discountPrice;
 
-/*!
- * @property discountRate
- * @abstract 할인율. (Integer)
- */
+/// @abstract 할인율 (Integer)
 @property (copy, nonatomic, nullable) NSNumber *discountRate;
 
-/*!
- * @property fixedDiscountPrice
- * @abstract 정액 할인 가격. 할인율과 동시 사용불가. (Integer)
- */
+/// @abstract 정액 할인 가격. 할인율과 동시 사용불가 (Integer)
 @property (copy, nonatomic, nullable) NSNumber *fixedDiscountPrice;
+
+///@abstract 상품명 (String)
+@property (copy, nonatomic, nullable) NSString *productName;
 
 @end
 
@@ -69,6 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (copy, nonatomic, nullable) NSNumber *discountPrice;
 @property (copy, nonatomic, nullable) NSNumber *discountRate;
 @property (copy, nonatomic, nullable) NSNumber *fixedDiscountPrice;
+@property (copy, nonatomic, nullable) NSString *productName;
 
 - (KMTCommerceObject *)build;
 

@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017 Kakao Corp.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,30 +14,22 @@
  * limitations under the License.
  */
 
-/*!
- @header KNVError.h
- KakaoNavi API를 호출할 때 발생하는 오류들을 정의합니다.
- */
 #import <KakaoCommon/KCMError.h>
 
-/*!
- @constant KNVErrorDomain KakaoNavi API에서 발생하는 NSError 객체의 도메인.
- */
+/// KNVErrorDomain KakaoNavi API에서 발생하는 NSError 객체의 도메인
 extern NSString *const KNVErrorDomain;
 
-/*!
- @abstract KakaoNavi API에서 발생하는 오류 코드 정의
- @constant KNVErrorCodeUnknown 알 수 없는 오류
- @constant KNVErrorCodeNotSupported 지원되는 버전의 카카오내비(3.5)가 설치되어 있지 않음
- @constant KNVErrorCodeBadParameter 파라미터 이상
- @constant KNVErrorCodeMisconfigured 개발환경 설정 오류
- @constant KNVErrorCodeInternal SDK 내부 오류
- */
+/// KakaoNavi API에서 발생하는 오류 코드 정의
 typedef NS_ENUM(NSInteger, KNVErrorCode)
 {
+    /// 알 수 없는 오류
     KNVErrorCodeUnknown = KCMErrorCodeUnknown,
+    /// 지원되는 버전의 카카오내비(3.5)가 설치되어 있지 않음
     KNVErrorCodeNotSupported = KCMErrorCodeNotSupported,
+    /// 파라미터 이상
     KNVErrorCodeBadParameter = KCMErrorCodeBadParameter,
+    /// 개발환경 설정 오류
     KNVErrorCodeMisconfigured = KCMErrorCodeMisconfigured,
+    /// SDK 내부 오류
     KNVErrorCodeInternal = KCMErrorCodeInternal,
 };

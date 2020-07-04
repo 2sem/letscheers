@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017 Kakao Corp.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,11 +14,6 @@
  * limitations under the License.
  */
 
-/*!
- * @header KMTCommerceTemplate.h
- * @abstract 기본 템플릿으로 제공되는 커머스 템플릿 클래스.
- */
-
 #import <KakaoMessageTemplate/KMTTemplate.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -28,35 +23,20 @@ NS_ASSUME_NONNULL_BEGIN
 @class KMTLinkObject;
 @class KMTButtonObject;
 
-/*!
- * @class KMTCommerceTemplate
- * @abstract 기본 템플릿으로 제공되는 커머스 템플릿 클래스.
- * @discussion 커머스 템플릿은 하나의 컨텐츠와 하나의 커머스 정보, 하나의 기본 버튼을 가집니다. 임의의 버튼을 최대 2개까지 설정할 수 있습니다.
- */
+/// 기본 템플릿으로 제공되는 커머스 템플릿 클래스.
+/// @discussion 커머스 템플릿은 하나의 컨텐츠와 하나의 커머스 정보, 하나의 기본 버튼을 가집니다. 임의의 버튼을 최대 2개까지 설정할 수 있습니다.
 @interface KMTCommerceTemplate : KMTTemplate
 
-/*!
- * @property content
- * @abstract 메시지의 메인 컨텐츠 정보.
- */
+/// @abstract 메시지의 메인 컨텐츠 정보
 @property (copy, nonatomic) KMTContentObject *content;
 
-/*!
- * @property commerce
- * @abstract 컨텐츠에 대한 가격 정보.
- */
+/// @abstract 컨텐츠에 대한 가격 정보
 @property (copy, nonatomic) KMTCommerceObject *commerce;
 
-/*!
- * @property buttonTitle
- * @abstract 기본 버튼 타이틀("자세히 보기")을 변경하고 싶을 때 설정.
- */
+/// @abstract 기본 버튼 타이틀("자세히 보기")을 변경하고 싶을 때 설정
 @property (copy, nonatomic, nullable) NSString *buttonTitle;
 
-/*!
- * @property buttons
- * @abstract 버튼 목록. 버튼 타이틀과 링크를 변경하고 싶을때, 버튼 두개를 사용하고 싶을때 사용. (최대 2개)
- */
+/// @abstract 버튼 목록. 버튼 타이틀과 링크를 변경하고 싶을때, 버튼 두개를 사용하고 싶을때 사용 (최대 2개)
 @property (copy, nonatomic, nullable) NSArray<KMTButtonObject *> *buttons;
 
 @end

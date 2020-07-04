@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017 Kakao Corp.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,38 +14,32 @@
  * limitations under the License.
  */
 
-/*!
- @header KCMError.h
- @abstract Kakao SDK 공통으로 사용되는 일반 오류들을 정의합니다.
- */
 #import <Foundation/Foundation.h>
 
-/*!
- @constant KCMErrorDomain KakaoCommon API에서 발생하는 NSError 객체의 도메인.
- */
+/// KCMErrorDomain KakaoCommon API에서 발생하는 NSError 객체의 도메인
 extern NSString *const KCMErrorDomain;
 
-/*!
- @abstract 오류 코드 정의
- @constant KCMErrorCodeUnknown 알 수 없는 오류
- @constant KCMErrorCodeCancelled 작업이 취소 됨
- @constant KCMErrorCodeOperationInProgress 동시 작업이 지원되지 않는 API에서 다른 요청이 이미 실행중임
- @constant KCMErrorCodeNotSupported 지원되지 않는 기능
- @constant KCMErrorCodeBadParameter 파라미터 이상
- @constant KCMErrorCodeMisconfigured 개발환경 설정 오류
- @constant KCMErrorCodeInternal SDK 내부 오류
- @constant KCMErrorCodeIllegalState 작업을 실행하기에 적절하지 않은 상태
- */
+/// 오류 코드 정의
 typedef NS_ENUM(NSInteger, KCMErrorCode) {
+    /// KCMErrorCodeUnknown 알 수 없는 오류
     KCMErrorCodeUnknown = 1,
+    /// 작업이 취소 됨
     KCMErrorCodeCancelled = 2,
+    /// 동시 작업이 지원되지 않는 API에서 다른 요청이 이미 실행중임
     KCMErrorCodeOperationInProgress = 3,
+    /// 요청에 대한 응답에 기대하는 값이 없거나 문제가 있음
     KCMErrorCodeBadResponse = 7,
+    /// 네트워크 오류
     KCMErrorCodeNetwork = 8,
+    /// 지원되지 않는 기능
     KCMErrorCodeNotSupported = 10,
+    /// 파라미터 이상
     KCMErrorCodeBadParameter = 11,
+    /// 개발환경 설정 오류
     KCMErrorCodeMisconfigured = 12,
+    /// SDK 내부 오류
     KCMErrorCodeInternal = 13,
+    /// 작업을 실행하기에 적절하지 않은 상태
     KCMErrorCodeIllegalState = 14,
 };
 

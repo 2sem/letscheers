@@ -12,7 +12,8 @@ import LSExtensions
 
 class MainViewController: UIViewController {
     @IBOutlet var constraint_bottomBanner_Bottom: NSLayoutConstraint!
-    var constraint_bottomBanner_Top : NSLayoutConstraint!;
+    @IBOutlet weak var constraint_bottomBanner_Top: NSLayoutConstraint!
+    //var constraint_bottomBanner_Top : NSLayoutConstraint!;
     
     @IBOutlet weak var bottomBannerView: GADBannerView!
     @IBOutlet weak var containerView: UIView!
@@ -20,13 +21,11 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.constraint_bottomBanner_Top = self.bottomBannerView.topAnchor.constraint(equalTo: self.view.bottomAnchor);
-        
         #if targetEnvironment(simulator)
             self.bottomBannerVisibleLayoutConstraint.isActive = false;
             self.bottomBannerUnvisibleLayoutConstraint.isActive = true;
         #else
-            self.googlex.loadUnvisibleBottomBanner(self.bottomBannerView, autoLoad: true);
+            //self.googlex.loadUnvisibleBottomBanner(self.bottomBannerView, autoLoad: true);
         #endif
     }
 

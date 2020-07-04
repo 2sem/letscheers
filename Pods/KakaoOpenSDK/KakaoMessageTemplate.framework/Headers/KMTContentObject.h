@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017 Kakao Corp.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,58 +14,32 @@
  * limitations under the License.
  */
 
-/*!
- * @header KMTContentObject.h
- * @abstract 컨텐츠의 내용을 담고 있는 오브젝트입니다. 기본 템플릿에서는 모든 메시지에 하나 이상의 컨텐츠를 가지고 있습니다.
- */
-
 #import <KakaoMessageTemplate/KMTParamObject.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class KMTLinkObject;
 
-/*!
- * @class KMTContentObject
- * @abstract 컨텐츠의 내용을 담고 있는 오브젝트입니다. 기본 템플릿에서는 모든 메시지에 하나 이상의 컨텐츠를 가지고 있습니다.
- * @discussion 기본 템플릿에서 사용되는 컨텐츠 오브젝트는 <b>한 개의 이미지와 제목, 설명, 링크</b> 정보를 가질 수 있습니다.
- */
+/// 컨텐츠의 내용을 담고 있는 오브젝트입니다.
+/// @discussion 기본 템플릿에서는 모든 메시지에 하나 이상의 컨텐츠를 가지고 있습니다. <b>한 개의 이미지와 제목, 설명, 링크</b> 정보를 가질 수 있습니다.
 @interface KMTContentObject : KMTParamObject
 
-/*!
- * @property title
- * @abstract 컨텐츠의 타이틀.
- */
+/// @abstract 컨텐츠의 타이틀
 @property (copy, nonatomic) NSString *title;
 
-/*!
- * @property imageURL
- * @abstract 컨텐츠의 이미지 URL.
- */
+/// @abstract 컨텐츠의 이미지 URL
 @property (copy, nonatomic) NSURL *imageURL;
 
-/*!
- * @property imageWidth
- * @abstract 컨텐츠의 이미지 너비. (단위: 픽셀)
- */
+/// @abstract 컨텐츠의 이미지 너비 (단위: 픽셀)
 @property (copy, nonatomic, nullable) NSNumber *imageWidth;
 
-/*!
- * @property imageHeight
- * @abstract 컨텐츠의 이미지 높이. (단위: 픽셀)
- */
+/// @abstract 컨텐츠의 이미지 높이 (단위: 픽셀)
 @property (copy, nonatomic, nullable) NSNumber *imageHeight;
 
-/*!
- * @property desc
- * @abstract 컨텐츠의 상세 설명.
- */
+/// @abstract 컨텐츠의 상세 설명
 @property (copy, nonatomic, nullable) NSString *desc;
 
-/*!
- * @property link
- * @abstract 컨텐츠 클릭 시 이동할 링크 정보.
- */
+/// @abstract 컨텐츠 클릭 시 이동할 링크 정보
 @property (copy, nonatomic) KMTLinkObject *link;
 
 @end

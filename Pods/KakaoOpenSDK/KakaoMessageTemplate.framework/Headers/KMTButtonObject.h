@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017 Kakao Corp.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,33 +14,19 @@
  * limitations under the License.
  */
 
-/*!
- * @header KMTButtonObject.h
- * @abstract 메시지 하단에 추가되는 버튼 오브젝트입니다.
- */
-
 #import <KakaoMessageTemplate/KMTParamObject.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class KMTLinkObject;
 
-/*!
- * @class KMTButtonObject
- * @abstract 메시지 하단에 추가되는 버튼 오브젝트입니다.
- */
+/// 메시지 하단에 추가되는 버튼 오브젝트입니다.
 @interface KMTButtonObject : KMTParamObject
 
-/*!
- * @property title
- * @abstract 버튼의 타이틀
- */
+/// @abstract 버튼의 타이틀
 @property (copy, nonatomic) NSString *title;
 
-/*!
- * @property link
- * @abstract 버튼 클릭 시 이동할 링크 정보
- */
+/// @abstract 버튼 클릭 시 이동할 링크 정보
 @property (copy, nonatomic) KMTLinkObject *link;
 
 @end

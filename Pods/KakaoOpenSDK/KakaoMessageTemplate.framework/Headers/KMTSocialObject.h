@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017 Kakao Corp.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,50 +14,27 @@
  * limitations under the License.
  */
 
-/*!
- * @header KMTSocialObject.h
- * @abstract 좋아요 수, 댓글 수 등의 소셜 정보를 표현하기 위해 사용되는 오브젝트입니다.
- */
-
 #import <KakaoMessageTemplate/KMTParamObject.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-/*!
- * @class KMTSocialObject
- * @abstract 좋아요 수, 댓글 수 등의 소셜 정보를 표현하기 위해 사용되는 오브젝트입니다.
- * @discussion 5개의 속성 중 최대 3개만 표시해 줍니다. 우선순위는 <b>Like > Comment > Shared > View > Subscriber</b> 입니다.
- */
+/// 좋아요 수, 댓글 수 등의 소셜 정보를 표현하기 위해 사용되는 오브젝트입니다.
+/// @discussion 5개의 속성 중 최대 3개만 표시해 줍니다. 우선순위는 <b>Like > Comment > Shared > View > Subscriber</b> 입니다.
 @interface KMTSocialObject : KMTParamObject
 
-/*!
- * @property likeCount
- * @abstract 컨텐츠의 좋아요 수
- */
+/// @abstract 컨텐츠의 좋아요 수
 @property (copy, nonatomic, nullable) NSNumber *likeCount;
 
-/*!
- * @property commnentCount
- * @abstract 컨텐츠의 댓글 수
- */
+/// @abstract 컨텐츠의 댓글 수
 @property (copy, nonatomic, nullable) NSNumber *commnentCount;
 
-/*!
- * @property sharedCount
- * @abstract 컨텐츠의 공유 수
- */
+/// @abstract 컨텐츠의 공유 수
 @property (copy, nonatomic, nullable) NSNumber *sharedCount;
 
-/*!
- * @property viewCount
- * @abstract 컨텐츠의 조회 수
- */
+/// @abstract 컨텐츠의 조회 수
 @property (copy, nonatomic, nullable) NSNumber *viewCount;
 
-/*!
- * @property subscriberCount
- * @abstract 컨텐츠의 구독 수
- */
+/// @abstract 컨텐츠의 구독 수
 @property (copy, nonatomic, nullable) NSNumber *subscriberCount;
 
 @end
