@@ -84,8 +84,9 @@ class LCToastTableViewController: UITableViewController, UISearchBarDelegate, NS
         
         self.backgroundView = UIImageView(frame: self.tableView.frame);
         self.backgroundView?.contentMode = .scaleAspectFill;
-        self.backgroundView?.alpha = 0.3;
+        self.backgroundView?.alpha = 0.2;
         self.backgroundView?.image = self.background;
+        self.backgroundView?.backgroundColor = .white;
         self.tableView.addSubview(self.backgroundView!);
         self.tableView.sendSubviewToBack(self.backgroundView!);
         
