@@ -40,7 +40,14 @@ class GADNativeCollectionViewCell: UICollectionViewCell {
                                      options: []);
         self.gadLoader?.delegate = self;
         
-        self.gadLoader?.load(GADRequest());
+        let req = GADRequest();
+        let extras = GADExtras();
+        extras.additionalParameters = ["suppress_test_label" : "1"]
+        req.register(extras)
+//        #if targetEnvironment(simulator)
+//        return;
+//        #endif
+        self.gadLoader?.load(req);
     }
     
     func loadDeveloper(){
