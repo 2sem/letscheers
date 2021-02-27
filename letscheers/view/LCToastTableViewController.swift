@@ -316,13 +316,13 @@ class LCToastTableViewController: UITableViewController, UISearchBarDelegate, NS
         }
     }
     
-    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad) in
-            self?.performSegue(withIdentifier: identifier, sender: sender);
-        }
-        
-        return false;
-    }
+//    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+//        AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad, result) in
+//            self?.performSegue(withIdentifier: identifier, sender: sender);
+//        }
+//
+//        return false;
+//    }
     
     /*
     // MARK: - Navigation

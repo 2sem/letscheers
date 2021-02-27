@@ -205,7 +205,7 @@ class LCFavoriteTableViewController: UITableViewController, NSFetchedResultsCont
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad) in
+        AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad, result) in
             self?.performSegue(withIdentifier: identifier, sender: sender);
         }
         

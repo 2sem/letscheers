@@ -34,15 +34,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// @abstract 헤더 타이틀 내용에 해당하는 링크 정보
 @property (copy, nonatomic) KMTLinkObject *headerLink;
 
-/// @abstract 리스트 템플릿의 상단에 보이는 이미지 URL
-@property (copy, nonatomic, nullable) NSURL *headerImageURL;
-
-/// @abstract 리스트 템플릿의 상단에 보이는 이미지 widht, 권장 800 (단위: 픽셀)
-@property (copy, nonatomic, nullable) NSNumber *headerImageWidth;
-
-/// @abstract 리스트 템플릿의 상단에 보이는 이미지 height, 권장 190 (단위: 픽셀)
-@property (copy, nonatomic, nullable) NSNumber *headerImageHeight;
-
 /// @abstract 리스트에 노출되는 컨텐츠 목록 (최소 2개, 최대 3개)
 @property (copy, nonatomic) NSArray<KMTContentObject *> *contents;
 
@@ -69,9 +60,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (copy, nonatomic) NSString *headerTitle;
 @property (copy, nonatomic) KMTLinkObject *headerLink;
-@property (copy, nonatomic, nullable) NSURL *headerImageURL;
-@property (copy, nonatomic, nullable) NSNumber *headerImageWidth;
-@property (copy, nonatomic, nullable) NSNumber *headerImageHeight;
 @property (copy, nonatomic) NSMutableArray<KMTContentObject *> *contents;
 @property (copy, nonatomic, nullable) NSString *buttonTitle;
 @property (copy, nonatomic, nullable) NSMutableArray<KMTButtonObject *> *buttons;

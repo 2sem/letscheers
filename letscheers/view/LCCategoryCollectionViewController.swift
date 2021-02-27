@@ -120,7 +120,7 @@ class LCCategoryCollectionViewController: UIViewController {
     @IBAction func onRandomButton(_ button: UIBarButtonItem) {
         // MARK: Shows random toast with alert
         let toast = LCExcelController.shared.randomToast();
-        AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad) in
+        AppDelegate.sharedGADManager?.show(unit: .full) { [weak self](unit, ad, result) in
             self?.showAlert(title: toast.title ?? "추천 건배사", msg: toast.contents, actions: [UIAlertAction(title: "확인", style: .default, handler: nil)], style: .alert);
         }
     }
