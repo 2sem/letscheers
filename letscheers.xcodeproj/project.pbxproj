@@ -54,6 +54,7 @@
 		2C8937EB1E20DA4900497CAA /* LCToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8937EA1E20DA4900497CAA /* LCToast.swift */; };
 		2C8937EE1E20DC3F00497CAA /* LCModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8937ED1E20DC3F00497CAA /* LCModelController.swift */; };
 		2C97088B2749E8D700805510 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 2C97088A2749E8D700805510 /* .gitignore */; };
+		2C97088F274A31F700805510 /* GADRewardedAd+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C97088E274A31F700805510 /* GADRewardedAd+.swift */; };
 		2CA3E5F31E378DA8009CF079 /* bg_cheers.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CA3E5F21E378DA8009CF079 /* bg_cheers.png */; };
 		2CA3E5F61E3794A1009CF079 /* bg_follow_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CA3E5F51E3794A1009CF079 /* bg_follow_2.png */; };
 		2CA3E5F81E379525009CF079 /* bg_meeting.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2CA3E5F71E379525009CF079 /* bg_meeting.jpg */; };
@@ -67,7 +68,7 @@
 		2CDD8AB824B00EAB004A906D /* GADNativeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDD8AB724B00EAB004A906D /* GADNativeCollectionViewCell.swift */; };
 		2CDD8ABC24B00F4D004A906D /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDD8ABB24B00F4D004A906D /* UIView+.swift */; };
 		2CDD8ABE24B067EC004A906D /* LCCategoryCollectionViewFavoriteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDD8ABD24B067EC004A906D /* LCCategoryCollectionViewFavoriteCell.swift */; };
-		2CEEA4C01E9D0A0B00D44F78 /* GADInterstitial+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEA4BF1E9D0A0B00D44F78 /* GADInterstitial+.swift */; };
+		2CEEA4C01E9D0A0B00D44F78 /* GADInterstitialAd+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEA4BF1E9D0A0B00D44F78 /* GADInterstitialAd+.swift */; };
 		2CEEA4C21E9D0FA800D44F78 /* LSDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEA4C11E9D0FA800D44F78 /* LSDefaults.swift */; };
 		2CFA892D1E210DFB00E56F6B /* LCToastTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFA892C1E210DFB00E56F6B /* LCToastTableViewController.swift */; };
 		2CFA892F1E210E9900E56F6B /* LCCategotyTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFA892E1E210E9900E56F6B /* LCCategotyTableViewController.swift */; };
@@ -150,6 +151,7 @@
 		2C8937EA1E20DA4900497CAA /* LCToast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCToast.swift; sourceTree = "<group>"; };
 		2C8937ED1E20DC3F00497CAA /* LCModelController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCModelController.swift; sourceTree = "<group>"; };
 		2C97088A2749E8D700805510 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		2C97088E274A31F700805510 /* GADRewardedAd+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GADRewardedAd+.swift"; sourceTree = "<group>"; };
 		2CA3E5F21E378DA8009CF079 /* bg_cheers.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bg_cheers.png; path = ../bg_cheers.png; sourceTree = "<group>"; };
 		2CA3E5F51E3794A1009CF079 /* bg_follow_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_follow_2.png; sourceTree = "<group>"; };
 		2CA3E5F71E379525009CF079 /* bg_meeting.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg_meeting.jpg; sourceTree = "<group>"; };
@@ -163,7 +165,7 @@
 		2CDD8AB724B00EAB004A906D /* GADNativeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GADNativeCollectionViewCell.swift; sourceTree = "<group>"; };
 		2CDD8ABB24B00F4D004A906D /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		2CDD8ABD24B067EC004A906D /* LCCategoryCollectionViewFavoriteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LCCategoryCollectionViewFavoriteCell.swift; sourceTree = "<group>"; };
-		2CEEA4BF1E9D0A0B00D44F78 /* GADInterstitial+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GADInterstitial+.swift"; sourceTree = "<group>"; };
+		2CEEA4BF1E9D0A0B00D44F78 /* GADInterstitialAd+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GADInterstitialAd+.swift"; sourceTree = "<group>"; };
 		2CEEA4C11E9D0FA800D44F78 /* LSDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LSDefaults.swift; sourceTree = "<group>"; };
 		2CFA892C1E210DFB00E56F6B /* LCToastTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCToastTableViewController.swift; sourceTree = "<group>"; };
 		2CFA892E1E210E9900E56F6B /* LCCategotyTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCCategotyTableViewController.swift; sourceTree = "<group>"; };
@@ -315,7 +317,8 @@
 				2C1FDC5D207F9BAB0071CC22 /* RxCocoa */,
 				2C100F6120777ED6003962DC /* GoogleMobileAds */,
 				2C0AE47B1E20A4E900ADAA1A /* GADBannerView+.swift */,
-				2CEEA4BF1E9D0A0B00D44F78 /* GADInterstitial+.swift */,
+				2CEEA4BF1E9D0A0B00D44F78 /* GADInterstitialAd+.swift */,
+				2C97088E274A31F700805510 /* GADRewardedAd+.swift */,
 				2C172B3E1F70E75100962B6F /* GADRewardManager.swift */,
 				2C172B401F70E75900962B6F /* ReviewManager.swift */,
 				2C172B421F70E76500962B6F /* UIApplication+KakaoLink.swift */,
@@ -756,7 +759,7 @@
 				2CDD8AB624B0084A004A906D /* LCCategory.swift in Sources */,
 				2C18244E2091D9D1006AD230 /* NSFetchedResultsController+UITableView.swift in Sources */,
 				2CEEA4C21E9D0FA800D44F78 /* LSDefaults.swift in Sources */,
-				2CEEA4C01E9D0A0B00D44F78 /* GADInterstitial+.swift in Sources */,
+				2CEEA4C01E9D0A0B00D44F78 /* GADInterstitialAd+.swift in Sources */,
 				2C10590D2090BD8D0064E933 /* LCFavoriteModelController.swift in Sources */,
 				2C09CA8D1E21E7BA006FBE56 /* LCExcelController.swift in Sources */,
 				2C100F6320777F4E003962DC /* GADBannerView+Unvisible.swift in Sources */,
@@ -774,6 +777,7 @@
 				2C09CA8F1E222915006FBE56 /* LCToastTableViewCell.swift in Sources */,
 				2C172B411F70E75900962B6F /* ReviewManager.swift in Sources */,
 				2CFA89311E210FBB00E56F6B /* LCCategoryTableViewCell.swift in Sources */,
+				2C97088F274A31F700805510 /* GADRewardedAd+.swift in Sources */,
 				2C0AE4451E20954C00ADAA1A /* AppDelegate.swift in Sources */,
 				2C0AE47C1E20A4E900ADAA1A /* GADBannerView+.swift in Sources */,
 			);

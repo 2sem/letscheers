@@ -32,8 +32,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ReviewManagerDelegate, GA
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        GADMobileAds.configure(withApplicationID: "ca-app-pub-9684378399371172~8024571245");
         FirebaseApp.configure()
+        GADMobileAds.sharedInstance().start(completionHandler: nil);
         
         // MARK: Sets review Ads interval - 2 days
         self.reviewManager = ReviewManager(self.window!, interval: 60.0 * 60 * 24 * 2);
@@ -41,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ReviewManagerDelegate, GA
         //self.reviewManager?.show();
         
         // MARK: Sets reward Ads interval - 6 hours
-        self.rewardAd = GADRewardManager(self.window!, unitId: GADInterstitial.loadUnitId(name: "RewardAd") ?? "", interval: 60.0 * 60.0 * 6); //
+        self.rewardAd = GADRewardManager(self.window!, unitId: GADInterstitialAd.loadUnitId(name: "RewardAd") ?? "", interval: 60.0 * 60.0 * 6); //
         self.rewardAd?.delegate = self;
         
         let adManager = GADManager<GADUnitName>.init(self.window!);

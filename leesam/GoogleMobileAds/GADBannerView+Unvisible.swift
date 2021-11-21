@@ -72,7 +72,7 @@ extension LSUnvisibleGoogleBottomBanner{
         self.showBanner(bannerView, visible: true);
     }
     
-    func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) {
+    func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
         self.showBanner(bannerView, visible: false);
     }
 }

@@ -19,7 +19,7 @@ class GADNativeCollectionViewCell: UICollectionViewCell {
     var rootViewController : UIViewController?;
     var gadLoader : GADAdLoader?;
     
-    @IBOutlet weak var nativeAdView: GADUnifiedNativeAdView!
+    @IBOutlet weak var nativeAdView: GADNativeAdView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -36,7 +36,7 @@ class GADNativeCollectionViewCell: UICollectionViewCell {
     func loadAds(){
         self.gadLoader = GADAdLoader(adUnitID: self.gadUnit,
                                      rootViewController: self.rootViewController,
-                                     adTypes: [ GADAdLoaderAdType.unifiedNative ],
+                                     adTypes: [ .native ],
                                      options: []);
         self.gadLoader?.delegate = self;
         
@@ -79,8 +79,8 @@ class GADNativeCollectionViewCell: UICollectionViewCell {
     }
 }
 
-extension GADNativeCollectionViewCell : GADUnifiedNativeAdLoaderDelegate{
-    func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADUnifiedNativeAd) {
+extension GADNativeCollectionViewCell : GADNativeAdLoaderDelegate{
+    func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {
         print("\(#function)");
         self.nativeAdView?.nativeAd = nativeAd;
         
@@ -139,7 +139,7 @@ extension GADNativeCollectionViewCell : GADUnifiedNativeAdLoaderDelegate{
         self.nativeAdView?.isUserInteractionEnabled = true;
     }
     
-    func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: GADRequestError) {
+    func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: Error) {
         print("\(#function) \(error)");
         self.loadDeveloper();
     }
