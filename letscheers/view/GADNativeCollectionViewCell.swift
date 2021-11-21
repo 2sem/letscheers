@@ -18,12 +18,15 @@ class GADNativeCollectionViewCell: UICollectionViewCell {
     
     var rootViewController : UIViewController?;
     var gadLoader : GADAdLoader?;
+    var tapGesture : UITapGestureRecognizer!;
     
     @IBOutlet weak var nativeAdView: GADNativeAdView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.tapGesture = UITapGestureRecognizer.init(target: self, action: #selector(self.openAds(_:)));
+        self.nativeAdView.addGestureRecognizer(self.tapGesture);
         self.loadDeveloper();
     }
 
@@ -74,8 +77,18 @@ class GADNativeCollectionViewCell: UICollectionViewCell {
             body.isHidden = false;
         }
         
-        self.nativeAdView?.isUserInteractionEnabled = false;
+        self.nativeAdView?.isUserInteractionEnabled = true;
+        self.tapGesture?.isEnabled = true;
         //self.nativeAdView.isHidden = true;
+    }
+    
+    @objc func openAds(_ gesture : UITapGestureRecognizer){
+        guard let url = URL.init(string: "https://itunes.apple.com/kr/app/myapp/id1189758512") else{
+            return;
+        }
+        
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+       //UIApplication.shared.open(url, options: [ : false], completionHandler: nil);
     }
 }
 
@@ -137,10 +150,11 @@ extension GADNativeCollectionViewCell : GADNativeAdLoaderDelegate{
         }
         self.nativeAdView.bodyView?.isHidden = nativeAd.body == nil;
         self.nativeAdView?.isUserInteractionEnabled = true;
+        self.tapGesture.isEnabled = false;
     }
     
     func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: Error) {
-        print("\(#function) \(error)");
+        print("[\(#function)] native ads error - \(error)");
         self.loadDeveloper();
     }
 }

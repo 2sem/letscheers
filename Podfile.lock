@@ -126,6 +126,7 @@ PODS:
     - RxSwift (>= 4.4.2, ~> 4.4)
   - RxSwift (4.5.0)
   - SSZipArchive (0.4.0)
+  - StringLogger (0.6)
   - XlsxReaderWriter (1.0.11):
     - SSZipArchive (~> 0.4)
     - XMLDictionary (~> 1.4)
@@ -139,6 +140,7 @@ DEPENDENCIES:
   - LSExtensions
   - RxCocoa (~> 4.0)
   - RxSwift (~> 4.0)
+  - StringLogger
   - XlsxReaderWriter
 
 SPEC REPOS:
@@ -162,6 +164,7 @@ SPEC REPOS:
     - RxCocoa
     - RxSwift
     - SSZipArchive
+    - StringLogger
     - XlsxReaderWriter
     - XMLDictionary
 
@@ -185,9 +188,10 @@ SPEC CHECKSUMS:
   RxCocoa: cbf70265dc65a981d4ac982e513c10cf23df24a0
   RxSwift: f172070dfd1a93d70a9ab97a5a01166206e1c575
   SSZipArchive: d3d66fc0e3fb6ac0f723d95481aae71aae916cc3
+  StringLogger: 86995c3054f2bc4039fec944f1cfda1f9659ca39
   XlsxReaderWriter: 7e4c5c9fb7c4e78e4edc89fa11f50c086540277c
   XMLDictionary: fa07b6ff422b3a91d47a5de9bc82e3fc04fbd167
 
-PODFILE CHECKSUM: 4182195433b310076aafac69c77e70dc4c04f9e0
+PODFILE CHECKSUM: 00fbdfc98cb816a6c212ded17081868dd588a741
 
 COCOAPODS: 1.11.2

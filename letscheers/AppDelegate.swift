@@ -95,6 +95,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ReviewManagerDelegate, GA
         #else
         let test = false;
         #endif
+        
+        guard !LSDefaults.requestAppTrackingIfNeed() else{
+            return;
+        }
+        
         AppDelegate.sharedGADManager?.show(unit: .launch, isTest: test, completion: { (unit, ad, result) in
             
         })
@@ -148,6 +153,10 @@ extension AppDelegate : GADManagerDelegate{
         
         //RNInfoTableViewController.shared?.needAds = false;
         //RNFavoriteTableViewController.shared?.needAds = false;
+    }
+    
+    func GAD<E>(manager: GADManager<E>, didDismissADForUnit unit: E) where E : Hashable, E : RawRepresentable, E.RawValue == String {
+        LSDefaults.increateAdsShownCount();
     }
     
     func GAD<E>(manager: GADManager<E>, lastShownTimeForUnit unit: E) -> Date{

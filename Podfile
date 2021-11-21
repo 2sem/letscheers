@@ -13,6 +13,7 @@ target 'letscheers' do
   pod 'RxCocoa', '~> 4.0'
   pod 'LSExtensions'#, :path => '~/Projects/leesam/pods/LSExtensions/src/LSExtensions'
   pod 'GADManager'#, :path => '~/Projects/leesam/pods/GADManager/src/GADManager'
+  pod 'StringLogger'
 
   # Add the pod for Firebase Crashlytics
   pod 'Firebase/Crashlytics'

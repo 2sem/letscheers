@@ -55,6 +55,7 @@
 		2C8937EE1E20DC3F00497CAA /* LCModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8937ED1E20DC3F00497CAA /* LCModelController.swift */; };
 		2C97088B2749E8D700805510 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 2C97088A2749E8D700805510 /* .gitignore */; };
 		2C97088F274A31F700805510 /* GADRewardedAd+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C97088E274A31F700805510 /* GADRewardedAd+.swift */; };
+		2C970896274A810E00805510 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2C970898274A810E00805510 /* Localizable.strings */; };
 		2CA3E5F31E378DA8009CF079 /* bg_cheers.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CA3E5F21E378DA8009CF079 /* bg_cheers.png */; };
 		2CA3E5F61E3794A1009CF079 /* bg_follow_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 2CA3E5F51E3794A1009CF079 /* bg_follow_2.png */; };
 		2CA3E5F81E379525009CF079 /* bg_meeting.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2CA3E5F71E379525009CF079 /* bg_meeting.jpg */; };
@@ -152,6 +153,7 @@
 		2C8937ED1E20DC3F00497CAA /* LCModelController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCModelController.swift; sourceTree = "<group>"; };
 		2C97088A2749E8D700805510 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		2C97088E274A31F700805510 /* GADRewardedAd+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GADRewardedAd+.swift"; sourceTree = "<group>"; };
+		2C970897274A810E00805510 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2CA3E5F21E378DA8009CF079 /* bg_cheers.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bg_cheers.png; path = ../bg_cheers.png; sourceTree = "<group>"; };
 		2CA3E5F51E3794A1009CF079 /* bg_follow_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_follow_2.png; sourceTree = "<group>"; };
 		2CA3E5F71E379525009CF079 /* bg_meeting.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg_meeting.jpg; sourceTree = "<group>"; };
@@ -254,6 +256,7 @@
 		2C0AE4431E20954C00ADAA1A /* letscheers */ = {
 			isa = PBXGroup;
 			children = (
+				2C970893274A7FC300805510 /* resources */,
 				2CFA892B1E210D4800E56F6B /* view */,
 				2C8937EC1E20DC0D00497CAA /* controller */,
 				2C8937E71E20D5C700497CAA /* data */,
@@ -392,6 +395,14 @@
 				2C09CA8C1E21E7BA006FBE56 /* LCExcelController.swift */,
 			);
 			path = controller;
+			sourceTree = "<group>";
+		};
+		2C970893274A7FC300805510 /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				2C970898274A810E00805510 /* Localizable.strings */,
+			);
+			path = resources;
 			sourceTree = "<group>";
 		};
 		2CA3E5F41E379249009CF079 /* background */ = {
@@ -575,6 +586,7 @@
 				2CA3E5F31E378DA8009CF079 /* bg_cheers.png in Resources */,
 				2C10590920909DF30064E933 /* company.png in Resources */,
 				2C8937D01E20AFCE00497CAA /* health_on.png in Resources */,
+				2C970896274A810E00805510 /* Localizable.strings in Resources */,
 				2C8937DE1E20BE2E00497CAA /* meeting@x2.png in Resources */,
 				2CFF5AA81E389CA0001D4410 /* credif.png in Resources */,
 				2CA3E5F81E379525009CF079 /* bg_meeting.jpg in Resources */,
@@ -682,6 +694,7 @@
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SSZipArchive/SSZipArchive.framework",
+				"${BUILT_PRODUCTS_DIR}/StringLogger/StringLogger.framework",
 				"${BUILT_PRODUCTS_DIR}/XMLDictionary/XMLDictionary.framework",
 				"${BUILT_PRODUCTS_DIR}/XlsxReaderWriter/XlsxReaderWriter.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
@@ -699,6 +712,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/StringLogger.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XMLDictionary.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XlsxReaderWriter.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
@@ -829,6 +843,14 @@
 				2C0AE4511E20954C00ADAA1A /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		2C970898274A810E00805510 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2C970897274A810E00805510 /* en */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

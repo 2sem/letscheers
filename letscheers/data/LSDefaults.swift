@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import StringLogger
 
 class LSDefaults{
     static var Defaults : UserDefaults{
@@ -22,6 +23,9 @@ class LSDefaults{
         static let LastOpeningAdPrepared = "LastOpeningAdPrepared";
         
         static let LaunchCount = "LaunchCount";
+        
+        static let AdsShownCount = "AdsShownCount";
+        static let AdsTrackingRequested = "AdsTrackingRequested";
     }
     
     static var LastFullAdShown : Date{
@@ -81,5 +85,57 @@ class LSDefaults{
         set(value){
             Defaults.set(value, forKey: Keys.LaunchCount);
         }
+    }
+}
+
+extension LSDefaults{
+    static var AdsShownCount : Int{
+        get{
+            return Defaults.integer(forKey: Keys.AdsShownCount);
+        }
+        
+        set{
+            Defaults.set(newValue, forKey: Keys.AdsShownCount);
+        }
+    }
+    
+    static func increateAdsShownCount(){
+        guard AdsShownCount < 3 else {
+            return
+        }
+        
+        AdsShownCount += 1;
+        "Ads Shown Count[\(AdsShownCount)]".debug();
+    }
+    
+    static var AdsTrackingRequested : Bool{
+        get{
+            return Defaults.bool(forKey: Keys.AdsTrackingRequested);
+        }
+        
+        set{
+            Defaults.set(newValue, forKey: Keys.AdsTrackingRequested);
+        }
+    }
+    
+    static func requestAppTrackingIfNeed() -> Bool{
+        guard !AdsTrackingRequested else{
+            return false;
+        }
+        
+        guard AdsShownCount >= 3 else{
+            AdsShownCount += 1;
+            return false;
+        }
+        
+        guard #available(iOS 14.0, *) else{
+            return false;
+        }
+        
+        AppDelegate.sharedGADManager?.requestPermission(completion: { (result) in
+            AdsTrackingRequested = true;
+        })
+        
+        return true;
     }
 }

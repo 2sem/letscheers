@@ -113,7 +113,7 @@ class LCCategoryCollectionViewController: UIViewController {
     }
 
     @IBAction func onShareButton(_ button: UIBarButtonItem){
-        //self.share(["\(UIApplication.shared.urlForItunes.absoluteString)"]);
+        self.share(["\(UIApplication.shared.urlForItunes.absoluteString)"]);
         ReviewManager.shared?.show(true);
     }
     
