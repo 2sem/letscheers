@@ -149,7 +149,7 @@
 		2C8937E81E20D80300497CAA /* LCToastCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCToastCategory.swift; sourceTree = "<group>"; };
 		2C8937EA1E20DA4900497CAA /* LCToast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCToast.swift; sourceTree = "<group>"; };
 		2C8937ED1E20DC3F00497CAA /* LCModelController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCModelController.swift; sourceTree = "<group>"; };
-		2C97088A2749E8D700805510 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = .gitignore; path = ../.gitignore; sourceTree = "<group>"; };
+		2C97088A2749E8D700805510 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		2CA3E5F21E378DA8009CF079 /* bg_cheers.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bg_cheers.png; path = ../bg_cheers.png; sourceTree = "<group>"; };
 		2CA3E5F51E3794A1009CF079 /* bg_follow_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_follow_2.png; sourceTree = "<group>"; };
 		2CA3E5F71E379525009CF079 /* bg_meeting.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg_meeting.jpg; sourceTree = "<group>"; };
@@ -962,7 +962,7 @@
 				INFOPLIST_FILE = letscheers/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.1.8;
+				MARKETING_VERSION = 1.1.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.credif.letscheers;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "letscheers/letscheers-Bridging-Header.h";
@@ -998,7 +998,7 @@
 				INFOPLIST_FILE = letscheers/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.1.8;
+				MARKETING_VERSION = 1.1.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.credif.letscheers;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "letscheers/letscheers-Bridging-Header.h";
