@@ -946,6 +946,7 @@
 				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = M29A6H95KD;
 				ENABLE_BITCODE = NO;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"${PODS_ROOT}/Firebase/Core/Sources",
@@ -982,6 +983,7 @@
 				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = M29A6H95KD;
 				ENABLE_BITCODE = NO;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"${PODS_ROOT}/Firebase/Core/Sources",
