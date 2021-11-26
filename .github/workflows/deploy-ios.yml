@@ -50,6 +50,7 @@ jobs:
         IOS_CERT_PATH: 'cert.p12'
         IOS_PROFILE_PATH: 'profile.mobileprovision'
         IOS_KEY_PATH: 'api-key.json'
+        GPG_PRIVATE_KEY_PATH: 'private.gpg'
     steps:
       - name: Checkout project
         uses: actions/checkout@v2
@@ -94,7 +95,18 @@ jobs:
           echo '${{ secrets.IOS_API_KEY }}' > $API_KEY_PATH_BASE64
           base64 --decode $API_KEY_PATH_BASE64 -o $IOS_KEY_PATH
           rm $API_KEY_PATH_BASE64
-
+          
+      - name: Import Secret Data
+        env:
+          IOS_PROFILE_PATH_BASE64: $IOS_PROFILE_PATH.base64
+        run: |
+          base64 --decode ${{ secrets.GPG_PRIVATE_KEY }} -o $GPG_PRIVATE_KEY_PATH
+          gpg --import private.gpg
+          
+      - name: Decrypt Secret Data
+        run: |
+          git secret reveal -p ${{ secrets.GPG_PRIVATE_PWD }}
+          
       - name: Build/Upload app
         env:
           PACKAGE_NAME: 'com.credif.letscheers'
