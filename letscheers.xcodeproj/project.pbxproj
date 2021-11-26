@@ -53,6 +53,8 @@
 		2C8937E91E20D80300497CAA /* LCToastCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8937E81E20D80300497CAA /* LCToastCategory.swift */; };
 		2C8937EB1E20DA4900497CAA /* LCToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8937EA1E20DA4900497CAA /* LCToast.swift */; };
 		2C8937EE1E20DC3F00497CAA /* LCModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8937ED1E20DC3F00497CAA /* LCModelController.swift */; };
+		2C90C92E2750EDD1003D8905 /* fastlane in Resources */ = {isa = PBXBuildFile; fileRef = 2C90C92D2750EDD1003D8905 /* fastlane */; };
+		2C90C9302750EDDD003D8905 /* .github in Resources */ = {isa = PBXBuildFile; fileRef = 2C90C92F2750EDDD003D8905 /* .github */; };
 		2C97088B2749E8D700805510 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 2C97088A2749E8D700805510 /* .gitignore */; };
 		2C97088F274A31F700805510 /* GADRewardedAd+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C97088E274A31F700805510 /* GADRewardedAd+.swift */; };
 		2C970896274A810E00805510 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2C970898274A810E00805510 /* Localizable.strings */; };
@@ -151,6 +153,8 @@
 		2C8937E81E20D80300497CAA /* LCToastCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCToastCategory.swift; sourceTree = "<group>"; };
 		2C8937EA1E20DA4900497CAA /* LCToast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCToast.swift; sourceTree = "<group>"; };
 		2C8937ED1E20DC3F00497CAA /* LCModelController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LCModelController.swift; sourceTree = "<group>"; };
+		2C90C92D2750EDD1003D8905 /* fastlane */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fastlane; sourceTree = "<group>"; };
+		2C90C92F2750EDDD003D8905 /* .github */ = {isa = PBXFileReference; lastKnownFileType = folder; path = .github; sourceTree = "<group>"; };
 		2C97088A2749E8D700805510 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		2C97088E274A31F700805510 /* GADRewardedAd+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GADRewardedAd+.swift"; sourceTree = "<group>"; };
 		2C970897274A810E00805510 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -233,6 +237,8 @@
 			isa = PBXGroup;
 			children = (
 				2C97088A2749E8D700805510 /* .gitignore */,
+				2C90C92D2750EDD1003D8905 /* fastlane */,
+				2C90C92F2750EDDD003D8905 /* .github */,
 				2C0AE47A1E20A4AD00ADAA1A /* leesam */,
 				2C0AE4431E20954C00ADAA1A /* letscheers */,
 				2C0AE45B1E20954C00ADAA1A /* letscheersTests */,
@@ -521,7 +527,6 @@
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = M29A6H95KD;
 						LastSwiftMigration = 1130;
-						ProvisioningStyle = Automatic;
 					};
 					2C0AE4571E20954C00ADAA1A = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -577,7 +582,9 @@
 				2C8937E21E20BECA00497CAA /* health@x2.png in Resources */,
 				2CA3E5FE1E37970C009CF079 /* bg_follow.jpg in Resources */,
 				2CFA893C1E21349400E56F6B /* dining@x3.png in Resources */,
+				2C90C9302750EDDD003D8905 /* .github in Resources */,
 				2C0AE44F1E20954C00ADAA1A /* Assets.xcassets in Resources */,
+				2C90C92E2750EDD1003D8905 /* fastlane in Resources */,
 				2C8937E41E20BEDD00497CAA /* dining_off.png in Resources */,
 				2C8937D61E20B20D00497CAA /* love_off.png in Resources */,
 				2C8937C61E20ADF200497CAA /* favorite_off.png in Resources */,
@@ -1006,6 +1013,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 0;
 				DEVELOPMENT_TEAM = M29A6H95KD;
 				ENABLE_BITCODE = NO;
@@ -1029,6 +1038,7 @@
 				MARKETING_VERSION = 1.1.9;
 				PRODUCT_BUNDLE_IDENTIFIER = com.credif.letscheers;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = letscheers;
 				SWIFT_OBJC_BRIDGING_HEADER = "letscheers/letscheers-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
