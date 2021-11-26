@@ -100,7 +100,7 @@ jobs:
         env:
           IOS_PROFILE_PATH_BASE64: $IOS_PROFILE_PATH.base64
         run: |
-          base64 --decode ${{ secrets.GPG_PRIVATE_KEY }} -o $GPG_PRIVATE_KEY_PATH
+          echo ${{ secrets.GPG_PRIVATE_KEY }} | base64 -d -o $GPG_PRIVATE_KEY_PATH
           gpg --import private.gpg
           
       - name: Decrypt Secret Data
