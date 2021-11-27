@@ -97,11 +97,9 @@ jobs:
           rm $API_KEY_PATH_BASE64
           
       - name: Import Secret Data
-        env:
-          IOS_PROFILE_PATH_BASE64: $IOS_PROFILE_PATH.base64
         run: |
           echo ${{ secrets.GPG_PRIVATE_KEY }} | base64 -d -o $GPG_PRIVATE_KEY_PATH
-          gpg --import private.gpg
+          gpg --batch --no-tty --yes --import $GPG_PRIVATE_KEY_PATH
           
       - name: Decrypt Secret Data
         run: |
