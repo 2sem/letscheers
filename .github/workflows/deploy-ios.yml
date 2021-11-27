@@ -101,7 +101,7 @@ jobs:
           echo ${{ secrets.GPG_PRIVATE_KEY }} | base64 -d -o $GPG_PRIVATE_KEY_PATH
           gpg --batch --no-tty --yes --import $GPG_PRIVATE_KEY_PATH
           
-     - name: Install Encrypter
+      - name: Install Encrypter
         run: |
             brew install git-secret
       
