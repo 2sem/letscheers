@@ -53,24 +53,26 @@ platform :ios do
   def readySigning
     installCert()
     
-    update_code_signing_settings(
-      use_automatic_signing: false,
-      path: @xcodeproj,
-      team_id: @team_id,
-      code_sign_identity: "iPhone Distribution"
-    )
-    puts "Code Signing 수동으로 전환"
-
-    update_project_provisioning(
-      xcodeproj: @xcodeproj,
-      profile: @provisioning_profile_path
-    )
-    puts "Provisioning Profile 설정"
-
     install_provisioning_profile(
       path: @provisioning_profile_path
     )
     puts "Provisioning Profile 설치"
+    
+    #update_project_provisioning(
+    #  xcodeproj: @xcodeproj,
+    #  profile: @provisioning_profile_path
+    #)
+    #puts "Provisioning Profile 설정"
+    
+    update_code_signing_settings(
+      use_automatic_signing: false,
+      path: @xcodeproj,
+      team_id: @team_id,
+      code_sign_identity: "iPhone Distribution",
+      profile_name: @profile_name
+    )
+    puts "Code Signing 수동으로 전환"
+
   end
 
   def setiOSVersions

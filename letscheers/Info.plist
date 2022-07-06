@@ -30,7 +30,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>212</string>
+	<string>213</string>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-9684378399371172~8024571245</string>
 	<key>GADUnitIdentifiers</key>
@@ -71,6 +71,8 @@
 		<key>NSAllowsArbitraryLoadsInWebContent</key>
 		<true/>
 	</dict>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>맞춤형 광고 제공 / 앱의 비정상 종료 보고 등을 위해 사용자 정보를 사용합니다</string>
 	<key>SKAdNetworkItems</key>
 	<array>
 		<dict>
