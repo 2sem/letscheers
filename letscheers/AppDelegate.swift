@@ -17,6 +17,9 @@ import Firebase
 class AppDelegate: UIResponder, UIApplicationDelegate, ReviewManagerDelegate, GADRewardManagerDelegate {
 
     var window: UIWindow?
+    static var sharedWindow: UIWindow? {
+        return (UIApplication.shared.delegate as? AppDelegate)?.window
+    }
     enum GADUnitName : String{
         case full = "FullAd"
         case launch = "Launch"

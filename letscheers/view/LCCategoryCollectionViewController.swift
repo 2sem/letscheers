@@ -113,10 +113,11 @@ class LCCategoryCollectionViewController: UIViewController {
     }
 
     @IBAction func onShareButton(_ button: UIBarButtonItem){
-        self.share(["\(UIApplication.shared.urlForItunes.absoluteString)"]);
-        ReviewManager.shared?.show(true);
+        let isiPad = UIApplication.shared.isIPad
+        self.share(["\(UIApplication.shared.urlForItunes.absoluteString)"], buttonToShow: isiPad ? button : nil);
+//        ReviewManager.shared?.show(true);
     }
-    
+     
     @IBAction func onRandomButton(_ button: UIBarButtonItem) {
         // MARK: Shows random toast with alert
         let toast = LCExcelController.shared.randomToast();

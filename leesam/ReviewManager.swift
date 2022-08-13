@@ -105,7 +105,8 @@ class ReviewManager : NSObject{
                 GADRewardManager.shared?.show(true);
                 
             })]
-        self.window.rootViewController?.showAlert(title: "앱 평가 및 추천".localized(), msg: String(format: "'%@'을 평가하거나 친구들에게 추천해보세요.".localized(), name), actions: acts, style: .alert);
+        //self.window
+        UIApplication.shared.windows[1].rootViewController?.showAlert(title: "앱 평가 및 추천".localized(), msg: String(format: "'%@'을 평가하거나 친구들에게 추천해보세요.".localized(), name), actions: acts, style: .alert);
         self.delegate?.reviewUpdate(showTime: Date());
     }
 }
