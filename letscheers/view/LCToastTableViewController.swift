@@ -55,11 +55,11 @@ class LCToastTableViewController: UITableViewController, UISearchBarDelegate, NS
 //    var searchBar : UISearchBar!;
     @IBOutlet weak var searchBar: UISearchBar!
     
-    @IBAction func onRandomButton(_ sender: UIBarButtonItem) {
+    @IBAction func onRandomButton(_ button: UIBarButtonItem) {
         // MARK: Shows random toast with alert
         let toast = LCExcelController.shared.randomToast(self.category ?? "");
         //self.showAlert(title: toast.title, msg: toast.contents, actions: [UIAlertAction(title: "확인", style: .default, handler: nil)], style: .alert);
-        self.popupAndShare(title: toast.title, contents: toast.contents);
+        self.popupAndShare(title: toast.title, contents: toast.contents, buttonToShow: button);
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -205,12 +205,12 @@ class LCToastTableViewController: UITableViewController, UISearchBarDelegate, NS
 //        contents = contents + "\n#" + self.displayAppName;
         //let msg = "\(name)\(contents)";
         
-        self.popupAndShare(title: name, contents: contents);
+        self.popupAndShare(title: name, contents: contents, sourceView: cell);
 
 //        self.share([msg]);
     }
     
-    func popupAndShare(title : String, contents: String){
+    func popupAndShare(title : String, contents: String, sourceView: UIView? = nil, buttonToShow: UIBarButtonItem? = nil){
         var contents = contents;
         
 //        var msg = "\(title)\(contents)";
@@ -221,7 +221,7 @@ class LCToastTableViewController: UITableViewController, UISearchBarDelegate, NS
             }
             
             let tag = (UIApplication.shared.displayName != nil) ? "" : "\n#" + UIApplication.shared.displayName!;
-            self.share([title + contents + tag]);
+            self.share([title + contents + tag], buttonToShow: buttonToShow, sourceView: sourceView, permittedArrowDirections: [.up, .down]);
         }), UIAlertAction(title: "확인", style: .default, handler: nil)], style: .alert);
     }
     

@@ -118,7 +118,7 @@ PODS:
     - KakaoOpenSDK/KakaoMessageTemplate
   - KakaoOpenSDK/KakaoPlusFriend (1.23.10):
     - KakaoOpenSDK/KakaoCommon
-  - LSExtensions (0.1.19)
+  - LSExtensions (0.1.20)
   - nanopb (2.30909.0):
     - nanopb/decode (= 2.30909.0)
     - nanopb/encode (= 2.30909.0)
@@ -187,7 +187,7 @@ SPEC CHECKSUMS:
   GoogleUserMessagingPlatform: ab890ce5f6620f293a21b6bdd82e416a2c73aeca
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
   KakaoOpenSDK: 4ca85d4c8a50dd42d4713981dd249af9080d7563
-  LSExtensions: 830ca2583d02533f5e0b12eb10a12d278d245644
+  LSExtensions: 6149f08a8970a5b38d05450b5eef570c6564fd8d
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
   RxCocoa: cbf70265dc65a981d4ac982e513c10cf23df24a0

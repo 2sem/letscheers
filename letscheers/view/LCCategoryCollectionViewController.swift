@@ -114,7 +114,7 @@ class LCCategoryCollectionViewController: UIViewController {
 
     @IBAction func onShareButton(_ button: UIBarButtonItem){
         let isiPad = UIApplication.shared.isIPad
-        self.share(["\(UIApplication.shared.urlForItunes.absoluteString)"], buttonToShow: isiPad ? button : nil);
+        self.share(["\(UIApplication.shared.urlForItunes.absoluteString)"], buttonToShow: isiPad ? button : nil, permittedArrowDirections: [.up, .down]);
 //        ReviewManager.shared?.show(true);
     }
      
