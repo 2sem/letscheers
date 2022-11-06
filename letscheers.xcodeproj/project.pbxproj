@@ -981,7 +981,8 @@
 					"\"${PODS_ROOT}/Headers/Public/GoogleSymbolUtilities\"",
 				);
 				INFOPLIST_FILE = letscheers/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 1.1.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.credif.letscheers;
@@ -1021,7 +1022,8 @@
 					"\"${PODS_ROOT}/Headers/Public/GoogleSymbolUtilities\"",
 				);
 				INFOPLIST_FILE = letscheers/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 1.1.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.credif.letscheers;
