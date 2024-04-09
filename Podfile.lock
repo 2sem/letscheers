@@ -1,4 +1,5 @@
 PODS:
+  - Alamofire (5.9.1)
   - Firebase/Analytics (10.1.0):
     - Firebase/Core
   - Firebase/Core (10.1.0):
@@ -94,24 +95,18 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (7.8.0):
     - GoogleUtilities/Logger
-  - KakaoOpenSDK (1.23.10):
-    - KakaoOpenSDK/KakaoCommon (= 1.23.10)
-    - KakaoOpenSDK/KakaoLink (= 1.23.10)
-    - KakaoOpenSDK/KakaoMessageTemplate (= 1.23.10)
-    - KakaoOpenSDK/KakaoNavi (= 1.23.10)
-    - KakaoOpenSDK/KakaoOpenSDK (= 1.23.10)
-    - KakaoOpenSDK/KakaoPlusFriend (= 1.23.10)
-  - KakaoOpenSDK/KakaoCommon (1.23.10)
-  - KakaoOpenSDK/KakaoLink (1.23.10):
-    - KakaoOpenSDK/KakaoCommon
-    - KakaoOpenSDK/KakaoMessageTemplate
-  - KakaoOpenSDK/KakaoMessageTemplate (1.23.10)
-  - KakaoOpenSDK/KakaoNavi (1.23.10):
-    - KakaoOpenSDK/KakaoCommon
-  - KakaoOpenSDK/KakaoOpenSDK (1.23.10):
-    - KakaoOpenSDK/KakaoMessageTemplate
-  - KakaoOpenSDK/KakaoPlusFriend (1.23.10):
-    - KakaoOpenSDK/KakaoCommon
+  - KakaoSDKCommon (2.22.0):
+    - KakaoSDKCommon/Common (= 2.22.0)
+    - KakaoSDKCommon/Network (= 2.22.0)
+  - KakaoSDKCommon/Common (2.22.0)
+  - KakaoSDKCommon/Network (2.22.0):
+    - Alamofire (~> 5.9.0)
+    - KakaoSDKCommon/Common (= 2.22.0)
+  - KakaoSDKShare (2.22.0):
+    - KakaoSDKCommon (= 2.22.0)
+    - KakaoSDKTemplate (= 2.22.0)
+  - KakaoSDKTemplate (2.22.0):
+    - KakaoSDKCommon/Common (= 2.22.0)
   - LSExtensions (0.1.20)
   - nanopb (2.30909.0):
     - nanopb/decode (= 2.30909.0)
@@ -133,7 +128,7 @@ DEPENDENCIES:
   - Firebase/Analytics
   - Firebase/Crashlytics
   - GADManager
-  - KakaoOpenSDK
+  - KakaoSDKShare
   - LSExtensions
   - RxCocoa (~> 4.0)
   - RxSwift (~> 4.0)
@@ -142,6 +137,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - Alamofire
     - Firebase
     - FirebaseAnalytics
     - FirebaseCore
@@ -154,7 +150,9 @@ SPEC REPOS:
     - GoogleDataTransport
     - GoogleUserMessagingPlatform
     - GoogleUtilities
-    - KakaoOpenSDK
+    - KakaoSDKCommon
+    - KakaoSDKShare
+    - KakaoSDKTemplate
     - LSExtensions
     - nanopb
     - PromisesObjC
@@ -166,6 +164,7 @@ SPEC REPOS:
     - XMLDictionary
 
 SPEC CHECKSUMS:
+  Alamofire: f36a35757af4587d8e4f4bfa223ad10be2422b8c
   Firebase: 444b35a9c568a516666213c2f6cccd10cb12559f
   FirebaseAnalytics: 24cb27b52b2e11ad5013528195b4ca0755dec960
   FirebaseCore: 55e7ae35991ccca4db03ff8d8df6ed5f17a3e4c7
@@ -178,7 +177,9 @@ SPEC CHECKSUMS:
   GoogleDataTransport: 1c8145da7117bd68bbbed00cf304edb6a24de00f
   GoogleUserMessagingPlatform: 5f8b30daf181805317b6b985bb51c1ff3beca054
   GoogleUtilities: 1d20a6ad97ef46f67bbdec158ce00563a671ebb7
-  KakaoOpenSDK: 4ca85d4c8a50dd42d4713981dd249af9080d7563
+  KakaoSDKCommon: d57127c339fc79e73aa8b236a4c77211c29924f1
+  KakaoSDKShare: cbbe89685ad799709d467845dcc488c115629f5e
+  KakaoSDKTemplate: 2b518d4875fb9b3e832d39e957e4e33cb27a9d36
   LSExtensions: 6149f08a8970a5b38d05450b5eef570c6564fd8d
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
@@ -189,6 +190,6 @@ SPEC CHECKSUMS:
   XlsxReaderWriter: 7e4c5c9fb7c4e78e4edc89fa11f50c086540277c
   XMLDictionary: fa07b6ff422b3a91d47a5de9bc82e3fc04fbd167
 
-PODFILE CHECKSUM: 1fed60dbce2a7c3f1851ee00e44e806d3e3367f2
+PODFILE CHECKSUM: 1a83c012707fe3ec5cd142ed31e9613abd4afb4d
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.15.2

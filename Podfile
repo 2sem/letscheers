@@ -8,7 +8,7 @@ target 'letscheers' do
 
   # Pods for letscheers
   pod 'XlsxReaderWriter'
-  pod 'KakaoOpenSDK'
+  pod 'KakaoSDKShare'
   pod 'RxSwift',  '~> 4.0'
   pod 'RxCocoa', '~> 4.0'
   pod 'LSExtensions'#, :path => '~/Projects/leesam/pods/LSExtensions/src/LSExtensions'
