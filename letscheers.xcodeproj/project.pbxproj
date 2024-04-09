@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -71,6 +71,7 @@
 		2CDD8AB824B00EAB004A906D /* GADNativeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDD8AB724B00EAB004A906D /* GADNativeCollectionViewCell.swift */; };
 		2CDD8ABC24B00F4D004A906D /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDD8ABB24B00F4D004A906D /* UIView+.swift */; };
 		2CDD8ABE24B067EC004A906D /* LCCategoryCollectionViewFavoriteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDD8ABD24B067EC004A906D /* LCCategoryCollectionViewFavoriteCell.swift */; };
+		2CE303F92BC4D69F0014DFAA /* LSExtensions in Frameworks */ = {isa = PBXBuildFile; productRef = 2CE303F82BC4D69F0014DFAA /* LSExtensions */; };
 		2CEEA4C01E9D0A0B00D44F78 /* GADInterstitialAd+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEA4BF1E9D0A0B00D44F78 /* GADInterstitialAd+.swift */; };
 		2CEEA4C21E9D0FA800D44F78 /* LSDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEA4C11E9D0FA800D44F78 /* LSDefaults.swift */; };
 		2CFA892D1E210DFB00E56F6B /* LCToastTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFA892C1E210DFB00E56F6B /* LCToastTableViewController.swift */; };
@@ -198,6 +199,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				29A4197EDA166FA0D54AEC94 /* Pods_letscheers.framework in Frameworks */,
+				2CE303F92BC4D69F0014DFAA /* LSExtensions in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -471,6 +473,9 @@
 			dependencies = (
 			);
 			name = letscheers;
+			packageProductDependencies = (
+				2CE303F82BC4D69F0014DFAA /* LSExtensions */,
+			);
 			productName = letscheers;
 			productReference = 2C0AE4411E20954C00ADAA1A /* letscheers.app */;
 			productType = "com.apple.product-type.application";
@@ -554,6 +559,9 @@
 				Base,
 			);
 			mainGroup = 2C0AE4381E20954C00ADAA1A;
+			packageReferences = (
+				2CE303F72BC4D69F0014DFAA /* XCRemoteSwiftPackageReference "LSExtensions" */,
+			);
 			productRefGroup = 2C0AE4421E20954C00ADAA1A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -687,7 +695,6 @@
 				"${BUILT_PRODUCTS_DIR}/KakaoSDKCommon/KakaoSDKCommon.framework",
 				"${BUILT_PRODUCTS_DIR}/KakaoSDKShare/KakaoSDKShare.framework",
 				"${BUILT_PRODUCTS_DIR}/KakaoSDKTemplate/KakaoSDKTemplate.framework",
-				"${BUILT_PRODUCTS_DIR}/LSExtensions/LSExtensions.framework",
 				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
 				"${BUILT_PRODUCTS_DIR}/PromisesSwift/Promises.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
@@ -714,7 +721,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KakaoSDKCommon.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KakaoSDKShare.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KakaoSDKTemplate.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LSExtensions.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Promises.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
@@ -987,7 +993,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1020,7 +1027,10 @@
 				INFOPLIST_FILE = letscheers/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.1.14;
 				PRODUCT_BUNDLE_IDENTIFIER = com.credif.letscheers;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1033,7 +1043,10 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "\"${PODS_ROOT}/XlsxReaderWritera\"/** \"${PODS_ROOT}/XMLDictionarya\"/**";
+				USER_HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/XlsxReaderWritera\"/**",
+					"\"${PODS_ROOT}/XMLDictionarya\"/**",
+				);
 			};
 			name = Debug;
 		};
@@ -1065,7 +1078,10 @@
 				INFOPLIST_FILE = letscheers/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 1.1.14;
 				PRODUCT_BUNDLE_IDENTIFIER = com.credif.letscheers;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1077,7 +1093,10 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "letscheers/letscheers-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "\"${PODS_ROOT}/XlsxReaderWritera\"/** \"${PODS_ROOT}/XMLDictionarya\"/**";
+				USER_HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/XlsxReaderWritera\"/**",
+					"\"${PODS_ROOT}/XMLDictionarya\"/**",
+				);
 			};
 			name = Release;
 		};
@@ -1089,7 +1108,11 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = M29A6H95KD;
 				INFOPLIST_FILE = letscheersTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.credif.letscheersTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
@@ -1106,7 +1129,11 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = M29A6H95KD;
 				INFOPLIST_FILE = letscheersTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.credif.letscheersTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
@@ -1122,7 +1149,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = M29A6H95KD;
 				INFOPLIST_FILE = letscheersUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.credif.letscheersUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
@@ -1138,7 +1169,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = M29A6H95KD;
 				INFOPLIST_FILE = letscheersUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.credif.letscheersUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
@@ -1187,6 +1222,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2CE303F72BC4D69F0014DFAA /* XCRemoteSwiftPackageReference "LSExtensions" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/2sem/LSExtensions";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.22;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2CE303F82BC4D69F0014DFAA /* LSExtensions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2CE303F72BC4D69F0014DFAA /* XCRemoteSwiftPackageReference "LSExtensions" */;
+			productName = LSExtensions;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		2C0AE44B1E20954C00ADAA1A /* letscheers.xcdatamodeld */ = {
