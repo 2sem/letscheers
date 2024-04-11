@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -11,7 +11,7 @@
         <!--MainViewController-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController interfaceStyle="dark" id="BYZ-38-t0r" userLabel="MainViewController" customClass="MainViewController" customModule="letscheers" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" userLabel="MainViewController" customClass="MainViewController" customModule="letscheers" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -104,7 +104,7 @@
         <!--건배사-->
         <scene sceneID="Tzo-wC-9bf">
             <objects>
-                <navigationController interfaceStyle="dark" id="6uK-yJ-SA2" sceneMemberID="viewController">
+                <navigationController id="6uK-yJ-SA2" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="건배사" image="beer_off.png" selectedImage="beer_on.png" id="f0O-LG-EpA"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="j69-R8-lTb">
@@ -127,7 +127,7 @@
         <!-- -->
         <scene sceneID="rh6-Ki-35R">
             <objects>
-                <viewController interfaceStyle="dark" id="ndL-kg-EMo" customClass="LCCategoryCollectionViewController" customModule="letscheers" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="ndL-kg-EMo" customClass="LCCategoryCollectionViewController" customModule="letscheers" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="2qd-aT-6ag"/>
                         <viewControllerLayoutGuide type="bottom" id="KHC-co-LHw"/>
@@ -246,13 +246,21 @@
                                                             <rect key="frame" x="8" y="8" width="112" height="112"/>
                                                             <color key="tintColor" red="0.47897511720000002" green="0.26204982399999999" blue="0.87063604589999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                         </imageView>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="othreapp" translatesAutoresizingMaskIntoConstraints="NO" id="1bO-Uf-F2C" customClass="GADMediaView">
+                                                            <rect key="frame" x="8" y="8" width="112" height="112"/>
+                                                            <color key="tintColor" red="0.47897511720000002" green="0.26204982399999999" blue="0.87063604589999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                        </imageView>
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.93758171800000001" green="0.92438894510000003" blue="0.98039990659999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                     <constraints>
+                                                        <constraint firstItem="1bO-Uf-F2C" firstAttribute="bottom" secondItem="Lck-MD-oHX" secondAttribute="bottom" id="7fr-0s-wyX"/>
                                                         <constraint firstItem="Lck-MD-oHX" firstAttribute="trailing" secondItem="fW2-pY-ejo" secondAttribute="trailing" constant="-8" id="9C4-d5-pof"/>
                                                         <constraint firstAttribute="bottom" secondItem="Lck-MD-oHX" secondAttribute="bottom" constant="8" id="9T4-eC-djU"/>
+                                                        <constraint firstItem="1bO-Uf-F2C" firstAttribute="trailing" secondItem="Lck-MD-oHX" secondAttribute="trailing" id="LKA-t3-rKM"/>
                                                         <constraint firstItem="Lck-MD-oHX" firstAttribute="top" secondItem="fW2-pY-ejo" secondAttribute="top" constant="8" id="RWd-mh-geH"/>
+                                                        <constraint firstItem="1bO-Uf-F2C" firstAttribute="leading" secondItem="Lck-MD-oHX" secondAttribute="leading" id="VRF-Ss-zEP"/>
                                                         <constraint firstItem="Lck-MD-oHX" firstAttribute="leading" secondItem="fW2-pY-ejo" secondAttribute="leading" constant="8" id="W1I-Bs-f5S"/>
+                                                        <constraint firstItem="1bO-Uf-F2C" firstAttribute="top" secondItem="Lck-MD-oHX" secondAttribute="top" id="mXs-Ld-iel"/>
                                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" secondItem="fW2-pY-ejo" secondAttribute="height" multiplier="1:1" priority="750" id="qeE-ok-F6G"/>
                                                     </constraints>
                                                     <userDefinedRuntimeAttributes>
@@ -308,8 +316,6 @@
                                             <connections>
                                                 <outlet property="advertiserView" destination="sA2-11-jH8" id="mFN-Y0-5qY"/>
                                                 <outlet property="headlineView" destination="yuF-ED-4cH" id="hu2-Bg-KAc"/>
-                                                <outlet property="iconView" destination="Lck-MD-oHX" id="Y3B-RE-W4T"/>
-                                                <outlet property="imageView" destination="Lck-MD-oHX" id="0Wm-tv-bh6"/>
                                                 <outlet property="priceView" destination="sA2-11-jH8" id="6dd-Qo-T3Y"/>
                                                 <outlet property="starRatingView" destination="sA2-11-jH8" id="7hM-3k-Yia"/>
                                             </connections>
@@ -333,6 +339,8 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
+                                            <outlet property="defaultImageView" destination="Lck-MD-oHX" id="XhM-YS-4ea"/>
+                                            <outlet property="mediaView" destination="1bO-Uf-F2C" id="Vcn-dd-4LO"/>
                                             <outlet property="nativeAdView" destination="xcj-dk-8Br" id="OcZ-Ee-lSd"/>
                                         </connections>
                                     </collectionViewCell>
@@ -469,7 +477,7 @@
                         <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LCCategoryTableViewCell" id="oGd-m2-cYi" customClass="LCCategoryTableViewCell" customModule="letscheers" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="44.666666030883789" width="414" height="80"/>
+                                <rect key="frame" x="0.0" y="50" width="414" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oGd-m2-cYi" id="Ded-g8-Tp7">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
@@ -557,13 +565,13 @@
             <objects>
                 <tableViewController id="MZf-ee-aVC" customClass="LCFavoriteTableViewController" customModule="letscheers" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" sectionHeaderHeight="28" sectionFooterHeight="28" id="X2b-hF-YmE">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="715"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="681"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LCToastTableViewCell" id="SeW-LY-nfh" customClass="LCToastTableViewCell" customModule="letscheers" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="44.666666030883789" width="414" height="80"/>
+                                <rect key="frame" x="0.0" y="50" width="414" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SeW-LY-nfh" id="5xS-sn-98o">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
@@ -637,7 +645,7 @@
             <objects>
                 <tableViewController id="UHW-aC-hRC" customClass="LCToastTableViewController" customModule="letscheers" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" sectionHeaderHeight="28" sectionFooterHeight="28" id="ZK7-Yx-py0">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="715"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="681"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -652,7 +660,7 @@
                         </searchBar>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LCToastTableViewCell" id="mM6-dT-7OF" customClass="LCToastTableViewCell" customModule="letscheers" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="88.666666030883789" width="414" height="80"/>
+                                <rect key="frame" x="0.0" y="94" width="414" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mM6-dT-7OF" id="eGV-sY-ZOp">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>

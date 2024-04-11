@@ -21,6 +21,8 @@ class GADNativeCollectionViewCell: UICollectionViewCell {
     var tapGesture : UITapGestureRecognizer!;
     
     @IBOutlet weak var nativeAdView: GADNativeAdView!
+    @IBOutlet weak var mediaView: GADMediaView!
+    @IBOutlet weak var defaultImageView: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -67,9 +69,12 @@ class GADNativeCollectionViewCell: UICollectionViewCell {
             button.setTitle("ads action".localized(), for: .normal);
             button.isHidden = false;
         }
-        if let imageView = self.nativeAdView?.iconView as? UIImageView{
+        if let imageView = self.defaultImageView {
             imageView.image = #imageLiteral(resourceName: "othreapp");
             imageView.stopAnimating();
+            
+            self.mediaView.isHidden = true
+            imageView.isHidden = false
         }
         self.nativeAdView?.iconView?.isHidden = false;
         if let body = self.nativeAdView?.bodyView as? UILabel{
@@ -113,17 +118,15 @@ extension GADNativeCollectionViewCell : GADNativeAdLoaderDelegate{
         self.nativeAdView?.iconView?.isHidden = true;
         self.nativeAdView?.imageView?.isHidden = true;
 
-        if let imageView = nativeAdView.iconView as? UIImageView, let icon = nativeAd.icon?.image{
+        if let imageView = self.defaultImageView, let icon = nativeAd.icon?.image{
             imageView.image = icon;
             print("[\(#function)] icon[\(icon)]")
             imageView.isHidden = false;
-        }else if let imageView = nativeAdView.iconView as? UIImageView, let images = nativeAd.images{
-            imageView.animationImages = images.compactMap{ $0.image };
-            imageView.animationDuration = 3;
-            imageView.animationRepeatCount = 0;
-            imageView.startAnimating();
-            print("[\(#function)] images[\(images)]")
-            imageView.isHidden = false;
+        }else if let mediaView = nativeAdView.mediaView{
+            mediaView.mediaContent = nativeAd.mediaContent
+            mediaView.isHidden = false;
+            
+            self.defaultImageView.isHidden = true
         }
         
         if let images = nativeAd.images{
