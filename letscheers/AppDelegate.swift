@@ -28,6 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ReviewManagerDelegate, GA
     var rewardAd : GADRewardManager?;
     var reviewManager : ReviewManager?;
     let reviewInterval = 10;
+    var appPermissionRequested = false
     
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
         return UIApplication.shared.isIPad ? .all : [.portrait, .portraitUpsideDown];
@@ -93,11 +94,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ReviewManagerDelegate, GA
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         print("app become active");
+        
+        defer {
+            LSDefaults.increaseLaunchCount();
+        }
+        
+        guard LSDefaults.LaunchCount % reviewInterval > 0 else{
+            if #available(iOS 10.3, *) {
+                SKStoreReviewController.requestReview()
+            }else{
+                self.reviewManager?.show();
+            }
+            return;
+        }
+        
         #if DEBUG
         let test = true;
         #else
         let test = false;
         #endif
+        
+        appPermissionRequested = appPermissionRequested || LSDefaults.requestAppTrackingIfNeed()
+        guard appPermissionRequested else{
+            debugPrint("App doesn't allow launching Ads. appPermissionRequested[\(appPermissionRequested)]")
+            return;
+        }
         
         guard !LSDefaults.requestAppTrackingIfNeed() else{
             return;

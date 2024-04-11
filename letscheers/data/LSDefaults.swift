@@ -123,8 +123,8 @@ extension LSDefaults{
             return false;
         }
         
-        guard AdsShownCount >= 3 else{
-            AdsShownCount += 1;
+        guard LaunchCount > 2 else{
+//            AdsShownCount += 1;
             return false;
         }
         
