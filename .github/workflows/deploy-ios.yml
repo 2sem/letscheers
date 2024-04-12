@@ -109,6 +109,9 @@ jobs:
         run: |
           git secret reveal -p ${{ secrets.GPG_PRIVATE_PWD }}
           
+      - name: Patch Xcode 15.3
+        uses: 2sem/patch-package-resolved@v1
+          
       - name: Build/Upload app
         env:
           PACKAGE_NAME: 'com.credif.letscheers'
