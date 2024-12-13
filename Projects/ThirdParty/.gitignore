@@ -68,6 +68,3 @@ Derived/
 
 ### Tuist managed dependencies ###
 Tuist/.build
-.gitsecret/keys/random_seed
-!*.secret
-Projects/App/Resources/Excel/cheers.xlsx
