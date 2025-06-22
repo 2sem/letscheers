@@ -15,7 +15,7 @@ class MainViewController: UIViewController {
     @IBOutlet weak var constraint_bottomBanner_Top: NSLayoutConstraint!
     //var constraint_bottomBanner_Top : NSLayoutConstraint!;
     
-    @IBOutlet weak var bottomBannerView: GADBannerView!
+    @IBOutlet weak var bottomBannerView: GoogleMobileAds.BannerView!
     @IBOutlet weak var containerView: UIView!
         
     override func viewDidLoad() {
