@@ -17,11 +17,11 @@ class GADNativeCollectionViewCell: UICollectionViewCell {
     #endif
     
     var rootViewController : UIViewController?;
-    var gadLoader : GADAdLoader?;
+    var gadLoader : GoogleMobileAds.AdLoader?;
     var tapGesture : UITapGestureRecognizer!;
     
-    @IBOutlet weak var nativeAdView: GADNativeAdView!
-    @IBOutlet weak var mediaView: GADMediaView!
+    @IBOutlet weak var nativeAdView: GoogleMobileAds.NativeAdView!
+    @IBOutlet weak var mediaView: GoogleMobileAds.MediaView!
     @IBOutlet weak var defaultImageView: UIImageView!
     
     override func awakeFromNib() {
@@ -39,14 +39,14 @@ class GADNativeCollectionViewCell: UICollectionViewCell {
 //    }
     
     func loadAds(){
-        self.gadLoader = GADAdLoader(adUnitID: self.gadUnit,
+        self.gadLoader = GoogleMobileAds.AdLoader(adUnitID: self.gadUnit,
                                      rootViewController: self.rootViewController,
                                      adTypes: [ .native ],
                                      options: []);
         self.gadLoader?.delegate = self;
         
-        let req = GADRequest();
-        let extras = GADExtras();
+        let req = GoogleMobileAds.Request();
+        let extras = GoogleMobileAds.Extras();
         extras.additionalParameters = ["suppress_test_label" : "1"]
         req.register(extras)
 //        #if targetEnvironment(simulator)
@@ -97,8 +97,8 @@ class GADNativeCollectionViewCell: UICollectionViewCell {
     }
 }
 
-extension GADNativeCollectionViewCell : GADNativeAdLoaderDelegate{
-    func adLoader(_ adLoader: GADAdLoader, didReceive nativeAd: GADNativeAd) {
+extension GADNativeCollectionViewCell : GoogleMobileAds.NativeAdLoaderDelegate{
+    func adLoader(_ adLoader: GoogleMobileAds.AdLoader, didReceive nativeAd: GoogleMobileAds.NativeAd) {
         print("\(#function)");
         self.nativeAdView?.nativeAd = nativeAd;
         
@@ -156,7 +156,7 @@ extension GADNativeCollectionViewCell : GADNativeAdLoaderDelegate{
         self.tapGesture.isEnabled = false;
     }
     
-    func adLoader(_ adLoader: GADAdLoader, didFailToReceiveAdWithError error: Error) {
+    func adLoader(_ adLoader: GoogleMobileAds.AdLoader, didFailToReceiveAdWithError error: Error) {
         print("[\(#function)] native ads error - \(error)");
         self.loadDeveloper();
     }

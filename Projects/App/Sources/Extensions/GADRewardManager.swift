@@ -54,7 +54,7 @@ class GADRewardManager : NSObject{
         self.delegate?.GADRewardUpdate(showTime: Date());
     }
     
-    var rewardAd : GADRewardedAd?;
+    var rewardAd : GoogleMobileAds.RewardedAd?;
     var canShow : Bool{
         get{
             var value = true;
@@ -100,7 +100,7 @@ class GADRewardManager : NSObject{
             return;
         }
     
-        let req = GADRequest();
+        let req = GoogleMobileAds.Request();
         #if DEBUG
         let unitId = "ca-app-pub-3940256099942544/1712485313"
         #else
@@ -108,7 +108,7 @@ class GADRewardManager : NSObject{
         #endif
         
         print("create new reward ad");
-        GADRewardedAd.load(withAdUnitID: unitId, request: req) { [weak self](newAd, error) in
+        GoogleMobileAds.RewardedAd.load(with: unitId, request: req) { [weak self](newAd, error) in
             self?.rewardAd = newAd
             self?.rewardAd?.fullScreenContentDelegate = self;
             
@@ -144,7 +144,7 @@ class GADRewardManager : NSObject{
         
         print("present full ad view[\(self.window.rootViewController?.description ?? "")]");
         self.rewarded = false;
-        self.rewardAd?.present(fromRootViewController: self.window.rootViewController!, userDidEarnRewardHandler: { [weak self] in
+        self.rewardAd?.present(from: self.window.rootViewController!, userDidEarnRewardHandler: { [weak self] in
             guard let reward = self?.rewardAd?.adReward else{
                 return;
             }
@@ -157,8 +157,8 @@ class GADRewardManager : NSObject{
     }
 }
 
-extension GADRewardManager : GADFullScreenContentDelegate{
-    func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
+extension GADRewardManager : GoogleMobileAds.FullScreenContentDelegate{
+    func adDidDismissFullScreenContent(_ ad: GoogleMobileAds.FullScreenPresentingAd) {
         print("reward has been compleated");
         
         self.rewardAd = nil;
@@ -173,7 +173,7 @@ extension GADRewardManager : GADFullScreenContentDelegate{
         self.delegate?.GADRewardUserCompleted();
     }
     
-    func ad(_ ad: GADFullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
+    func ad(_ ad: GoogleMobileAds.FullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
         print("reward fail[\(error)]");
     }
 }

@@ -48,7 +48,7 @@ extension LSUnvisibleGoogleBottomBanner{
         }
     }
     
-    func showBanner(_ banner: GADBannerView, visible: Bool){
+    func showBanner(_ banner: GoogleMobileAds.BannerView, visible: Bool){
         guard self.bottomBannerVisibleLayoutConstraint != nil
             && self.bottomBannerUnvisibleLayoutConstraint != nil else {
             return;
@@ -68,11 +68,11 @@ extension LSUnvisibleGoogleBottomBanner{
     }
     
     /// MARK: GADBannerViewDelegate
-    func adViewDidReceiveAd(_ bannerView: GADBannerView) {
+    func adViewDidReceiveAd(_ bannerView: GoogleMobileAds.BannerView) {
         self.showBanner(bannerView, visible: true);
     }
     
-    func adView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
+    func adView(_ bannerView: GoogleMobileAds.BannerView, didFailToReceiveAdWithError error: Error) {
         self.showBanner(bannerView, visible: false);
     }
 }
@@ -87,7 +87,7 @@ extension LSGoogleBannerContainer where Container : UIViewController{
      - Parameter unitName: default unit id name - you should write unit name of bottom banner info.Plist GoogleADUnitID/{unitName} -- default "ButtomBanner"
      - Parameter autoLoad need to load banner auto matically
     */
-    func loadUnvisibleBottomBanner(_ banner: GADBannerView, unitName : String = LSGoogleBannerContainer.bannerName, autoLoad : Bool = false){
+    func loadUnvisibleBottomBanner(_ banner: GoogleMobileAds.BannerView, unitName : String = LSGoogleBannerContainer.bannerName, autoLoad : Bool = false){
         banner.isHidden = false;
         banner.isAutoloadEnabled = autoLoad;
         banner.loadUnitId(name: unitName);
