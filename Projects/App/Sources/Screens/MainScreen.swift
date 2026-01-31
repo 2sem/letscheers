@@ -16,9 +16,13 @@ struct MainScreen: View {
             CategoryGridScreen()
                 .navigationDestination(for: NavigationDestination.self) { destination in
                     switch destination {
-                    case .toastList(let category, let title, let backgroundImage):
-                        Text("Toast List - TODO")
-                            .navigationTitle(title)
+                    case .toastList(let category, let title, let backgroundImageName):
+                        let backgroundImage = backgroundImageName != nil ? UIImage(named: backgroundImageName!) : nil
+                        ToastListScreen(
+                            category: category,
+                            title: title,
+                            backgroundImage: backgroundImage
+                        )
                     case .favorites:
                         Text("Favorites - TODO")
                             .navigationTitle("즐겨찾기")

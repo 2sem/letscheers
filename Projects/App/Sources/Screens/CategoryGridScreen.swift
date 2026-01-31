@@ -61,8 +61,8 @@ struct CategoryGridScreen: View {
         switch category.type {
         case .normal:
             guard let name = category.name else { return }
-            // Pass background image name extracted from UIImage if available
-            let bgImageName = category.background != nil ? extractImageName(from: category.background!) : nil
+            // Get background image name from category name mapping
+            let bgImageName = getBackgroundImageName(for: name)
             router.navigate(to: .toastList(
                 category: name,
                 title: category.title,
@@ -76,9 +76,19 @@ struct CategoryGridScreen: View {
         }
     }
     
-    private func extractImageName(from image: UIImage) -> String? {
-        // Try to get the image name from accessibility identifier or return a default
-        return image.accessibilityIdentifier
+    private func getBackgroundImageName(for categoryName: String) -> String? {
+        switch categoryName {
+        case "선창!후창~!":
+            return "bg_follow.jpg"
+        case "모임":
+            return "bg_meeting.jpg"
+        case "회식":
+            return "bg_dining.jpg"
+        case "건강":
+            return "bg_health.jpg"
+        default:
+            return nil
+        }
     }
     
     private func shareApp() {
