@@ -53,7 +53,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ReviewManagerDelegate, GA
         adManager.delegate = self;
     #if DEBUG
         adManager.prepare(interstitialUnit: .full, interval: 60.0);
-        adManager.prepare(openingUnit: .launch, isTest: true, interval: 60.0); //
+        adManager.prepare(openingUnit: .launch, isTesting: true, interval: 60.0); //
     #else
         adManager.prepare(interstitialUnit: .full, interval: 60.0); // * 60.0 * 6
         adManager.prepare(openingUnit: .launch, interval: 60.0 * 5); //
@@ -124,7 +124,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ReviewManagerDelegate, GA
             return;
         }
         
-        AppDelegate.sharedGADManager?.show(unit: .launch, isTest: test, completion: { (unit, ad, result) in
+        AppDelegate.sharedGADManager?.show(unit: .launch, isTesting: test, completion: { (unit, ad, result) in
             
         })
     }
