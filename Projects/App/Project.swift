@@ -93,7 +93,10 @@ let project = Project(
                 ]
             ),
             sources: ["Sources/**"],
-            resources: ["Resources/**"],
+            resources: [
+                .glob(pattern: "Resources/**",
+                      excluding: ["Resources/Databases/letscheers.xcdatamodeld/**"])
+            ],
             dependencies: [
                 .Projects.ThirdParty,
                 .Projects.DynamicThirdParty,
