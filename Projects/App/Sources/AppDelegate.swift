@@ -10,58 +10,16 @@ import UIKit
 import CoreData
 import GoogleMobileAds
 import StoreKit
-import GADManager
 import Firebase
 
 class AppDelegate: UIResponder, UIApplicationDelegate, ReviewManagerDelegate, GADRewardManagerDelegate {
 
-    var window: UIWindow?
-    static var sharedWindow: UIWindow? {
-        return (UIApplication.shared.delegate as? AppDelegate)?.window
-    }
-    enum GADUnitName : String{
-        case full = "FullAd"
-        case launch = "Launch"
-    }
-    static var sharedGADManager : GADManager<GADUnitName>?;
     var rewardAd : GADRewardManager?;
     var reviewManager : ReviewManager?;
     let reviewInterval = 10;
-    var appPermissionRequested = false
     
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
         return UIApplication.shared.isIPad ? .all : [.portrait, .portraitUpsideDown];
-    }
-    
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-        FirebaseApp.configure()
-        GoogleMobileAds.MobileAds.shared.start(completionHandler: nil);
-        
-        // MARK: Sets review Ads interval - 2 days
-        self.reviewManager = ReviewManager(self.window!, interval: 60.0 * 60 * 24 * 2);
-        self.reviewManager?.delegate = self;
-        //self.reviewManager?.show();
-        
-        // MARK: Sets reward Ads interval - 6 hours
-        self.rewardAd = GADRewardManager(self.window!, unitId: GoogleMobileAds.InterstitialAd.loadUnitId(name: "RewardAd") ?? "", interval: 60.0 * 60.0 * 6); //
-        self.rewardAd?.delegate = self;
-        
-        let adManager = GADManager<GADUnitName>.init(self.window!);
-        AppDelegate.sharedGADManager = adManager;
-        adManager.delegate = self;
-    #if DEBUG
-        adManager.prepare(interstitialUnit: .full, interval: 60.0);
-        adManager.prepare(openingUnit: .launch, interval: 60.0); //
-    #else
-        adManager.prepare(interstitialUnit: .full, interval: 60.0); // * 60.0 * 6
-        adManager.prepare(openingUnit: .launch, interval: 60.0 * 5); //
-    #endif
-        adManager.canShowFirstTime = true;
-        
-        LSDefaults.increaseLaunchCount();
-        
-        return true
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -93,33 +51,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ReviewManagerDelegate, GA
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         print("app become active");
-        
-        defer {
-            LSDefaults.increaseLaunchCount();
-        }
-        
-        guard LSDefaults.LaunchCount % reviewInterval > 0 else{
-            if #available(iOS 10.3, *) {
-                SKStoreReviewController.requestReview()
-            }else{
-                self.reviewManager?.show();
-            }
-            return;
-        }
-        
-        appPermissionRequested = appPermissionRequested || LSDefaults.requestAppTrackingIfNeed()
-        guard appPermissionRequested else{
-            debugPrint("App doesn't allow launching Ads. appPermissionRequested[\(appPermissionRequested)]")
-            return;
-        }
-        
-        guard !LSDefaults.requestAppTrackingIfNeed() else{
-            return;
-        }
-        
-        AppDelegate.sharedGADManager?.show(unit: .launch, completion: { (unit, ad, result) in
-            
-        })
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
@@ -133,64 +64,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ReviewManagerDelegate, GA
     func reviewGetLastShowTime() -> Date {
         return LSDefaults.LastShareShown;
     }
-    
+
     func reviewUpdate(showTime: Date) {
         LSDefaults.LastShareShown = showTime;
     }
-    
+
     // MARK: GADRewardManagerDelegate
     func GADRewardGetLastShowTime() -> Date {
         return LSDefaults.LastRewardAdShown;
     }
-    
+
     func GADRewardUserCompleted() {
         LSDefaults.LastRewardAdShown = Date();
     }
-    
+
     func GADRewardUpdate(showTime: Date) {
-        
-    }
-}
 
-extension AppDelegate : GADManagerDelegate{
-    typealias E = GADUnitName
-    
-    func GAD<E>(manager: GADManager<E>, lastPreparedTimeForUnit unit: E) -> Date{
-        let now = Date();
-  //        if RSDefaults.LastOpeningAdPrepared > now{
-  //            RSDefaults.LastOpeningAdPrepared = now;
-  //        }
-
-          return LSDefaults.LastOpeningAdPrepared;
-          //Calendar.current.component(<#T##component: Calendar.Component##Calendar.Component#>, from: <#T##Date#>)
-    }
-    
-    func GAD<E>(manager: GADManager<E>, updateLastPreparedTimeForUnit unit: E, preparedTime time: Date){
-        LSDefaults.LastOpeningAdPrepared = time;
-        
-        //RNInfoTableViewController.shared?.needAds = false;
-        //RNFavoriteTableViewController.shared?.needAds = false;
-    }
-    
-    func GAD<E>(manager: GADManager<E>, didDismissADForUnit unit: E) where E : Hashable, E : RawRepresentable, E.RawValue == String {
-        LSDefaults.increateAdsShownCount();
-    }
-    
-    func GAD<E>(manager: GADManager<E>, lastShownTimeForUnit unit: E) -> Date{
-        let now = Date();
-        if LSDefaults.LastFullAdShown > now{
-            LSDefaults.LastFullAdShown = now;
-        }
-        
-        return LSDefaults.LastFullAdShown;
-        //Calendar.current.component(<#T##component: Calendar.Component##Calendar.Component#>, from: <#T##Date#>)
-    }
-    
-    func GAD<E>(manager: GADManager<E>, updatShownTimeForUnit unit: E, showTime time: Date){
-        LSDefaults.LastFullAdShown = time;
-        
-        //RNInfoTableViewController.shared?.needAds = false;
-        //RNFavoriteTableViewController.shared?.needAds = false;
     }
 }
 
