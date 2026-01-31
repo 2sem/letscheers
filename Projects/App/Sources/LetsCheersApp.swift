@@ -23,7 +23,7 @@ struct LetsCheersApp: App {
     var body: some Scene {
         WindowGroup {
             if appState.isInitialized {
-                Text("Main View - TODO")
+                MainScreen()
                     .environmentObject(appState)
             } else {
                 SplashScreen(appState: appState)
