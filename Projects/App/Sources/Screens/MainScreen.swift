@@ -24,8 +24,7 @@ struct MainScreen: View {
                             backgroundImage: backgroundImage
                         )
                     case .favorites:
-                        Text("Favorites - TODO")
-                            .navigationTitle("즐겨찾기")
+                        FavoritesScreen()
                     }
                 }
         }

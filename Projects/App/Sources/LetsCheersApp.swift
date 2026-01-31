@@ -25,6 +25,7 @@ struct LetsCheersApp: App {
             if appState.isInitialized {
                 MainScreen()
                     .environmentObject(appState)
+                    .environment(\.managedObjectContext, appState.modelController.context)
             } else {
                 SplashScreen(appState: appState)
             }
