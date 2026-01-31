@@ -12,8 +12,9 @@ struct ToastListScreen: View {
     let category: String
     let title: String
     let backgroundImage: UIImage?
-    
+
     @StateObject private var viewModel: ToastListViewModel
+    @EnvironmentObject var adManager: SwiftUIAdManager
     @State private var selectedToast: ToastViewModel?
     @State private var showShareAlert = false
     
@@ -90,10 +91,6 @@ struct ToastListScreen: View {
                 Text(toast.contents)
             }
         }
-        .onAppear {
-            // Show interstitial ad when entering screen
-            AppDelegate.sharedGADManager?.show(unit: .full, completion: nil)
-        }
     }
     
     private func showRandomToast() {
@@ -103,20 +100,13 @@ struct ToastListScreen: View {
         }
         
         print("Random toast: \(toast.title)")
-        
+
         // Show interstitial ad first, then alert
-        AppDelegate.sharedGADManager?.show(unit: .full) { _, _, _ in
-            DispatchQueue.main.async {
-                self.selectedToast = toast
-                self.showShareAlert = true
-            }
-        } ?? {
-            // If ad manager not available, show alert directly
-            DispatchQueue.main.async {
-                self.selectedToast = toast
-                self.showShareAlert = true
-            }
-        }()
+        Task {
+            await adManager.show(unit: .full)
+            self.selectedToast = toast
+            self.showShareAlert = true
+        }
     }
     
     private func shareToast(_ toast: ToastViewModel) {

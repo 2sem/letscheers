@@ -8,6 +8,7 @@
 
 import UIKit
 import StringLogger
+import AppTrackingTransparency
 
 class LSDefaults{
     static var Defaults : UserDefaults{
@@ -17,7 +18,7 @@ class LSDefaults{
     }
     
     class Keys{
-        static let LastFullAdShown = "LastFullAdShown";
+        static let LastFullADShown = "LastFullADShown";
         static let LastShareShown = "LastShareShown";
         static let LastRewardAdShown = "LastRewardAdShown";
         static let LastOpeningAdPrepared = "LastOpeningAdPrepared";
@@ -28,14 +29,14 @@ class LSDefaults{
         static let AdsTrackingRequested = "AdsTrackingRequested";
     }
     
-    static var LastFullAdShown : Date{
+    static var LastFullADShown : Date{
         get{
-            let seconds = Defaults.double(forKey: Keys.LastFullAdShown);
+            let seconds = Defaults.double(forKey: Keys.LastFullADShown);
             return Date.init(timeIntervalSince1970: seconds);
         }
         
         set(value){
-            Defaults.set(value.timeIntervalSince1970, forKey: Keys.LastFullAdShown);
+            Defaults.set(value.timeIntervalSince1970, forKey: Keys.LastFullADShown);
         }
     }
     
@@ -131,11 +132,11 @@ extension LSDefaults{
         guard #available(iOS 14.0, *) else{
             return false;
         }
-        
-        AppDelegate.sharedGADManager?.requestPermission(completion: { (result) in
+
+        ATTrackingManager.requestTrackingAuthorization { status in
             AdsTrackingRequested = true;
-        })
-        
+        }
+
         return true;
     }
 }

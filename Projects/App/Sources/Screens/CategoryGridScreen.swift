@@ -11,6 +11,7 @@ import SwiftUI
 struct CategoryGridScreen: View {
     @StateObject private var viewModel = CategoryGridViewModel()
     @EnvironmentObject var router: NavigationRouter
+    @EnvironmentObject var adManager: SwiftUIAdManager
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     
     private var gridColumns: [GridItem] {
@@ -22,11 +23,17 @@ struct CategoryGridScreen: View {
         ScrollView {
             LazyVGrid(columns: gridColumns, spacing: 24) {
                 ForEach(viewModel.categories) { category in
-                    CategoryCell(category: category)
-                        .aspectRatio(0.8, contentMode: .fit) // 180/250 from storyboard
-                        .onTapGesture {
-                            handleCategoryTap(category)
-                        }
+                    // Replace .ads category with NativeAdCell
+                    if category.type == .ads {
+                        NativeAdCell()
+                            .aspectRatio(0.8, contentMode: .fit)
+                    } else {
+                        CategoryCell(category: category)
+                            .aspectRatio(0.8, contentMode: .fit)
+                            .onTapGesture {
+                                handleCategoryTap(category)
+                            }
+                    }
                 }
             }
             .padding(16)
@@ -104,21 +111,20 @@ struct CategoryGridScreen: View {
     
     private func showRandomToast() {
         let toast = LCExcelController.shared.randomToast()
-        
+
         // Show interstitial ad first
-        AppDelegate.sharedGADManager?.show(unit: .full) { _, _, _ in
+        Task {
+            await adManager.show(unit: .full)
             // Show alert with random toast
-            DispatchQueue.main.async {
-                if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-                   let rootVC = windowScene.windows.first?.rootViewController {
-                    let alert = UIAlertController(
-                        title: toast.title ?? "추천 건배사",
-                        message: toast.contents,
-                        preferredStyle: .alert
-                    )
-                    alert.addAction(UIAlertAction(title: "확인", style: .default))
-                    rootVC.present(alert, animated: true)
-                }
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let rootVC = windowScene.windows.first?.rootViewController {
+                let alert = UIAlertController(
+                    title: toast.title ?? "추천 건배사",
+                    message: toast.contents,
+                    preferredStyle: .alert
+                )
+                alert.addAction(UIAlertAction(title: "확인", style: .default))
+                rootVC.present(alert, animated: true)
             }
         }
     }
