@@ -8,6 +8,7 @@
 import ProjectDescription
 
 let tuist = Tuist(
+    fullHandle: "gamehelper/letscheers",
     project: .tuist(
         compatibleXcodeVersions: .upToNextMajor("26.0"),
 //                    swiftVersion: "",
