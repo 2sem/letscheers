@@ -27,7 +27,16 @@ class LCExcelController : NSObject{
             try! self.document.parseWorksheet(at: workSheetPaths["선,후창_건배사"]!)
         }
     }
-    
+
+    var infoSheet : Worksheet?{
+        get{
+            guard let path = workSheetPaths["info"] else {
+                return nil
+            }
+            return try? self.document.parseWorksheet(at: path)
+        }
+    }
+
     static let shared = LCExcelController();
     
     private(set) var categories : [LCToastCategory] = [];
@@ -56,8 +65,23 @@ class LCExcelController : NSObject{
         followCategory.name = "선창!후창~!"
         self.loadFollowToasts(withCategory: followCategory)
         self.categories.append(followCategory)
-        
+
         self.categories.append(contentsOf: self.loadCategories())
+    }
+
+    func readVersion() -> String? {
+        guard let sheet = infoSheet else {
+            print("[LCExcelController] Warning: 'info' sheet not found")
+            return nil
+        }
+
+        // Read cell C2 (column C, row 2)
+        let cell = sheet.cells(atRows: [2])
+            .first(where: { $0.reference.column.value == "C" })
+
+        let version = cell?.stringValue(sharedStrings)
+        print("[LCExcelController] Excel version: \(version ?? "nil")")
+        return version
     }
     
     public func loadHeaders(from sheet: Worksheet) -> [String : String] {

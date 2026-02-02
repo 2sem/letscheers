@@ -54,20 +54,28 @@ struct SplashScreen: View {
         // This will skip if already migrated or no Core Data exists
         let migrationResult = await migrateToSwiftData()
         await updateProgress(0.3)
-        
+
         // Check if this is first launch or needs migration
         if await isSwiftDataEmpty() {
             // Fresh install: Initialize from Excel
             await initializeFromExcel()
             await updateProgress(0.9)
         } else {
+            // Check if Excel version has changed
+            let excelVersion = LCExcelController.shared.readVersion()
+            let lastVersion = LSDefaults.LastDataVersion
+
+            if let excelVersion = excelVersion, excelVersion != lastVersion {
+                print("[SplashScreen] Version mismatch - Excel: \(excelVersion), Last: \(lastVersion ?? "none")")
+                await syncFromExcel()
+            }
             await updateProgress(0.9)
         }
-        
+
         // Brief pause for smooth UI transition
         try? await Task.sleep(nanoseconds: 300_000_000)
         await updateProgress(1.0)
-        
+
         await MainActor.run {
             appState.isInitialized = true
         }
@@ -82,11 +90,11 @@ struct SplashScreen: View {
     private func initializeFromExcel() async {
         await updateProgress(0.1)
         print("[SplashScreen] Initializing Swift Data from Excel")
-        
+
         // Load categories from Excel
         LCExcelController.shared.loadFromFlie()
         let excelCategories = LCExcelController.shared.categories
-        
+
         var categoryOrder = 0
         for excelCategory in excelCategories {
             // Create ToastCategory
@@ -97,7 +105,7 @@ struct SplashScreen: View {
             )
             modelContext.insert(category)
             categoryOrder += 1
-            
+
             // Create all toasts in this category
             for excelToast in excelCategory.toasts {
                 let toast = Toast(
@@ -109,24 +117,161 @@ struct SplashScreen: View {
                 modelContext.insert(toast)
                 category.toasts.append(toast)
             }
-            
+
             // Update progress
             await updateProgress(0.1 + (Double(categoryOrder) / Double(excelCategories.count)) * 0.5)
         }
-        
-        // Save all data
+
+        // Save all data and store version
         try? modelContext.save()
+        if let version = LCExcelController.shared.readVersion() {
+            LSDefaults.LastDataVersion = version
+            print("[SplashScreen] Stored data version: \(version)")
+        }
         print("[SplashScreen] Initialized \(excelCategories.count) categories from Excel")
     }
     
+    private func syncFromExcel() async {
+        print("[SplashScreen] Syncing Swift Data with Excel")
+
+        // Load fresh data from Excel
+        LCExcelController.shared.loadFromFlie()
+        let excelCategories = LCExcelController.shared.categories
+
+        // Build a map of excel toasts by their unique 'no' identifier
+        var excelToastsByNo: [Int16: (toast: LCToast, category: LCToastCategory)] = [:]
+        for excelCategory in excelCategories {
+            for excelToast in excelCategory.toasts {
+                if let no = excelToast.no {
+                    excelToastsByNo[no] = (excelToast, excelCategory)
+                }
+            }
+        }
+
+        // Fetch all existing toasts
+        let toastDescriptor = FetchDescriptor<Toast>()
+        guard let existingToasts = try? modelContext.fetch(toastDescriptor) else {
+            print("[SplashScreen] Failed to fetch existing toasts")
+            return
+        }
+
+        // Build a map of existing toasts by 'no'
+        var existingToastsByNo: [Int16: Toast] = [:]
+        for toast in existingToasts {
+            existingToastsByNo[toast.no] = toast
+        }
+
+        // Fetch all existing categories
+        let categoryDescriptor = FetchDescriptor<ToastCategory>()
+        guard let existingCategories = try? modelContext.fetch(categoryDescriptor) else {
+            print("[SplashScreen] Failed to fetch existing categories")
+            return
+        }
+
+        // Build a map of existing categories by name
+        var categoryMap: [String: ToastCategory] = [:]
+        for category in existingCategories {
+            categoryMap[category.name] = category
+        }
+
+        var updateCount = 0
+        var insertCount = 0
+        var deleteCount = 0
+
+        // Process updates and inserts
+        for (no, excelData) in excelToastsByNo {
+            let excelToast = excelData.toast
+            let excelCategory = excelData.category
+            let categoryName = excelCategory.name ?? excelCategory.title
+
+            if let existingToast = existingToastsByNo[no] {
+                // Update existing toast
+                var needsUpdate = false
+
+                if existingToast.title != excelToast.title {
+                    existingToast.title = excelToast.title ?? ""
+                    needsUpdate = true
+                }
+
+                if existingToast.contents != excelToast.contents {
+                    existingToast.contents = excelToast.contents ?? ""
+                    needsUpdate = true
+                }
+
+                // Check if category needs update
+                if existingToast.category?.name != categoryName {
+                    // Get or create category
+                    var category = categoryMap[categoryName]
+                    if category == nil {
+                        let newCategory = ToastCategory(
+                            name: categoryName,
+                            title: excelCategory.title,
+                            sortOrder: categoryMap.count
+                        )
+                        modelContext.insert(newCategory)
+                        categoryMap[categoryName] = newCategory
+                        category = newCategory
+                    }
+                    existingToast.category = category
+                    needsUpdate = true
+                }
+
+                if needsUpdate {
+                    updateCount += 1
+                }
+            } else {
+                // Insert new toast
+                var category = categoryMap[categoryName]
+                if category == nil {
+                    let newCategory = ToastCategory(
+                        name: categoryName,
+                        title: excelCategory.title,
+                        sortOrder: categoryMap.count
+                    )
+                    modelContext.insert(newCategory)
+                    categoryMap[categoryName] = newCategory
+                    category = newCategory
+                }
+
+                let newToast = Toast(
+                    no: no,
+                    title: excelToast.title ?? "",
+                    contents: excelToast.contents ?? "",
+                    category: category
+                )
+                modelContext.insert(newToast)
+                category?.toasts.append(newToast)
+                insertCount += 1
+            }
+        }
+
+        // Process deletes - remove toasts that exist in DB but not in Excel
+        for (no, existingToast) in existingToastsByNo {
+            if excelToastsByNo[no] == nil {
+                // Toast no longer exists in Excel, delete it
+                modelContext.delete(existingToast)
+                deleteCount += 1
+            }
+        }
+
+        // Save changes and update version
+        try? modelContext.save()
+        if let version = LCExcelController.shared.readVersion() {
+            LSDefaults.LastDataVersion = version
+            print("[SplashScreen] Updated data version: \(version)")
+        }
+
+        print("[SplashScreen] Sync complete - Updated: \(updateCount), Inserted: \(insertCount), Deleted: \(deleteCount)")
+    }
+
     private func migrateToSwiftData() async -> DataMigrationManager.MigrationStatus {
         let migrationResult = await migrationManager.migrateToSwiftData(modelContext: modelContext)
-        
+
         // Sync migration progress with splash progress (60-90% range)
         await MainActor.run {
             self.progress = 0.6 + (migrationManager.migrationProgress * 0.3)
         }
-        
+
         return migrationResult
     }
     
