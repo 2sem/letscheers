@@ -21,8 +21,6 @@ let project = Project(
                 requirement: .upToNextMajor(from: "5.4.5")),
         .remote(url: "https://github.com/2sem/LSExtensions",
                 requirement: .exact("0.1.22")),
-        .remote(url: "https://github.com/ReactiveX/RxSwift",
-                requirement: .upToNextMajor(from: "5.1.0")),
         .remote(url: "https://github.com/2sem/LProgressWebViewController",
                 requirement: .upToNextMajor(from: "3.1.0")),
         .remote(url: "https://github.com/2sem/StringLogger",
@@ -38,8 +36,6 @@ let project = Project(
                            .package(product: "DropDown", type: .runtime),
                            .package(product: "KakaoSDK", type: .runtime),
                            .package(product: "LSExtensions", type: .runtime),
-                           .package(product: "RxSwift", type: .runtime),
-                           .package(product: "RxCocoa", type: .runtime),
                            .package(product: "StringLogger", type: .runtime),
             ]
         ),

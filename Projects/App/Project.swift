@@ -41,7 +41,7 @@ let project = Project(
     name: "App",
     packages: [
         .remote(url: "https://github.com/2sem/GADManager",
-                requirement: .upToNextMajor(from: "1.3.5")),
+                requirement: .upToNextMajor(from: "1.3.8")),
 //        .local(path: .relativeToRoot("../../../pods/GADManager/src/GADManager"))
     ],
     settings: .settings(configurations: [
@@ -58,14 +58,15 @@ let project = Project(
             destinations: .iOS,
             product: .app,
             bundleId: .appBundleId,
+            deploymentTargets: .iOS("18.0"),
             infoPlist: .extendingDefault(
                 with: [
                     "UILaunchStoryboardName": "LaunchScreen",
-                    "UIMainStoryboardFile": "Main",
                     "UIUserInterfaceStyle": "Dark",
                     "GADApplicationIdentifier": "ca-app-pub-9684378399371172~8024571245",
                     "GADUnitIdentifiers": ["Launch" : "ca-app-pub-9684378399371172/4877474273",
-                                           "FullAd" : "ca-app-pub-9684378399371172/4931504044"],
+                                           "FullAd" : "ca-app-pub-9684378399371172/4931504044",
+                                           "NativeAd" : "ca-app-pub-9684378399371172/1903064527"],
                     "Itunes App Id": "1193053041",
                     "NSUserTrackingUsageDescription": "맞춤형 광고 허용을 통해 개발자에게 더 많이 후원할 수 있습니다",
                     "SKAdNetworkItems": .array(skAdNetworks),
