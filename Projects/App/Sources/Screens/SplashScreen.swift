@@ -182,7 +182,9 @@ struct SplashScreen: View {
         for (no, excelData) in excelToastsByNo {
             let excelToast = excelData.toast
             let excelCategory = excelData.category
-            let categoryName = excelCategory.name ?? excelCategory.title
+            guard let categoryName = excelCategory.name ?? excelCategory.title else {
+                continue
+            }
 
             if let existingToast = existingToastsByNo[no] {
                 // Update existing toast
