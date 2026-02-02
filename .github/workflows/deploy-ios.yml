@@ -47,8 +47,8 @@ jobs:
         run: |
           git secret reveal -p ${{ secrets.GPG_PRIVATE_PWD }}
       
-          - name: Install Mise
-          uses: jdx/mise-action@v2
+      - name: Install Mise
+        uses: jdx/mise-action@v2
   
       - name: Install Dependencies
         run: |
