@@ -22,11 +22,13 @@ class LSDefaults{
         static let LastShareShown = "LastShareShown";
         static let LastRewardAdShown = "LastRewardAdShown";
         static let LastOpeningAdPrepared = "LastOpeningAdPrepared";
-        
+
         static let LaunchCount = "LaunchCount";
-        
+
         static let AdsShownCount = "AdsShownCount";
         static let AdsTrackingRequested = "AdsTrackingRequested";
+
+        static let LastDataVersion = "LastDataVersion";
     }
     
     static var LastFullADShown : Date{
@@ -82,9 +84,19 @@ class LSDefaults{
             //UIApplication.shared.version
             return Defaults.integer(forKey: Keys.LaunchCount);
         }
-        
+
         set(value){
             Defaults.set(value, forKey: Keys.LaunchCount);
+        }
+    }
+
+    static var LastDataVersion : String?{
+        get{
+            return Defaults.string(forKey: Keys.LastDataVersion);
+        }
+
+        set(value){
+            Defaults.set(value, forKey: Keys.LastDataVersion);
         }
     }
 }
