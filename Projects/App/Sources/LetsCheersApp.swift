@@ -27,9 +27,12 @@ struct LetsCheersApp: App {
                     MainScreen()
                         .environmentObject(appState)
                         .environmentObject(adManager)
-                        .environment(\.managedObjectContext, appState.modelController.context)
+                        .environmentObject(appState.favoritesManager)
+                        .environmentObject(appState.toastsManager)
+                        .modelContainer(appState.swiftDataContainer)
                 } else {
                     SplashScreen(appState: appState)
+                        .modelContainer(appState.swiftDataContainer)
                 }
             }
             .onAppear {

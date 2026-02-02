@@ -8,17 +8,17 @@
 
 import Foundation
 
+
 struct ToastViewModel: Identifiable {
-    let id = UUID()
-    let title: String
-    let contents: String
-    let category: String
-    var isFavorite: Bool
+    var id: Int16
     
-    init(from toast: LCToast, isFavorite: Bool = false) {
-        self.title = toast.title ?? ""
-        self.contents = toast.contents ?? ""
-        self.category = toast.category ?? ""
-        self.isFavorite = isFavorite
+    let toast: Toast
+    var isFavorite: Bool {
+        return toast.favorite != nil
+    }
+    
+    init(toast: Toast) {
+        self.id = toast.no
+        self.toast = toast
     }
 }

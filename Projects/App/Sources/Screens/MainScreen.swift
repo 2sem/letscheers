@@ -19,9 +19,9 @@ struct MainScreen: View {
                     case .toastList(let category, let title, let backgroundImageName):
                         let backgroundImage = backgroundImageName != nil ? UIImage(named: backgroundImageName!) : nil
                         ToastListScreen(
-                            category: category,
                             title: title,
-                            backgroundImage: backgroundImage
+                            backgroundImage: backgroundImage,
+                            viewModel: ToastListViewModel(categoryName: category)
                         )
                     case .favorites:
                         FavoritesScreen()

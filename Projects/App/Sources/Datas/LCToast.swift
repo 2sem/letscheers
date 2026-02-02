@@ -11,6 +11,7 @@ import UIKit
 
 class LCToast{
     class FieldNames{
+        static let no = "no";
         static let title = "건배사";
         static let contents = "의미";
         static let category = "분류";
@@ -19,6 +20,7 @@ class LCToast{
         static let second = "후창"
     }
     
+    var no : Int16!;
     var title : String!;
     var contents : String!;
     var category : String!;

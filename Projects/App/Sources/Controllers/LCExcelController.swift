@@ -30,7 +30,7 @@ class LCExcelController : NSObject{
     
     static let shared = LCExcelController();
     
-    var categories : [LCToastCategory] = [];
+    private(set) var categories : [LCToastCategory] = [];
     
     override init(){
         guard let excelUrl = Bundle.main.url(forResource: "cheers", withExtension: "xlsx") else{
@@ -52,7 +52,12 @@ class LCExcelController : NSObject{
     }
     
     func loadFromFlie(){
-        self.loadCategories(categories: self.categories);
+        var followCategory : LCToastCategory = .init(name: "follow", image: nil)
+        followCategory.name = "선창!후창~!"
+        self.loadFollowToasts(withCategory: followCategory)
+        self.categories.append(followCategory)
+        
+        self.categories.append(contentsOf: self.loadCategories())
     }
     
     public func loadHeaders(from sheet: Worksheet) -> [String : String] {
@@ -87,16 +92,9 @@ class LCExcelController : NSObject{
         let headers = self.loadHeaders(from: sheet)
         var i = 1;
         
-        let value : [LCToastCategory] = [];
-        var map : [String : LCToastCategory] = [:];
-        var category : LCToastCategory!;
-        
-        if categories?.isEmpty == false{
-            categories?.forEach({ (c) in
-                c.toasts.removeAll();
-                map[c.name] = c;
-            })
-        }
+        var newCategories : [String : LCToastCategory] = categories?.reduce(into: [:]) { dict, c in
+            dict[c.name] = c
+        } ?? [:]
         
         while(true){
             let row = self.headerRow.advanced(by: i)
@@ -106,9 +104,11 @@ class LCExcelController : NSObject{
                 break
             }
             
+            let noCell = cells[LCToast.FieldNames.no]
             let contentsCell = cells[LCToast.FieldNames.contents]
             let categoryCell = cells[LCToast.FieldNames.category]
             
+            let no = noCell?.integerValue(self.sharedStrings) ?? 0;
             let title = titleCell.stringValue(self.sharedStrings) ?? ""
             let contents = contentsCell?.stringValue(self.sharedStrings) ?? ""
             let category_name = categoryCell?.stringValue(self.sharedStrings) ?? ""
@@ -118,20 +118,22 @@ class LCExcelController : NSObject{
             }
 
             let toast = LCToast();
+            toast.no = Int16(no);
             toast.title = title;
             toast.contents = contents;
             
-            category = map[category_name];
+            var category = newCategories[category_name];
             if category == nil{
                 category = LCToastCategory(name: category_name, image: nil);
+                newCategories[category_name] = category
             }
             category?.toasts.append(toast);
             
             i += 1;
         }
         
-        print("[end] load categories");
-        return value;
+        print("[end] load categories[\(categories?.count ?? 0)]");
+        return newCategories.values.map{ $0 };
     }
     
     func loadToasts(withCategory category : String) -> [LCToast]{
@@ -156,9 +158,11 @@ class LCExcelController : NSObject{
                 break;
             }
             
+            let noCell = cells[LCToast.FieldNames.no]
             let contentsCell = cells[LCToast.FieldNames.contents]
             let categoryCell = cells[LCToast.FieldNames.category]
             
+            let no = noCell?.integerValue(self.sharedStrings) ?? 0;
             let contents = contentsCell?.stringValue(self.sharedStrings) ?? ""
             let category_name = categoryCell?.stringValue(self.sharedStrings) ?? ""
             
@@ -168,6 +172,7 @@ class LCExcelController : NSObject{
             }
             
             let toast = LCToast();
+            toast.no = Int16(no);
             toast.title = title;
             toast.contents = contents;
             
@@ -192,14 +197,16 @@ class LCExcelController : NSObject{
             let row = self.headerRow.advanced(by: i)
             let cells = self.loadCells(of: row, with: headers, in: sheet)
             
-            guard let firstCell = cells[LCToast.FieldNames.first] else {
+            guard let noCell = cells[LCToast.FieldNames.no] else {
                 break
             }
             
+            let firstCell = cells[LCToast.FieldNames.first]
             let secondCell = cells[LCToast.FieldNames.second]
             let contentsCell = cells[LCToast.FieldNames.contents]
             
-            let first = firstCell.stringValue(self.sharedStrings) ?? ""
+            let no = noCell.integerValue(self.sharedStrings) ?? 0;
+            let first = firstCell?.stringValue(self.sharedStrings) ?? ""
             let second = secondCell?.stringValue(self.sharedStrings) ?? ""
             let contents = contentsCell?.stringValue(self.sharedStrings) ?? ""
 //            var category_name = self.defaultSheet?.cell(forCellReference: "D\(i)")?.stringValue() ?? "";
@@ -214,6 +221,7 @@ class LCExcelController : NSObject{
             }
 
             let toast = LCToast();
+            toast.no = Int16(no);
             toast.title = "(선)\(first) (후)\(second)";
 //            toast.contents = contents.isEmpty ? contents : "의미 : \(contents)";
             toast.contents = contents
@@ -223,7 +231,7 @@ class LCExcelController : NSObject{
             i += 1;
         }
         
-        print("[end] load follow toasts");
+        print("[end] load follow toasts[\(category.toasts.count)]");
         return category.toasts;
     }
 

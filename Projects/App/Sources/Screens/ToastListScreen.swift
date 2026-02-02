@@ -7,24 +7,50 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ToastListScreen: View {
-    let category: String
     let title: String
     let backgroundImage: UIImage?
+    let viewModel: ToastListViewModel
 
-    @StateObject private var viewModel: ToastListViewModel
+    @EnvironmentObject var favoritesManager: FavoritesManager
+
+    var body: some View {
+        ToastListContent(
+            title: title,
+            backgroundImage: backgroundImage,
+            viewModel: viewModel
+        )
+    }
+}
+
+// MARK: - Content View
+
+private struct ToastListContent: View {
+    @Environment(\.modelContext) private var modelContext
+
+    let title: String
+    let backgroundImage: UIImage?
+    @ObservedObject var viewModel: ToastListViewModel
+    @Query var toasts: [Toast]
+
+    @EnvironmentObject var favoritesManager: FavoritesManager
     @EnvironmentObject var adManager: SwiftUIAdManager
     @State private var selectedToast: ToastViewModel?
     @State private var showShareAlert = false
-    
-    init(category: String, title: String, backgroundImage: UIImage?) {
-        self.category = category
+
+    init(title: String, backgroundImage: UIImage?, viewModel: ToastListViewModel) {
         self.title = title
         self.backgroundImage = backgroundImage
-        _viewModel = StateObject(wrappedValue: ToastListViewModel(category: category))
+        self.viewModel = viewModel
+        
+        let categoryName = viewModel.categoryName
+        _toasts = Query(filter: #Predicate<Toast>{ toast in
+            toast.category?.name == categoryName
+        }, sort: \.no, order: .reverse)
     }
-    
+
     private var backgroundRowColor: Color {
         if backgroundImage != nil {
             return Color.white.opacity(0.5)
@@ -32,13 +58,13 @@ struct ToastListScreen: View {
             return Color.white
         }
     }
-    
+
     var body: some View {
         ZStack {
             // Base background color (same as category grid)
             Color(red: 0.847, green: 0.834, blue: 0.886)
                 .ignoresSafeArea()
-            
+
             // Background image layer
             if let background = backgroundImage {
                 GeometryReader { geometry in
@@ -51,12 +77,12 @@ struct ToastListScreen: View {
                 }
                 .ignoresSafeArea()
             }
-            
+
             // List layer
             List {
                 ForEach(viewModel.filteredToasts) { toast in
-                    ToastRow(toast: toast) {
-                        viewModel.toggleFavorite(for: toast)
+                    ToastRow(viewModel: toast) {
+                        viewModel.toggleFavorite(for: toast, modelContext: modelContext)
                     }
                     .listRowBackground(backgroundRowColor)
                     .onTapGesture {
@@ -70,6 +96,9 @@ struct ToastListScreen: View {
         .navigationTitle(title)
         .navigationBarTitleDisplayMode(.inline)
         .searchable(text: $viewModel.searchText, prompt: "검색")
+        .onChange(of: viewModel.searchText, {
+            self.viewModel.refresh(toasts: toasts)
+        })
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
@@ -79,7 +108,7 @@ struct ToastListScreen: View {
                 }
             }
         }
-        .alert(selectedToast?.title ?? "추천 건배사", isPresented: $showShareAlert) {
+        .alert(selectedToast?.toast.title ?? "추천 건배사", isPresented: $showShareAlert) {
             Button("공유") {
                 if let toast = selectedToast {
                     shareToast(toast)
@@ -88,38 +117,42 @@ struct ToastListScreen: View {
             Button("확인", role: .cancel) {}
         } message: {
             if let toast = selectedToast {
-                Text(toast.contents)
+                Text(toast.toast.contents)
             }
         }
-    }
-    
-    private func showRandomToast() {
-        guard let toast = viewModel.randomToast() else { 
-            print("Failed to get random toast")
-            return 
+        .task {
+            self.viewModel.refresh(toasts: toasts)
         }
-        
-        print("Random toast: \(toast.title)")
+    }
+
+    private func showRandomToast() {
+        guard let toastViewModel = viewModel.randomToast(modelContext: modelContext) else {
+            print("Failed to get random toast")
+            return
+        }
+
+        print("Random toast: \(toastViewModel.toast.title)")
 
         // Show interstitial ad first, then alert
         Task {
             await adManager.show(unit: .full)
-            self.selectedToast = toast
+            self.selectedToast = toastViewModel
             self.showShareAlert = true
         }
     }
-    
-    private func shareToast(_ toast: ToastViewModel) {
+
+    private func shareToast(_ toastViewModel: ToastViewModel) {
+        let toast = toastViewModel.toast
         var contents = toast.contents
         if !contents.isEmpty {
             contents = "\n- " + contents
         }
-        
+
         let tag = UIApplication.shared.displayName != nil ? "" : "\n#" + (UIApplication.shared.displayName ?? "")
         let message = toast.title + contents + tag
-        
+
         let activityVC = UIActivityViewController(activityItems: [message], applicationActivities: nil)
-        
+
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
            let rootVC = windowScene.windows.first?.rootViewController {
             activityVC.popoverPresentationController?.sourceView = rootVC.view
@@ -131,30 +164,30 @@ struct ToastListScreen: View {
 // MARK: - Toast Row
 
 struct ToastRow: View {
-    let toast: ToastViewModel
+    let viewModel: ToastViewModel
     let onFavoriteTap: () -> Void
-    
+
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
             VStack(alignment: .leading, spacing: 8) {
-                Text(toast.title)
+                Text(viewModel.toast.title)
                     .font(.headline)
                     .foregroundColor(.black)
-                
-                Text(toast.contents)
+
+                Text(viewModel.toast.contents)
                     .font(.subheadline)
                     .foregroundColor(.black.opacity(0.7))
                     .lineLimit(3)
             }
-            
+
             Spacer()
-            
+
             Button {
                 onFavoriteTap()
             } label: {
-                Image(systemName: toast.isFavorite ? "star.fill" : "star")
+                Image(systemName: viewModel.isFavorite ? "star.fill" : "star")
                     .font(.title3)
-                    .foregroundColor(toast.isFavorite ? .yellow : .gray)
+                    .foregroundColor(viewModel.isFavorite ? .yellow : .gray)
             }
             .buttonStyle(.plain)
         }

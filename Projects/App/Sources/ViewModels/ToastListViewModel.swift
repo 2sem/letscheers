@@ -7,30 +7,21 @@
 //
 
 import SwiftUI
+import SwiftData
 import Combine
 
 @MainActor
 class ToastListViewModel: ObservableObject {
-    @Published var toasts: [ToastViewModel] = []
     @Published var searchText: String = ""
-    
-    private let category: String
-    private let modelController = LCModelController.shared
-    private var allToasts: [LCToast] = []
+
+    let categoryName: String
     private var cancellables = Set<AnyCancellable>()
     
-    var filteredToasts: [ToastViewModel] {
-        if searchText.isEmpty {
-            return toasts
-        } else {
-            return toasts.filter { $0.title.contains(searchText) }
-        }
-    }
+    @Published var filteredToasts: [ToastViewModel] = []
     
-    init(category: String) {
-        self.category = category
-        loadToasts()
-        
+    init(categoryName: String) {
+        self.categoryName = categoryName
+
         // Update toasts when search text changes
         $searchText
             .debounce(for: .milliseconds(300), scheduler: RunLoop.main)
@@ -40,46 +31,46 @@ class ToastListViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    private func loadToasts() {
-        // Find category from Excel controller
-        guard let currentCategory = LCExcelController.shared.categories.first(where: { $0.name == category }) else {
-            return
-        }
-        
-        allToasts = currentCategory.toasts
-        
-        // Convert to ViewModels with favorite status
-        toasts = allToasts.map { toast in
-            let isFavorite = modelController.isExistFavorite(withName: toast.title ?? "")
-            return ToastViewModel(from: toast, isFavorite: isFavorite)
-        }
-    }
-    
-    func toggleFavorite(for toast: ToastViewModel) {
-        guard let index = toasts.firstIndex(where: { $0.id == toast.id }) else {
-            return
-        }
-        
-        toasts[index].isFavorite.toggle()
-        let newValue = toasts[index].isFavorite
-        
-        if newValue {
-            // Add to favorites
-            let favorite = modelController.createFavorite(name: toast.title, contents: toast.contents)
-            favorite.category = category
+    func refresh(toasts: [Toast]) {
+        if searchText.isEmpty {
+            filteredToasts = toasts.map{ ToastViewModel(toast: $0) }
         } else {
-            // Remove from favorites
-            if let existingFavorite = modelController.findFavorite(withName: toast.title).first {
-                modelController.removeFavorite(toast: existingFavorite)
-            }
+            filteredToasts = toasts.filter { $0.title.contains(searchText) }
+                .map{ ToastViewModel(toast: $0) }
         }
-        
-        modelController.saveChanges()
     }
     
-    func randomToast() -> ToastViewModel? {
-        let toast = LCExcelController.shared.randomToast(category)
-        let isFavorite = modelController.isExistFavorite(withName: toast.title ?? "")
-        return ToastViewModel(from: toast, isFavorite: isFavorite)
+    func toggleFavorite(for toastViewModel: ToastViewModel, modelContext: ModelContext) {
+        let newValue = !toastViewModel.isFavorite
+        let toastId = toastViewModel.id
+
+        if newValue {
+            let favorite = Favorite(toast: toastViewModel.toast)
+            modelContext.insert(favorite)
+            toastViewModel.toast.favorite = favorite
+            try? modelContext.save()
+        } else if let favorite = toastViewModel.toast.favorite {
+            modelContext.delete(favorite)
+            toastViewModel.toast.favorite = nil
+            try? modelContext.save()
+        }
+    }
+
+    func randomToast(modelContext: ModelContext) -> ToastViewModel? {
+        // Query category and get random toast
+        let descriptor = FetchDescriptor<ToastCategory>(
+            predicate: #Predicate<ToastCategory> { category in
+                category.name == categoryName
+            }
+        )
+        
+        guard let category = try? modelContext.fetch(descriptor).first,
+              !category.toasts.isEmpty else {
+            return nil
+        }
+        
+        let randomToast = category.toasts.randomElement()!
+        
+        return ToastViewModel(toast: randomToast)
     }
 }

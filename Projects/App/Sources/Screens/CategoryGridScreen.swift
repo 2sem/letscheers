@@ -10,6 +10,7 @@ import SwiftUI
 
 struct CategoryGridScreen: View {
     @StateObject private var viewModel = CategoryGridViewModel()
+    @Environment(\.modelContext) private var modelContext
     @EnvironmentObject var router: NavigationRouter
     @EnvironmentObject var adManager: SwiftUIAdManager
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
@@ -52,7 +53,7 @@ struct CategoryGridScreen: View {
                     Image(systemName: "square.and.arrow.up")
                 }
             }
-            
+
             ToolbarItem(placement: .topBarLeading) {
                 Button {
                     showRandomToast()
@@ -60,6 +61,9 @@ struct CategoryGridScreen: View {
                     Image(systemName: "shuffle")
                 }
             }
+        }
+        .task {
+            viewModel.loadCategories(modelContext: modelContext)
         }
     }
     

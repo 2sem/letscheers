@@ -7,22 +7,17 @@
 //
 
 import SwiftUI
-import CoreData
+import SwiftData
 
 struct FavoritesScreen: View {
-    @Environment(\.managedObjectContext) private var viewContext
-    @FetchRequest(
-        entity: FavoriteToast.entity(),
-        sortDescriptors: [NSSortDescriptor(keyPath: \FavoriteToast.name, ascending: true)],
-        animation: .default
-    )
-    private var favorites: FetchedResults<FavoriteToast>
-    
+    @EnvironmentObject var favoritesManager: FavoritesManager
+    @Environment(\.modelContext) private var modelContext
+    @Query(sort: \Favorite.createdAt, order: .forward)
+    private var favorites: [Favorite]
+
     @Environment(\.editMode) private var editMode
-    @State private var selectedToast: (name: String, contents: String)?
+    @State private var selectedToast: Toast?
     @State private var showShareAlert = false
-    
-    private let modelController = LCModelController.shared
     
     var body: some View {
         ZStack {
@@ -49,7 +44,7 @@ struct FavoritesScreen: View {
                 }
             } else {
                 List {
-                    ForEach(favorites, id: \.objectID) { favorite in
+                    ForEach(favorites, id: \.id) { favorite in
                         Button {
                             if editMode?.wrappedValue.isEditing == false {
                                 showToastAlert(favorite)
@@ -74,10 +69,10 @@ struct FavoritesScreen: View {
                 }
             }
         }
-        .alert(selectedToast?.name ?? "", isPresented: $showShareAlert) {
+        .alert(selectedToast?.title ?? "", isPresented: $showShareAlert) {
             Button("공유") {
                 if let toast = selectedToast {
-                    shareToast(name: toast.name, contents: toast.contents)
+                    share(toast: toast)
                 }
             }
             Button("확인", role: .cancel) {}
@@ -88,31 +83,31 @@ struct FavoritesScreen: View {
         }
     }
     
-    private func showToastAlert(_ favorite: FavoriteToast) {
-        let name = favorite.name ?? ""
-        // Look up full contents from Excel controller
-        let contents = LCExcelController.shared.findToast(name)?.contents ?? ""
-        
-        selectedToast = (name: name, contents: contents)
+    private func showToastAlert(_ favorite: Favorite) {
+        selectedToast = favorite.toast
         showShareAlert = true
     }
     
     private func deleteFavorites(at offsets: IndexSet) {
         for index in offsets {
             let favorite = favorites[index]
-            modelController.removeFavorite(toast: favorite)
+            modelContext.delete(favorite)
         }
-        modelController.saveChanges()
+        do {
+            try modelContext.save()
+        } catch {
+            print("Failed to save after deleting favorites: \(error)")
+        }
     }
     
-    private func shareToast(name: String, contents: String) {
-        var contentsText = contents
+    private func share(toast: Toast) {
+        var contentsText = toast.contents
         if !contentsText.isEmpty {
             contentsText = "\n- " + contentsText
         }
         
         let tag = UIApplication.shared.displayName != nil ? "" : "\n#" + (UIApplication.shared.displayName ?? "")
-        let message = name + contentsText + tag
+        let message = toast.title + contentsText + tag
         
         let activityVC = UIActivityViewController(activityItems: [message], applicationActivities: nil)
         
@@ -127,21 +122,19 @@ struct FavoritesScreen: View {
 // MARK: - Favorite Row
 
 struct FavoriteRow: View {
-    let favorite: FavoriteToast
+    let favorite: Favorite
     
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 8) {
-                Text(favorite.name ?? "")
+                Text(favorite.toast.title)
                     .font(.headline)
                     .foregroundColor(.black)
                 
-                if let contents = LCExcelController.shared.findToast(favorite.name ?? "")?.contents {
-                    Text(contents)
-                        .font(.subheadline)
-                        .foregroundColor(.black.opacity(0.7))
-                        .lineLimit(3)
-                }
+                Text(favorite.toast.contents)
+                    .font(.subheadline)
+                    .foregroundColor(.black.opacity(0.7))
+                    .lineLimit(3)
             }
             
             Spacer()
