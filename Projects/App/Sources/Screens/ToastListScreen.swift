@@ -187,7 +187,7 @@ struct ToastRow: View {
             } label: {
                 Image(systemName: viewModel.isFavorite ? "star.fill" : "star")
                     .font(.title3)
-                    .foregroundColor(viewModel.isFavorite ? .yellow : .gray)
+                    .foregroundColor(viewModel.isFavorite ? .black : .gray)
             }
             .buttonStyle(.plain)
         }
