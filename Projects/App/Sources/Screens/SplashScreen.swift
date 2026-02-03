@@ -17,10 +17,10 @@ struct SplashScreen: View {
     
     var body: some View {
         ZStack {
-            Color.black.ignoresSafeArea()
+            Color.white.ignoresSafeArea()
             
             VStack(spacing: 20) {
-                Image("launch_icon")
+                Image("company")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 120, height: 120)
