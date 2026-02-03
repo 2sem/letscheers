@@ -1,41 +1,21 @@
 import ProjectDescription
 import ProjectDescriptionHelpers
 
-let skAdNetworks: [Plist.Value] = ["cstr6suwn9",
-                                   "4fzdc2evr5",
-                                   "2fnua5tdw4",
-                                   "ydx93a7ass",
-                                   "5a6flpkh64",
-                                   "p78axxw29g",
-                                   "v72qych5uu",
-                                   "c6k4g5qg8m",
-                                   "s39g8k73mm",
-                                   "3qy4746246",
-                                   "3sh42y64q3",
-                                   "f38h382jlk",
-                                   "hs6bdukanm",
-                                   "prcb7njmu6",
-                                   "wzmmz9fp6w",
-                                   "yclnxrl5pm",
-                                   "4468km3ulz",
-                                   "t38b2kh725",
-                                   "7ug5zh24hu",
-                                   "9rd848q2bz",
-                                   "n6fk4nfna4",
-                                   "kbd757ywx3",
-                                   "9t245vhmpl",
-                                   "2u9pt9hc89",
-                                   "8s468mfl3y",
-                                   "av6w8kgt66",
-                                   "klf5c3l5u5",
-                                   "ppxm28t8ap",
-                                   "424m5254lk",
-                                   "uw77j35x4d",
-                                   "e5fvkxwrpn",
-                                   "zq492l623r",
-                                   "3qcr597p9d"
-    ]
-    .map{ .dictionary(["SKAdNetworkIdentifier" : "\($0).skadnetwork"]) }
+let skAdNetworkIDs: [String] = [
+    "cstr6suwn9", "4fzdc2evr5", "2fnua5tdw4", "ydx93a7ass", "p78axxw29g",
+    "v72qych5uu", "ludvb6z3bs", "cp8zw746q7", "3sh42y64q3", "c6k4g5qg8m",
+    "s39g8k73mm", "wg4vff78zm", "3qy4746246", "f38h382jlk", "hs6bdukanm",
+    "mlmmfzh3r3", "v4nxqhlyqp", "wzmmz9fp6w", "su67r6k2v3", "yclnxrl5pm",
+    "t38b2kh725", "7ug5zh24hu", "gta9lk7p23", "vutu7akeur", "y5ghdn5j9k",
+    "v9wttpbfk9", "n38lu8286q", "47vhws6wlr", "kbd757ywx3", "9t245vhmpl",
+    "a2p9lx4jpn", "22mmun2rn5", "44jx6755aq", "k674qkevps", "4468km3ulz",
+    "2u9pt9hc89", "8s468mfl3y", "klf5c3l5u5", "ppxm28t8ap", "kbmxgpxpgc",
+    "uw77j35x4d", "578prtvx9j", "4dzt52r2t5", "tl55sbb4fm", "c3frkrj4fj",
+    "e5fvkxwrpn", "8c4e2ghe7u", "3rd42ekr43", "97r2b46745", "3qcr597p9d"
+]
+
+let skAdNetworks: [Plist.Value] = skAdNetworkIDs
+    .map { .dictionary(["SKAdNetworkIdentifier": .string("\($0).skadnetwork")]) }
 
 let project = Project(
     name: "App",
