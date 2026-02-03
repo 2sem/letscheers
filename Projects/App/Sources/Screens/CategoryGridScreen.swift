@@ -39,7 +39,14 @@ struct CategoryGridScreen: View {
             }
             .padding(16)
         }
-        .background(Color(red: 0.847, green: 0.834, blue: 0.886))
+        .background {
+            ZStack(alignment: .bottom) {
+                Color(red: 0.847, green: 0.834, blue: 0.886)
+                Image("bg_cheers")
+                    .resizable()
+                    .scaledToFit()
+            }.ignoresSafeArea()
+        }
         .navigationTitle("술마셔 건배사")
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(Color(red: 0.367, green: 0.138, blue: 0.812), for: .navigationBar)

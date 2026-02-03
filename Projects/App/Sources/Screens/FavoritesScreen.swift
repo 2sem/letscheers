@@ -24,7 +24,15 @@ struct FavoritesScreen: View {
             // Background color (same as other screens)
             Color(red: 0.847, green: 0.834, blue: 0.886)
                 .ignoresSafeArea()
-            
+
+            VStack {
+                Spacer()
+                Image("bg_cheers")
+                    .resizable()
+                    .scaledToFit()
+            }
+            .ignoresSafeArea(edges: .bottom)
+
             if favorites.isEmpty {
                 // Empty state
                 VStack(spacing: 16) {
