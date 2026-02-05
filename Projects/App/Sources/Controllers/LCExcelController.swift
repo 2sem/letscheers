@@ -61,7 +61,7 @@ class LCExcelController : NSObject{
     }
     
     func loadFromFlie(){
-        var followCategory : LCToastCategory = .init(name: "follow", image: nil)
+        let followCategory : LCToastCategory = .init(name: "follow", image: nil)
         followCategory.name = "선창!후창~!"
         self.loadFollowToasts(withCategory: followCategory)
         self.categories.append(followCategory)
