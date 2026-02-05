@@ -10,9 +10,9 @@ import Foundation
 
 extension SwiftUIAdManager {
     enum GADUnitName: String {
-        case launch = "ca-app-pub-9684378399371172/4877474273"
-        case full = "ca-app-pub-9684378399371172/4931504044"
-        case native = "ca-app-pub-9684378399371172/1903064527"
+        case launch = "Launch"
+        case full = "FullAd"
+        case native = "NativeAd"
     }
 
 #if DEBUG
