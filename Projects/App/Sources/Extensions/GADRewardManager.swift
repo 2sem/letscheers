@@ -135,8 +135,14 @@ class GADRewardManager : NSObject{
         /*if let alert = UIApplication.shared.keyWindow?.rootViewController?.presentedViewController as? UIAlertController{
          alert.dismiss(animated: false, completion: nil);
          }*/
-        
-        guard !(UIApplication.shared.keyWindow?.rootViewController?.presentedViewController is UIAlertController) else{
+
+        // Use iOS 13+ compatible window access
+        let keyWindow = UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }
+            .first { $0.isKeyWindow }
+
+        guard !(keyWindow?.rootViewController?.presentedViewController is UIAlertController) else{
             //alert.dismiss(animated: false, completion: nil);
             self.rewardAd = nil;
             return;
