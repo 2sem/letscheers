@@ -42,7 +42,7 @@ class ToastListViewModel: ObservableObject {
     
     func toggleFavorite(for toastViewModel: ToastViewModel, modelContext: ModelContext) {
         let newValue = !toastViewModel.isFavorite
-        let toastId = toastViewModel.id
+        let _ = toastViewModel.id
 
         if newValue {
             let favorite = Favorite(toast: toastViewModel.toast)
