@@ -11,6 +11,10 @@ import GoogleMobileAds
 import StoreKit
 import Firebase
 
+#if canImport(AppStore)
+import AppStore
+#endif
+
 class AppDelegate: UIResponder, UIApplicationDelegate, ReviewManagerDelegate, GADRewardManagerDelegate {
 
     var rewardAd : GADRewardManager?;
@@ -34,17 +38,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ReviewManagerDelegate, GA
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
         guard LSDefaults.LaunchCount % reviewInterval != 0 else{
-            if #available(iOS 10.3, *) {
-                SKStoreReviewController.requestReview()
-            }
+            requestAppReview()
             LSDefaults.increaseLaunchCount();
             return;
         }
-        
+
         /*guard self.reviewManager?.canShow ?? false else{
             return;
         }
         self.reviewManager?.show();*/
+    }
+
+    private func requestAppReview() {
+        if #available(iOS 18.0, *) {
+            #if canImport(AppStore)
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                AppStore.requestReview(in: windowScene)
+            }
+            #endif
+        } else if #available(iOS 10.3, *) {
+            SKStoreReviewController.requestReview()
+        }
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
