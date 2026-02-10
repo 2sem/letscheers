@@ -90,11 +90,6 @@ struct NativeAdCell: View {
                         AdMarkView()
                             .padding(8)
                     }
-                    .task {
-                        if nativeAd != nil {
-                            await adManager.requestAppTrackingIfNeed()
-                        }
-                    }
                 }
             }
         }
