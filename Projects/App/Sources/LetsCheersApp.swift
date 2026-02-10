@@ -89,17 +89,18 @@ struct LetsCheersApp: App {
     private func handleAppDidBecomeActive() {
         print("scene become active")
 
-        let shouldIncrease = !isLaunched || isFromBackground
+        let shouldShowAd = !isLaunched || isFromBackground
+        let shouldIncreaseLaunchCount = !isLaunched
         isLaunched = true
         isFromBackground = false
 
-        guard shouldIncrease else { return }
+        if shouldIncreaseLaunchCount {
+            LSDefaults.increaseLaunchCount()
+        }
+
+        guard shouldShowAd else { return }
 
         Task {
-            defer {
-                LSDefaults.increaseLaunchCount()
-            }
-
             await adManager.show(unit: .launch)
         }
     }
