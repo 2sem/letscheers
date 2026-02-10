@@ -55,6 +55,9 @@ struct NativeAdSwiftUIView<Content: View>: View {
         ZStack(alignment: .center) {
             if let ad = coordinator.nativeAd {
                 NativeAdRepresentable(nativeAd: ad)
+                    .task {
+                        await adManager.requestAppTrackingIfNeed()
+                    }
             }
             contentBuilder(coordinator.nativeAd)
                 .allowsHitTesting(coordinator.nativeAd != nil ? false : true)
