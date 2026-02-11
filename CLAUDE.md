@@ -18,7 +18,7 @@ Built with UIKit and Tuist, the app uses Excel files as the primary data source 
 
 ### Tuist Workflow
 
-This project uses **Tuist 4.38.2** (managed via mise) for project generation. The Xcode project files are generated from Swift manifests and should never be edited directly.
+This project uses **Tuist 4.140.2** (managed via mise) for project generation. The Xcode project files are generated from Swift manifests and should never be edited directly.
 
 ```bash
 # Install dependencies (SPM packages)
