@@ -89,7 +89,7 @@ struct LetsCheersApp: App {
     private func handleAppDidBecomeActive() {
         print("scene become active")
 
-        let shouldShowAd = !isLaunched || isFromBackground
+        let shouldShowAd = isFromBackground
         let shouldIncreaseLaunchCount = !isLaunched
         isLaunched = true
         isFromBackground = false
