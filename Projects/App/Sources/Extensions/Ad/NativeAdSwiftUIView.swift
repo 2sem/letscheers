@@ -78,6 +78,7 @@ struct NativeAdSwiftUIView<Content: View>: View {
             if let content = coordinator.nativeAdContent,
                let mediaContent = content.mediaContent {
                 NativeAdRepresentable(mediaContent: mediaContent)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .task {
                         await adManager.requestAppTrackingIfNeed()
                     }
