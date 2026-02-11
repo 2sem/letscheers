@@ -86,6 +86,7 @@ struct NativeAdSwiftUIView<Content: View>: View {
             contentBuilder(coordinator.nativeAdContent)
                 .allowsHitTesting(coordinator.nativeAdContent != nil ? false : true)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .onChange(of: adManager.isReady, initial: false) {
             guard shouldLoadAd, adManager.isReady else { return }
 
@@ -110,5 +111,12 @@ private struct NativeAdRepresentable: UIViewRepresentable {
 
     func updateUIView(_ uiView: MediaView, context: Context) {
         uiView.mediaContent = mediaContent
+    }
+
+    func sizeThatFits(_ proposal: ProposedViewSize, uiView: MediaView, context: Context) -> CGSize {
+        CGSize(
+            width: proposal.width ?? UIView.noIntrinsicMetric,
+            height: proposal.height ?? UIView.noIntrinsicMetric
+        )
     }
 }
