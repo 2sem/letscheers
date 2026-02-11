@@ -6,32 +6,28 @@
 //  Copyright © 2026 leesam. All rights reserved.
 //
 
+//
+//  NativeAdSwiftUIView.swift
+//  App
+//
+//  Native ad container view for SwiftUI
+//
+
+//
+//  NativeAdRowView.swift
+//  sendadv
+//
+//  Created by Assistant on 2025/08/26.
+//
+
 import SwiftUI
 import GoogleMobileAds
 
-// MARK: - NativeAdContent
-
-struct NativeAdContent {
-    let headline: String?
-    let starRating: NSDecimalNumber?
-    let advertiser: String?
-    let mediaContent: MediaContent?
-}
-
-extension NativeAdContent {
-    init(nativeAd: NativeAd) {
-        headline = nativeAd.headline
-        starRating = nativeAd.starRating
-        advertiser = nativeAd.advertiser
-        mediaContent = nativeAd.mediaContent
-    }
-}
-
-// MARK: - NativeAdLoaderCoordinator
+// Info.plist에서 네이티브 광고 단위 ID 읽기
 
 @Observable
 final class NativeAdLoaderCoordinator: NSObject, ObservableObject, AdLoaderDelegate, NativeAdLoaderDelegate {
-    var nativeAdContent: NativeAdContent?
+    var nativeAd: NativeAd?
     private var adLoader: AdLoader?
 
     func load(withAdManager manager: SwiftUIAdManager, forUnit unit: SwiftUIAdManager.GADUnitName) {
@@ -50,11 +46,11 @@ final class NativeAdLoaderCoordinator: NSObject, ObservableObject, AdLoaderDeleg
         #if DEBUG
         print("NativeAd load failed: \(error)")
         #endif
-        self.nativeAdContent = nil
+        self.nativeAd = nil
     }
 
     func adLoader(_ adLoader: AdLoader, didReceive nativeAd: NativeAd) {
-        self.nativeAdContent = NativeAdContent(nativeAd: nativeAd)
+        self.nativeAd = nativeAd
     }
 }
 
@@ -62,37 +58,33 @@ struct NativeAdSwiftUIView<Content: View>: View {
     @EnvironmentObject private var adManager: SwiftUIAdManager
 
     @State private var coordinator: NativeAdLoaderCoordinator
-    private let contentBuilder: (NativeAdContent?) -> Content
+    private let contentBuilder: (NativeAd?) -> Content
     private let adUnit: SwiftUIAdManager.GADUnitName
-    private let shouldLoadAd: Bool
+    @State var shouldLoadAd: Bool
 
-    init(adUnit: SwiftUIAdManager.GADUnitName, shouldLoadAd: Bool = true, @ViewBuilder content: @escaping (NativeAdContent?) -> Content) {
+    init(adUnit: SwiftUIAdManager.GADUnitName, shouldLoadAd: Bool, @ViewBuilder content: @escaping (NativeAd?) -> Content) {
         self.adUnit = adUnit
-        self.shouldLoadAd = shouldLoadAd
         _coordinator = State(wrappedValue: NativeAdLoaderCoordinator())
         self.contentBuilder = content
+        self.shouldLoadAd = shouldLoadAd
     }
 
     var body: some View {
         ZStack(alignment: .center) {
-            if let content = coordinator.nativeAdContent,
-               let mediaContent = content.mediaContent {
-                NativeAdRepresentable(mediaContent: mediaContent)
-                    .task {
-                        await adManager.requestAppTrackingIfNeed()
-                    }
+            if let ad = coordinator.nativeAd {
+                NativeAdRepresentable(nativeAd: ad)
             }
-            contentBuilder(coordinator.nativeAdContent)
-                .allowsHitTesting(coordinator.nativeAdContent != nil ? false : true)
+            contentBuilder(coordinator.nativeAd)
+                .allowsHitTesting(coordinator.nativeAd != nil ? false : true)
         }
         .onChange(of: adManager.isReady, initial: false) {
-            guard shouldLoadAd, adManager.isReady else { return }
+            guard adManager.isReady, shouldLoadAd else { return }
 
             coordinator.load(withAdManager: adManager, forUnit: adUnit)
         }
         .task {
-            guard shouldLoadAd, adManager.isReady else { return }
-
+            guard adManager.isReady, shouldLoadAd else { return }
+            
             coordinator.load(withAdManager: adManager, forUnit: adUnit)
         }
         .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
@@ -100,21 +92,101 @@ struct NativeAdSwiftUIView<Content: View>: View {
     }
 }
 
+// Developer placeholder 제거됨. 상위 View에서 nil 상태를 표현하세요.
+
 private struct NativeAdRepresentable: UIViewRepresentable {
-    let mediaContent: MediaContent
+    let nativeAd: NativeAd
+    let headlineView = UILabel()
 
-    func makeUIView(context: Context) -> MediaView {
-        MediaView()
+    func makeUIView(context: Context) -> NativeAdView {
+        let adView = NativeAdView()
+//        adView.advertiserView = .init()
+        adView.headlineView = self.headlineView
+        // configureSubviews(for: adView)
+        return adView
     }
 
-    func updateUIView(_ uiView: MediaView, context: Context) {
-        uiView.mediaContent = mediaContent
+    func updateUIView(_ uiView: NativeAdView, context: Context) {
+        uiView.nativeAd = nativeAd
+        uiView.adChoicesView = .init()
+//        if let headline = uiView.headlineView as? UILabel {
+//            headline.text = nativeAd.headline
+//        }
+//        if let body = uiView.bodyView as? UILabel {
+//            body.text = nativeAd.body
+//            uiView.bodyView?.isHidden = nativeAd.body == nil
+//        }
+        if let advertiser = uiView.advertiserView as? UILabel {
+            advertiser.text = nativeAd.advertiser
+            uiView.advertiserView?.isHidden = nativeAd.advertiser == nil
+        }
+//        if let icon = uiView.iconView as? UIImageView {
+//            icon.image = nativeAd.icon?.image
+//            uiView.iconView?.isHidden = nativeAd.icon == nil
+//        }
+//        if let cta = uiView.callToActionView as? UIButton {
+//            cta.setTitle(nativeAd.callToAction, for: .normal)
+//            uiView.callToActionView?.isHidden = nativeAd.callToAction == nil
+//        }
     }
 
-    func sizeThatFits(_ proposal: ProposedViewSize, uiView: MediaView, context: Context) -> CGSize {
-        CGSize(
-            width: proposal.width ?? UIView.noIntrinsicMetric,
-            height: proposal.height ?? UIView.noIntrinsicMetric
-        )
+    private func configureSubviews(for adView: NativeAdView) {
+        let container = UIStackView()
+        container.axis = .horizontal
+        container.alignment = .center
+        container.spacing = 12
+        container.translatesAutoresizingMaskIntoConstraints = false
+
+        let iconView = UIImageView()
+        iconView.translatesAutoresizingMaskIntoConstraints = false
+        iconView.contentMode = .scaleAspectFill
+        iconView.clipsToBounds = true
+        iconView.layer.cornerRadius = 8
+        iconView.widthAnchor.constraint(equalToConstant: 64).isActive = true
+        iconView.heightAnchor.constraint(equalToConstant: 64).isActive = true
+
+        let textStack = UIStackView()
+        textStack.axis = .vertical
+        textStack.alignment = .leading
+        textStack.spacing = 4
+        textStack.translatesAutoresizingMaskIntoConstraints = false
+
+        let headline = UILabel()
+        headline.font = .preferredFont(forTextStyle: .headline)
+
+        let body = UILabel()
+        body.font = .preferredFont(forTextStyle: .subheadline)
+        body.textColor = .secondaryLabel
+        body.numberOfLines = 2
+
+        let advertiser = UILabel()
+        advertiser.font = .preferredFont(forTextStyle: .caption1)
+        advertiser.textColor = .tertiaryLabel
+
+        let cta = UIButton(type: .system)
+        cta.setTitle("ads action".localized(), for: .normal)
+        cta.configuration = .tinted()
+
+        textStack.addArrangedSubview(headline)
+        textStack.addArrangedSubview(body)
+        textStack.addArrangedSubview(advertiser)
+
+        container.addArrangedSubview(iconView)
+        container.addArrangedSubview(textStack)
+        container.addArrangedSubview(cta)
+
+        adView.addSubview(container)
+        NSLayoutConstraint.activate([
+            container.leadingAnchor.constraint(equalTo: adView.leadingAnchor, constant: 12),
+            container.trailingAnchor.constraint(equalTo: adView.trailingAnchor, constant: -12),
+            container.topAnchor.constraint(equalTo: adView.topAnchor, constant: 12),
+            container.bottomAnchor.constraint(equalTo: adView.bottomAnchor, constant: -12)
+        ])
+
+        adView.iconView = iconView
+        adView.headlineView = headline
+        adView.bodyView = body
+        adView.advertiserView = advertiser
+        adView.callToActionView = cta
     }
 }
