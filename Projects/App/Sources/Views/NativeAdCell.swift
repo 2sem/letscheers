@@ -33,14 +33,14 @@ struct NativeAdCell: View {
                                 .padding(iconContainerSize * 0.15)
                         }
                         .frame(width: iconContainerSize, height: iconContainerSize)
-                        
+
                         Text(ad.headline ?? "광고")
                             .font(.system(size: 20, weight: .medium))
                             .foregroundColor(Color(red: 0.581, green: 0.576, blue: 0.596))
                             .lineLimit(1)
                             .minimumScaleFactor(0.5)
                             .frame(height: 24)
-                        
+
                         if let rating = ad.starRating {
                             Text(rating.stringValue)
                                 .font(.system(size: 28, weight: .semibold))
@@ -64,20 +64,20 @@ struct NativeAdCell: View {
                                 .padding(iconContainerSize * 0.1)
                         }
                         .frame(width: iconContainerSize, height: iconContainerSize)
-                        
+
                         Text("관련주식검색기")
                             .font(.system(size: 20, weight: .medium))
                             .foregroundColor(Color(red: 0.581, green: 0.576, blue: 0.596))
                             .lineLimit(1)
                             .minimumScaleFactor(0.5)
                             .frame(height: 24)
-                        
+
                         Text("4.6")
                             .font(.system(size: 28, weight: .semibold))
                             .foregroundColor(Color(red: 0.369, green: 0.368, blue: 0.384))
                             .frame(height: 30)
                     }
-                    
+
                     Spacer()
                 }
                 .frame(maxWidth: .infinity)
@@ -94,6 +94,9 @@ struct NativeAdCell: View {
                     }
                 }
             }
+        }
+        .task {
+            await adManager.requestAppTrackingIfNeed()
         }
     }
 }
