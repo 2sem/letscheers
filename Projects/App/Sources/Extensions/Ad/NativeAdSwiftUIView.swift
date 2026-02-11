@@ -78,7 +78,6 @@ struct NativeAdSwiftUIView<Content: View>: View {
             if let content = coordinator.nativeAdContent,
                let mediaContent = content.mediaContent {
                 NativeAdRepresentable(mediaContent: mediaContent)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .task {
                         await adManager.requestAppTrackingIfNeed()
                     }
@@ -86,7 +85,6 @@ struct NativeAdSwiftUIView<Content: View>: View {
             contentBuilder(coordinator.nativeAdContent)
                 .allowsHitTesting(coordinator.nativeAdContent != nil ? false : true)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .onChange(of: adManager.isReady, initial: false) {
             guard shouldLoadAd, adManager.isReady else { return }
 
