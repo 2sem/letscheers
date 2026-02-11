@@ -18,6 +18,8 @@ struct LetsCheersApp: App {
     @StateObject private var adManager = SwiftUIAdManager()
 
     @State private var isSetupDone = false
+    @State private var isFromBackground = false
+    @State private var isLaunched = false
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some Scene {
@@ -78,7 +80,7 @@ struct LetsCheersApp: App {
         case .inactive:
             break
         case .background:
-            break
+            isFromBackground = true
         @unknown default:
             break
         }
@@ -86,11 +88,19 @@ struct LetsCheersApp: App {
 
     private func handleAppDidBecomeActive() {
         print("scene become active")
-        Task {
-            defer {
-                LSDefaults.increaseLaunchCount()
-            }
 
+        let shouldShowAd = isFromBackground
+        let shouldIncreaseLaunchCount = !isLaunched
+        isLaunched = true
+        isFromBackground = false
+
+        if shouldIncreaseLaunchCount {
+            LSDefaults.increaseLaunchCount()
+        }
+
+        guard shouldShowAd else { return }
+
+        Task {
             await adManager.show(unit: .launch)
         }
     }
