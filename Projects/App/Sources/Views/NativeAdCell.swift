@@ -18,12 +18,12 @@ struct NativeAdCell: View {
     var body: some View {
         if launchCount > 1 {
             // After first launch: try to show Google native ad, fall back to 관련주식검색기
-            NativeAdSwiftUIView(adUnit: .native) { nativeAd in
-                AdCellContent(nativeAd: nativeAd)
+            NativeAdSwiftUIView(adUnit: .native) { nativeAdContent in
+                AdCellContent(nativeAdContent: nativeAdContent)
             }
         } else {
             // On first launch: always show 관련주식검색기 as default
-            AdCellContent(nativeAd: nil)
+            AdCellContent(nativeAdContent: nil)
         }
     }
 }
@@ -31,7 +31,7 @@ struct NativeAdCell: View {
 // MARK: - Ad Cell Content
 
 private struct AdCellContent: View {
-    let nativeAd: GADNativeAd?
+    let nativeAdContent: NativeAdContent?
 
     var body: some View {
         GeometryReader { geometry in
@@ -40,7 +40,7 @@ private struct AdCellContent: View {
             VStack(spacing: 12) {
                 Spacer()
 
-                if let ad = nativeAd {
+                if let ad = nativeAdContent {
                     // Google native ad loaded
                     ZStack {
                         Color(red: 0.938, green: 0.924, blue: 0.980)
@@ -106,7 +106,7 @@ private struct AdCellContent: View {
                     .padding(8)
             }
             .onTapGesture {
-                if nativeAd == nil {
+                if nativeAdContent == nil {
                     UIApplication.shared.open(relatedStocksAppStoreURL)
                 }
             }

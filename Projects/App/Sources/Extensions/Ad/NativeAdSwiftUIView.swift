@@ -9,9 +9,29 @@
 import SwiftUI
 import GoogleMobileAds
 
+// MARK: - NativeAdContent
+
+struct NativeAdContent {
+    let headline: String?
+    let starRating: NSDecimalNumber?
+    let advertiser: String?
+    let mediaContent: MediaContent?
+}
+
+extension NativeAdContent {
+    init(nativeAd: NativeAd) {
+        headline = nativeAd.headline
+        starRating = nativeAd.starRating
+        advertiser = nativeAd.advertiser
+        mediaContent = nativeAd.mediaContent
+    }
+}
+
+// MARK: - NativeAdLoaderCoordinator
+
 @Observable
 final class NativeAdLoaderCoordinator: NSObject, ObservableObject, AdLoaderDelegate, NativeAdLoaderDelegate {
-    var nativeAd: NativeAd?
+    var nativeAdContent: NativeAdContent?
     private var adLoader: AdLoader?
 
     func load(withAdManager manager: SwiftUIAdManager, forUnit unit: SwiftUIAdManager.GADUnitName) {
@@ -30,11 +50,11 @@ final class NativeAdLoaderCoordinator: NSObject, ObservableObject, AdLoaderDeleg
         #if DEBUG
         print("NativeAd load failed: \(error)")
         #endif
-        self.nativeAd = nil
+        self.nativeAdContent = nil
     }
 
     func adLoader(_ adLoader: AdLoader, didReceive nativeAd: NativeAd) {
-        self.nativeAd = nativeAd
+        self.nativeAdContent = NativeAdContent(nativeAd: nativeAd)
     }
 }
 
@@ -42,10 +62,10 @@ struct NativeAdSwiftUIView<Content: View>: View {
     @EnvironmentObject private var adManager: SwiftUIAdManager
 
     @State private var coordinator: NativeAdLoaderCoordinator
-    private let contentBuilder: (NativeAd?) -> Content
+    private let contentBuilder: (NativeAdContent?) -> Content
     private let adUnit: SwiftUIAdManager.GADUnitName
 
-    init(adUnit: SwiftUIAdManager.GADUnitName, @ViewBuilder content: @escaping (NativeAd?) -> Content) {
+    init(adUnit: SwiftUIAdManager.GADUnitName, @ViewBuilder content: @escaping (NativeAdContent?) -> Content) {
         self.adUnit = adUnit
         _coordinator = State(wrappedValue: NativeAdLoaderCoordinator())
         self.contentBuilder = content
@@ -53,14 +73,15 @@ struct NativeAdSwiftUIView<Content: View>: View {
 
     var body: some View {
         ZStack(alignment: .center) {
-            if let ad = coordinator.nativeAd {
-                NativeAdRepresentable(nativeAd: ad)
+            if let content = coordinator.nativeAdContent,
+               let mediaContent = content.mediaContent {
+                NativeAdRepresentable(mediaContent: mediaContent)
                     .task {
                         await adManager.requestAppTrackingIfNeed()
                     }
             }
-            contentBuilder(coordinator.nativeAd)
-                .allowsHitTesting(coordinator.nativeAd != nil ? false : true)
+            contentBuilder(coordinator.nativeAdContent)
+                .allowsHitTesting(coordinator.nativeAdContent != nil ? false : true)
         }
         .onChange(of: adManager.isReady, initial: false) {
             guard adManager.isReady else { return }
@@ -78,21 +99,13 @@ struct NativeAdSwiftUIView<Content: View>: View {
 }
 
 private struct NativeAdRepresentable: UIViewRepresentable {
-    let nativeAd: NativeAd
-    let headlineView = UILabel()
+    let mediaContent: MediaContent
 
-    func makeUIView(context: Context) -> NativeAdView {
-        let adView = NativeAdView()
-        adView.headlineView = self.headlineView
-        return adView
+    func makeUIView(context: Context) -> MediaView {
+        MediaView()
     }
 
-    func updateUIView(_ uiView: NativeAdView, context: Context) {
-        uiView.nativeAd = nativeAd
-        uiView.adChoicesView = .init()
-        if let advertiser = uiView.advertiserView as? UILabel {
-            advertiser.text = nativeAd.advertiser
-            uiView.advertiserView?.isHidden = nativeAd.advertiser == nil
-        }
+    func updateUIView(_ uiView: MediaView, context: Context) {
+        uiView.mediaContent = mediaContent
     }
 }
