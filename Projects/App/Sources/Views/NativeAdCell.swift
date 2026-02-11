@@ -16,14 +16,8 @@ struct NativeAdCell: View {
     let shouldLoadAd: Bool
 
     var body: some View {
-        if shouldLoadAd {
-            // Try to show Google native ad, fall back to 관련주식검색기
-            NativeAdSwiftUIView(adUnit: .native) { nativeAdContent in
-                cellContent(nativeAdContent: nativeAdContent)
-            }
-        } else {
-            // Always show 관련주식검색기 as default
-            cellContent(nativeAdContent: nil)
+        NativeAdSwiftUIView(adUnit: .native, shouldLoadAd: shouldLoadAd) { nativeAdContent in
+            cellContent(nativeAdContent: nativeAdContent)
         }
     }
 

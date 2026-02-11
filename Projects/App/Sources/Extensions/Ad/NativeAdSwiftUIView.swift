@@ -64,9 +64,11 @@ struct NativeAdSwiftUIView<Content: View>: View {
     @State private var coordinator: NativeAdLoaderCoordinator
     private let contentBuilder: (NativeAdContent?) -> Content
     private let adUnit: SwiftUIAdManager.GADUnitName
+    private let shouldLoadAd: Bool
 
-    init(adUnit: SwiftUIAdManager.GADUnitName, @ViewBuilder content: @escaping (NativeAdContent?) -> Content) {
+    init(adUnit: SwiftUIAdManager.GADUnitName, shouldLoadAd: Bool = true, @ViewBuilder content: @escaping (NativeAdContent?) -> Content) {
         self.adUnit = adUnit
+        self.shouldLoadAd = shouldLoadAd
         _coordinator = State(wrappedValue: NativeAdLoaderCoordinator())
         self.contentBuilder = content
     }
@@ -84,12 +86,12 @@ struct NativeAdSwiftUIView<Content: View>: View {
                 .allowsHitTesting(coordinator.nativeAdContent != nil ? false : true)
         }
         .onChange(of: adManager.isReady, initial: false) {
-            guard adManager.isReady else { return }
+            guard shouldLoadAd, adManager.isReady else { return }
 
             coordinator.load(withAdManager: adManager, forUnit: adUnit)
         }
         .task {
-            guard adManager.isReady else { return }
+            guard shouldLoadAd, adManager.isReady else { return }
 
             coordinator.load(withAdManager: adManager, forUnit: adUnit)
         }
