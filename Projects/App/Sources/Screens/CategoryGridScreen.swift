@@ -14,6 +14,7 @@ struct CategoryGridScreen: View {
     @EnvironmentObject var router: NavigationRouter
     @EnvironmentObject var adManager: SwiftUIAdManager
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    @AppStorage("LaunchCount") private var launchCount = 0
     
     private var gridColumns: [GridItem] {
         let columnCount = (horizontalSizeClass == .regular) ? 4 : 2
@@ -26,7 +27,7 @@ struct CategoryGridScreen: View {
                 ForEach(viewModel.categories) { category in
                     // Replace .ads category with NativeAdCell
                     if category.type == .ads {
-                        NativeAdCell()
+                        NativeAdCell(shouldLoadAd: launchCount > 1)
                             .aspectRatio(0.8, contentMode: .fit)
                     } else {
                         CategoryCell(category: category)

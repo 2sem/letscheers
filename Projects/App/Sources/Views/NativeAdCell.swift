@@ -13,27 +13,22 @@ private let relatedStocksAppStoreURL = URL(string: "https://apps.apple.com/app/i
 // A cell view that displays a native ad in the category grid
 struct NativeAdCell: View {
     @EnvironmentObject private var adManager: SwiftUIAdManager
-    @AppStorage("LaunchCount") private var launchCount = 0
+    let shouldLoadAd: Bool
 
     var body: some View {
-        if launchCount > 1 {
-            // After first launch: try to show Google native ad, fall back to 관련주식검색기
+        if shouldLoadAd {
+            // Try to show Google native ad, fall back to 관련주식검색기
             NativeAdSwiftUIView(adUnit: .native) { nativeAdContent in
-                AdCellContent(nativeAdContent: nativeAdContent)
+                cellContent(nativeAdContent: nativeAdContent)
             }
         } else {
-            // On first launch: always show 관련주식검색기 as default
-            AdCellContent(nativeAdContent: nil)
+            // Always show 관련주식검색기 as default
+            cellContent(nativeAdContent: nil)
         }
     }
-}
 
-// MARK: - Ad Cell Content
-
-private struct AdCellContent: View {
-    let nativeAdContent: NativeAdContent?
-
-    var body: some View {
+    @ViewBuilder
+    private func cellContent(nativeAdContent: NativeAdContent?) -> some View {
         GeometryReader { geometry in
             let iconContainerSize = min(geometry.size.width * 0.65, geometry.size.height * 0.5)
 
