@@ -42,7 +42,7 @@ struct CategoryGridScreen: View {
         }
         .background {
             ZStack(alignment: .bottom) {
-                Color("AppBackground")
+                Color.appBackground
                 Image("bg_cheers")
                     .resizable()
                     .scaledToFit()
@@ -50,7 +50,7 @@ struct CategoryGridScreen: View {
         }
         .navigationTitle("술마셔 건배사")
         .navigationBarTitleDisplayMode(.inline)
-        .toolbarBackground(Color("NavBar"), for: .navigationBar)
+        .toolbarBackground(Color.navBar, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
         .toolbarColorScheme(.dark, for: .navigationBar)
         .toolbar {
@@ -158,13 +158,13 @@ struct CategoryCell: View {
                 if category.type == .ads {
                     // Ads cell - TODO: will be replaced with actual ad view
                     ZStack {
-                        Color("IconContainer")
+                        Color.iconContainer
                             .clipShape(RoundedRectangle(cornerRadius: 16))
                         Image(systemName: "megaphone.fill")
                             .resizable()
                             .scaledToFit()
                             .padding(iconContainerSize * 0.15)
-                            .foregroundColor(Color("AccentPurple"))
+                            .foregroundColor(Color.accentPurple)
                     }
                     .frame(width: iconContainerSize, height: iconContainerSize)
                     
@@ -180,13 +180,13 @@ struct CategoryCell: View {
                 } else if category.type == .favorite {
                     // Favorite cell
                     ZStack {
-                        Color("IconContainer")
+                        Color.iconContainer
                             .clipShape(RoundedRectangle(cornerRadius: 16))
                         Image(systemName: "star.fill")
                             .resizable()
                             .scaledToFit()
                             .padding(iconContainerSize * 0.15)
-                            .foregroundColor(Color("AccentPurple"))
+                            .foregroundColor(Color.accentPurple)
                     }
                     .frame(width: iconContainerSize, height: iconContainerSize)
                     
@@ -202,14 +202,14 @@ struct CategoryCell: View {
                 } else {
                     // Normal category cell
                     ZStack {
-                        Color("IconContainer")
+                        Color.iconContainer
                             .clipShape(RoundedRectangle(cornerRadius: 16))
                         Image(uiImage: category.icon)
                             .renderingMode(.template)
                             .resizable()
                             .scaledToFit()
                             .padding(iconContainerSize * 0.15)
-                            .foregroundColor(Color("AccentPurple"))
+                            .foregroundColor(Color.accentPurple)
                     }
                     .frame(width: iconContainerSize, height: iconContainerSize)
                     

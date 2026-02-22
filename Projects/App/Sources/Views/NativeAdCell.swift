@@ -26,7 +26,7 @@ struct NativeAdCell: View {
                     if let ad = nativeAd {
                         // Google native ad loaded
                         ZStack {
-                            Color("IconContainer")
+                            Color.iconContainer
                                 .clipShape(RoundedRectangle(cornerRadius: 16))
                             MediaViewSwiftUIView(mediaContent: ad.mediaContent)
                                 .scaledToFit()
@@ -55,7 +55,7 @@ struct NativeAdCell: View {
                     } else {
                         // Default: 관련주식검색기
                         ZStack {
-                            Color("IconContainer")
+                            Color.iconContainer
                                 .clipShape(RoundedRectangle(cornerRadius: 16))
                             Image("othreapp")
                                 .resizable()

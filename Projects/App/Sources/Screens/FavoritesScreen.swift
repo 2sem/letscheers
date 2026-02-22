@@ -22,7 +22,7 @@ struct FavoritesScreen: View {
     var body: some View {
         ZStack {
             // Background color (same as other screens)
-            Color("AppBackground")
+            Color.appBackground
                 .ignoresSafeArea()
 
             VStack {

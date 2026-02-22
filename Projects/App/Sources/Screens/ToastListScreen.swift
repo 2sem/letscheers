@@ -58,7 +58,7 @@ private struct ToastListContent: View {
     var body: some View {
         ZStack {
             // Base background color (same as category grid)
-            Color("AppBackground")
+            Color.appBackground
                 .ignoresSafeArea()
 
             // Background image layer
