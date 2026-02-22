@@ -42,7 +42,7 @@ struct CategoryGridScreen: View {
         }
         .background {
             ZStack(alignment: .bottom) {
-                Color(red: 0.847, green: 0.834, blue: 0.886)
+                Color("AppBackground")
                 Image("bg_cheers")
                     .resizable()
                     .scaledToFit()
@@ -50,7 +50,7 @@ struct CategoryGridScreen: View {
         }
         .navigationTitle("술마셔 건배사")
         .navigationBarTitleDisplayMode(.inline)
-        .toolbarBackground(Color(red: 0.367, green: 0.138, blue: 0.812), for: .navigationBar)
+        .toolbarBackground(Color("NavBar"), for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
         .toolbarColorScheme(.dark, for: .navigationBar)
         .toolbar {
@@ -158,80 +158,80 @@ struct CategoryCell: View {
                 if category.type == .ads {
                     // Ads cell - TODO: will be replaced with actual ad view
                     ZStack {
-                        Color(red: 0.938, green: 0.924, blue: 0.980)
+                        Color("IconContainer")
                             .clipShape(RoundedRectangle(cornerRadius: 16))
                         Image(systemName: "megaphone.fill")
                             .resizable()
                             .scaledToFit()
                             .padding(iconContainerSize * 0.15)
-                            .foregroundColor(Color(red: 0.479, green: 0.262, blue: 0.871))
+                            .foregroundColor(Color("AccentPurple"))
                     }
                     .frame(width: iconContainerSize, height: iconContainerSize)
                     
                     Text("광고")
                         .font(.system(size: 20, weight: .medium))
-                        .foregroundColor(Color(red: 0.581, green: 0.576, blue: 0.596))
+                        .foregroundColor(.secondary)
                     
                     Text("")
                         .font(.system(size: 28, weight: .semibold))
-                        .foregroundColor(Color(red: 0.369, green: 0.368, blue: 0.384))
+                        .foregroundColor(.primary)
                         .frame(height: 30)
                     
                 } else if category.type == .favorite {
                     // Favorite cell
                     ZStack {
-                        Color(red: 0.938, green: 0.924, blue: 0.980)
+                        Color("IconContainer")
                             .clipShape(RoundedRectangle(cornerRadius: 16))
                         Image(systemName: "star.fill")
                             .resizable()
                             .scaledToFit()
                             .padding(iconContainerSize * 0.15)
-                            .foregroundColor(Color(red: 0.479, green: 0.262, blue: 0.871))
+                            .foregroundColor(Color("AccentPurple"))
                     }
                     .frame(width: iconContainerSize, height: iconContainerSize)
                     
                     Text(category.title)
                         .font(.system(size: 20, weight: .medium))
-                        .foregroundColor(Color(red: 0.581, green: 0.576, blue: 0.596))
+                        .foregroundColor(.secondary)
                     
                     Text("\(category.count)")
                         .font(.system(size: 28, weight: .semibold))
-                        .foregroundColor(Color(red: 0.369, green: 0.368, blue: 0.384))
+                        .foregroundColor(.primary)
                         .frame(height: 30)
                     
                 } else {
                     // Normal category cell
                     ZStack {
-                        Color(red: 0.938, green: 0.924, blue: 0.980)
+                        Color("IconContainer")
                             .clipShape(RoundedRectangle(cornerRadius: 16))
                         Image(uiImage: category.icon)
                             .renderingMode(.template)
                             .resizable()
                             .scaledToFit()
                             .padding(iconContainerSize * 0.15)
-                            .foregroundColor(Color(red: 0.479, green: 0.262, blue: 0.871))
+                            .foregroundColor(Color("AccentPurple"))
                     }
                     .frame(width: iconContainerSize, height: iconContainerSize)
                     
                     Text(category.name ?? "")
                         .font(.system(size: 20, weight: .medium))
-                        .foregroundColor(Color(red: 0.581, green: 0.576, blue: 0.596))
+                        .foregroundColor(.secondary)
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)
                         .frame(height: 24)
                     
                     Text("\(category.count)")
                         .font(.system(size: 28, weight: .semibold))
-                        .foregroundColor(Color(red: 0.369, green: 0.368, blue: 0.384))
+                        .foregroundColor(.primary)
                         .frame(height: 30)
                 }
                 
                 Spacer()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.white)
+            .background(Color(UIColor.systemBackground))
             .clipShape(RoundedRectangle(cornerRadius: 16))
-            .shadow(color: .black.opacity(0.3), radius: 5, x: 2, y: 2)
+            .shadow(color: .black.opacity(0.15), radius: 5, x: 2, y: 2)
         }
     }
 }

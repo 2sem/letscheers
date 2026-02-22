@@ -22,7 +22,7 @@ struct FavoritesScreen: View {
     var body: some View {
         ZStack {
             // Background color (same as other screens)
-            Color(red: 0.847, green: 0.834, blue: 0.886)
+            Color("AppBackground")
                 .ignoresSafeArea()
 
             VStack {
@@ -61,7 +61,7 @@ struct FavoritesScreen: View {
                             FavoriteRow(favorite: favorite)
                         }
                         .buttonStyle(.plain)
-                        .listRowBackground(Color.white.opacity(0.5))
+                        .listRowBackground(Color(UIColor.systemBackground).opacity(0.5))
                     }
                     .onDelete(perform: deleteFavorites)
                 }
@@ -137,11 +137,11 @@ struct FavoriteRow: View {
             VStack(alignment: .leading, spacing: 8) {
                 Text(favorite.toast.title)
                     .font(.headline)
-                    .foregroundColor(.black)
+                    .foregroundColor(.primary)
                 
                 Text(favorite.toast.contents)
                     .font(.subheadline)
-                    .foregroundColor(.black.opacity(0.7))
+                    .foregroundColor(.secondary)
                     .lineLimit(3)
             }
             
