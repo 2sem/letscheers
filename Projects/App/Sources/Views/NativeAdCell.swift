@@ -26,7 +26,7 @@ struct NativeAdCell: View {
                     if let ad = nativeAd {
                         // Google native ad loaded
                         ZStack {
-                            Color(red: 0.938, green: 0.924, blue: 0.980)
+                            Color("IconContainer")
                                 .clipShape(RoundedRectangle(cornerRadius: 16))
                             MediaViewSwiftUIView(mediaContent: ad.mediaContent)
                                 .scaledToFit()
@@ -36,7 +36,7 @@ struct NativeAdCell: View {
 
                         Text(ad.headline ?? "광고")
                             .font(.system(size: 20, weight: .medium))
-                            .foregroundColor(Color(red: 0.581, green: 0.576, blue: 0.596))
+                            .foregroundColor(.secondary)
                             .lineLimit(1)
                             .minimumScaleFactor(0.5)
                             .frame(height: 24)
@@ -44,18 +44,18 @@ struct NativeAdCell: View {
                         if let rating = ad.starRating {
                             Text(rating.stringValue)
                                 .font(.system(size: 28, weight: .semibold))
-                                .foregroundColor(Color(red: 0.369, green: 0.368, blue: 0.384))
+                                .foregroundColor(.primary)
                                 .frame(height: 30)
                         } else {
                             Text(ad.advertiser ?? "")
                                 .font(.system(size: 28, weight: .semibold))
-                                .foregroundColor(Color(red: 0.369, green: 0.368, blue: 0.384))
+                                .foregroundColor(.primary)
                                 .frame(height: 30)
                         }
                     } else {
                         // Default: 관련주식검색기
                         ZStack {
-                            Color(red: 0.938, green: 0.924, blue: 0.980)
+                            Color("IconContainer")
                                 .clipShape(RoundedRectangle(cornerRadius: 16))
                             Image("othreapp")
                                 .resizable()
@@ -67,23 +67,23 @@ struct NativeAdCell: View {
 
                         Text("관련주식검색기")
                             .font(.system(size: 20, weight: .medium))
-                            .foregroundColor(Color(red: 0.581, green: 0.576, blue: 0.596))
+                            .foregroundColor(.secondary)
                             .lineLimit(1)
                             .minimumScaleFactor(0.5)
                             .frame(height: 24)
 
                         Text("4.6")
                             .font(.system(size: 28, weight: .semibold))
-                            .foregroundColor(Color(red: 0.369, green: 0.368, blue: 0.384))
+                            .foregroundColor(.primary)
                             .frame(height: 30)
                     }
 
                     Spacer()
                 }
                 .frame(maxWidth: .infinity)
-                .background(Color.white)
+                .background(Color(UIColor.systemBackground))
                 .clipShape(RoundedRectangle(cornerRadius: 16))
-                .shadow(color: .black.opacity(0.3), radius: 5, x: 2, y: 2)
+                .shadow(color: .black.opacity(0.15), radius: 5, x: 2, y: 2)
                 .overlay(alignment: .topTrailing) {
                     AdMarkView()
                         .padding(8)
