@@ -11,6 +11,7 @@ import SwiftUI
 struct CategoryGridScreen: View {
     @StateObject private var viewModel = CategoryGridViewModel()
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.colorScheme) private var colorScheme
     @EnvironmentObject var router: NavigationRouter
     @EnvironmentObject var adManager: SwiftUIAdManager
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
@@ -42,7 +43,7 @@ struct CategoryGridScreen: View {
         }
         .background {
             ZStack(alignment: .bottom) {
-                Color.appBackground
+                Color.appBackground(for: colorScheme)
                 Image("bg_cheers")
                     .resizable()
                     .scaledToFit()
@@ -146,7 +147,8 @@ struct CategoryGridScreen: View {
 
 struct CategoryCell: View {
     let category: CategoryViewModel
-    
+    @Environment(\.colorScheme) private var colorScheme
+
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 12) {
@@ -158,78 +160,78 @@ struct CategoryCell: View {
                 if category.type == .ads {
                     // Ads cell - TODO: will be replaced with actual ad view
                     ZStack {
-                        Color.iconContainer
+                        Color.iconContainer(for: colorScheme)
                             .clipShape(RoundedRectangle(cornerRadius: 16))
                         Image(systemName: "megaphone.fill")
                             .resizable()
                             .scaledToFit()
                             .padding(iconContainerSize * 0.15)
-                            .foregroundColor(Color.accentPurple)
+                            .foregroundColor(Color.accentPurple(for: colorScheme))
                     }
                     .frame(width: iconContainerSize, height: iconContainerSize)
-                    
+
                     Text("광고")
                         .font(.system(size: 20, weight: .medium))
                         .foregroundColor(.secondary)
-                    
+
                     Text("")
                         .font(.system(size: 28, weight: .semibold))
                         .foregroundColor(.primary)
                         .frame(height: 30)
-                    
+
                 } else if category.type == .favorite {
                     // Favorite cell
                     ZStack {
-                        Color.iconContainer
+                        Color.iconContainer(for: colorScheme)
                             .clipShape(RoundedRectangle(cornerRadius: 16))
                         Image(systemName: "star.fill")
                             .resizable()
                             .scaledToFit()
                             .padding(iconContainerSize * 0.15)
-                            .foregroundColor(Color.accentPurple)
+                            .foregroundColor(Color.accentPurple(for: colorScheme))
                     }
                     .frame(width: iconContainerSize, height: iconContainerSize)
-                    
+
                     Text(category.title)
                         .font(.system(size: 20, weight: .medium))
                         .foregroundColor(.secondary)
-                    
+
                     Text("\(category.count)")
                         .font(.system(size: 28, weight: .semibold))
                         .foregroundColor(.primary)
                         .frame(height: 30)
-                    
+
                 } else {
                     // Normal category cell
                     ZStack {
-                        Color.iconContainer
+                        Color.iconContainer(for: colorScheme)
                             .clipShape(RoundedRectangle(cornerRadius: 16))
                         Image(uiImage: category.icon)
                             .renderingMode(.template)
                             .resizable()
                             .scaledToFit()
                             .padding(iconContainerSize * 0.15)
-                            .foregroundColor(Color.accentPurple)
+                            .foregroundColor(Color.accentPurple(for: colorScheme))
                     }
                     .frame(width: iconContainerSize, height: iconContainerSize)
-                    
+
                     Text(category.name ?? "")
                         .font(.system(size: 20, weight: .medium))
                         .foregroundColor(.secondary)
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)
                         .frame(height: 24)
-                    
+
                     Text("\(category.count)")
                         .font(.system(size: 28, weight: .semibold))
                         .foregroundColor(.primary)
                         .frame(height: 30)
                 }
-                
+
                 Spacer()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color(UIColor.systemBackground))
+            .background(Color.cardBackground(for: colorScheme))
             .clipShape(RoundedRectangle(cornerRadius: 16))
             .shadow(color: .black.opacity(0.15), radius: 5, x: 2, y: 2)
         }

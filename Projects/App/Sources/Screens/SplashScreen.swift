@@ -12,12 +12,13 @@ import SwiftData
 struct SplashScreen: View {
     @ObservedObject var appState: AppState
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.colorScheme) private var colorScheme
     @StateObject private var migrationManager = DataMigrationManager()
     @State private var progress: Double = 0.0
-    
+
     var body: some View {
         ZStack {
-            Color.appBackground.ignoresSafeArea()
+            Color.appBackground(for: colorScheme).ignoresSafeArea()
             
             VStack(spacing: 20) {
                 Image("company")

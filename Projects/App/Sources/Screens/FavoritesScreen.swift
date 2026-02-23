@@ -16,13 +16,14 @@ struct FavoritesScreen: View {
     private var favorites: [Favorite]
 
     @Environment(\.editMode) private var editMode
+    @Environment(\.colorScheme) private var colorScheme
     @State private var selectedToast: Toast?
     @State private var showShareAlert = false
-    
+
     var body: some View {
         ZStack {
             // Background color (same as other screens)
-            Color.appBackground
+            Color.appBackground(for: colorScheme)
                 .ignoresSafeArea()
 
             VStack {
@@ -61,7 +62,7 @@ struct FavoritesScreen: View {
                             FavoriteRow(favorite: favorite)
                         }
                         .buttonStyle(.plain)
-                        .listRowBackground(Color(UIColor.systemBackground).opacity(0.5))
+                        .listRowBackground(Color.cardBackground(for: colorScheme).opacity(0.5))
                     }
                     .onDelete(perform: deleteFavorites)
                 }
