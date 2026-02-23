@@ -115,7 +115,7 @@ struct CategoryGridScreen: View {
     private func showRandomToast() {
         let toast = LCExcelController.shared.randomToast()
         Task {
-            await adManager.show(unit: .full)
+            if launchCount > 1 { await adManager.show(unit: .full) }
             if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                let rootVC = windowScene.windows.first?.rootViewController {
                 let alert = UIAlertController(
