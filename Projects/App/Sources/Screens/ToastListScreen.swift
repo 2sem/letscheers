@@ -52,17 +52,13 @@ private struct ToastListContent: View {
     }
 
     private var backgroundRowColor: Color {
-        if backgroundImage != nil {
-            return Color.white.opacity(0.5)
-        } else {
-            return Color.white
-        }
+        Color.cardBackground.opacity(backgroundImage != nil ? 0.5 : 1.0)
     }
 
     var body: some View {
         ZStack {
             // Base background color (same as category grid)
-            Color(red: 0.847, green: 0.834, blue: 0.886)
+            Color.appBackground
                 .ignoresSafeArea()
 
             // Background image layer
@@ -172,11 +168,11 @@ struct ToastRow: View {
             VStack(alignment: .leading, spacing: 8) {
                 Text(viewModel.toast.title)
                     .font(.headline)
-                    .foregroundColor(.black)
+                    .foregroundColor(.primary)
 
                 Text(viewModel.toast.contents)
                     .font(.subheadline)
-                    .foregroundColor(.black.opacity(0.7))
+                    .foregroundColor(.secondary)
                     .lineLimit(3)
             }
 
@@ -187,7 +183,7 @@ struct ToastRow: View {
             } label: {
                 Image(systemName: viewModel.isFavorite ? "star.fill" : "star")
                     .font(.title3)
-                    .foregroundColor(viewModel.isFavorite ? .black : .gray)
+                    .foregroundColor(viewModel.isFavorite ? .yellow : .secondary)
             }
             .buttonStyle(.plain)
         }

@@ -14,10 +14,10 @@ struct SplashScreen: View {
     @Environment(\.modelContext) private var modelContext
     @StateObject private var migrationManager = DataMigrationManager()
     @State private var progress: Double = 0.0
-    
+
     var body: some View {
         ZStack {
-            Color.white.ignoresSafeArea()
+            Color.appBackground.ignoresSafeArea()
             
             VStack(spacing: 20) {
                 Image("company")
@@ -27,13 +27,13 @@ struct SplashScreen: View {
                 
                 Text("술마셔 건배사")
                     .font(.title)
-                    .foregroundColor(.white)
+                    .foregroundColor(.primary)
                 
                 // Show migration progress if migrating
                 if case .migrating = migrationManager.migrationStatus {
                     Text(migrationManager.currentStep)
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundColor(.secondary)
                 }
                 
                 ProgressView(value: progress, total: 1.0)
