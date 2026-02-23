@@ -21,7 +21,6 @@ struct LetsCheersApp: App {
     @State private var isFromBackground = false
     @State private var isLaunched = false
     @Environment(\.scenePhase) private var scenePhase
-    @Environment(\.colorScheme) private var colorScheme
 
     var body: some Scene {
         WindowGroup {
@@ -38,7 +37,6 @@ struct LetsCheersApp: App {
                         .modelContainer(appState.swiftDataContainer)
                 }
             }
-            .preferredColorScheme(colorScheme)
             .onAppear {
                 setupAds()
             }

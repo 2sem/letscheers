@@ -39,6 +39,7 @@ struct CategoryGridScreen: View {
             }
             .padding(16)
         }
+        .scrollDisabled(true)
         .background {
             ZStack(alignment: .bottom) {
                 Color.appBackground
@@ -214,7 +215,8 @@ struct CategoryCell: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.cardBackground)
             .clipShape(RoundedRectangle(cornerRadius: 16))
-            .shadow(color: .black.opacity(0.15), radius: 5, x: 2, y: 2)
+            .overlay(RoundedRectangle(cornerRadius: 16).strokeBorder(Color.white.opacity(0.08), lineWidth: 0.5))
+            .shadow(color: Color.accentPurple.opacity(0.12), radius: 14, x: 0, y: 6)
         }
     }
 }
