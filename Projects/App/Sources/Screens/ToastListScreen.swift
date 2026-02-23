@@ -29,7 +29,6 @@ struct ToastListScreen: View {
 
 private struct ToastListContent: View {
     @Environment(\.modelContext) private var modelContext
-    @Environment(\.colorScheme) private var colorScheme
 
     let title: String
     let backgroundImage: UIImage?
@@ -53,13 +52,13 @@ private struct ToastListContent: View {
     }
 
     private var backgroundRowColor: Color {
-        Color.cardBackground(for: colorScheme).opacity(backgroundImage != nil ? 0.5 : 1.0)
+        Color.cardBackground.opacity(backgroundImage != nil ? 0.5 : 1.0)
     }
 
     var body: some View {
         ZStack {
             // Base background color (same as category grid)
-            Color.appBackground(for: colorScheme)
+            Color.appBackground
                 .ignoresSafeArea()
 
             // Background image layer

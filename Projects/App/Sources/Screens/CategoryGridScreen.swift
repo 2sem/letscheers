@@ -11,22 +11,20 @@ import SwiftUI
 struct CategoryGridScreen: View {
     @StateObject private var viewModel = CategoryGridViewModel()
     @Environment(\.modelContext) private var modelContext
-    @Environment(\.colorScheme) private var colorScheme
     @EnvironmentObject var router: NavigationRouter
     @EnvironmentObject var adManager: SwiftUIAdManager
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @AppStorage("LaunchCount") private var launchCount = 0
-    
+
     private var gridColumns: [GridItem] {
         let columnCount = (horizontalSizeClass == .regular) ? 4 : 2
         return Array(repeating: GridItem(.flexible(), spacing: 16), count: columnCount)
     }
-    
+
     var body: some View {
         ScrollView {
             LazyVGrid(columns: gridColumns, spacing: 24) {
                 ForEach(viewModel.categories) { category in
-                    // Replace .ads category with NativeAdCell
                     if category.type == .ads {
                         NativeAdCell(shouldLoadAd: launchCount > 1)
                             .aspectRatio(0.8, contentMode: .fit)
@@ -43,7 +41,7 @@ struct CategoryGridScreen: View {
         }
         .background {
             ZStack(alignment: .bottom) {
-                Color.appBackground(for: colorScheme)
+                Color.appBackground
                 Image("bg_cheers")
                     .resizable()
                     .scaledToFit()
@@ -75,13 +73,11 @@ struct CategoryGridScreen: View {
             viewModel.loadCategories(modelContext: modelContext)
         }
     }
-    
 
     private func handleCategoryTap(_ category: CategoryViewModel) {
         switch category.type {
         case .normal:
             guard let name = category.name else { return }
-            // Get background image name from category name mapping
             let bgImageName = getBackgroundImageName(for: name)
             router.navigate(to: .toastList(
                 category: name,
@@ -91,44 +87,34 @@ struct CategoryGridScreen: View {
         case .favorite:
             router.navigate(to: .favorites)
         case .ads:
-            // Ads cell - do nothing on tap
             break
         }
     }
-    
+
     private func getBackgroundImageName(for categoryName: String) -> String? {
         switch categoryName {
-        case "선창!후창~!":
-            return "bg_follow.jpg"
-        case "모임":
-            return "bg_meeting.jpg"
-        case "회식":
-            return "bg_dining.jpg"
-        case "건강":
-            return "bg_health.jpg"
-        default:
-            return nil
+        case "선창!후창~!": return "bg_follow.jpg"
+        case "모임":       return "bg_meeting.jpg"
+        case "회식":       return "bg_dining.jpg"
+        case "건강":       return "bg_health.jpg"
+        default:          return nil
         }
     }
-    
+
     private func shareApp() {
         guard let url = URL(string: "https://apps.apple.com/app/id1193053041") else { return }
         let activityVC = UIActivityViewController(activityItems: [url], applicationActivities: nil)
-        
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
            let rootVC = windowScene.windows.first?.rootViewController {
             activityVC.popoverPresentationController?.sourceView = rootVC.view
             rootVC.present(activityVC, animated: true)
         }
     }
-    
+
     private func showRandomToast() {
         let toast = LCExcelController.shared.randomToast()
-
-        // Show interstitial ad first
         Task {
             await adManager.show(unit: .full)
-            // Show alert with random toast
             if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                let rootVC = windowScene.windows.first?.rootViewController {
                 let alert = UIAlertController(
@@ -147,26 +133,23 @@ struct CategoryGridScreen: View {
 
 struct CategoryCell: View {
     let category: CategoryViewModel
-    @Environment(\.colorScheme) private var colorScheme
 
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: 12) {
                 Spacer()
-                
-                // Icon container - scales based on cell width
+
                 let iconContainerSize = min(geometry.size.width * 0.65, geometry.size.height * 0.5)
-                
+
                 if category.type == .ads {
-                    // Ads cell - TODO: will be replaced with actual ad view
                     ZStack {
-                        Color.iconContainer(for: colorScheme)
+                        Color.iconContainer
                             .clipShape(RoundedRectangle(cornerRadius: 16))
                         Image(systemName: "megaphone.fill")
                             .resizable()
                             .scaledToFit()
                             .padding(iconContainerSize * 0.15)
-                            .foregroundColor(Color.accentPurple(for: colorScheme))
+                            .foregroundColor(Color.accentPurple)
                     }
                     .frame(width: iconContainerSize, height: iconContainerSize)
 
@@ -180,15 +163,14 @@ struct CategoryCell: View {
                         .frame(height: 30)
 
                 } else if category.type == .favorite {
-                    // Favorite cell
                     ZStack {
-                        Color.iconContainer(for: colorScheme)
+                        Color.iconContainer
                             .clipShape(RoundedRectangle(cornerRadius: 16))
                         Image(systemName: "star.fill")
                             .resizable()
                             .scaledToFit()
                             .padding(iconContainerSize * 0.15)
-                            .foregroundColor(Color.accentPurple(for: colorScheme))
+                            .foregroundColor(Color.accentPurple)
                     }
                     .frame(width: iconContainerSize, height: iconContainerSize)
 
@@ -202,16 +184,15 @@ struct CategoryCell: View {
                         .frame(height: 30)
 
                 } else {
-                    // Normal category cell
                     ZStack {
-                        Color.iconContainer(for: colorScheme)
+                        Color.iconContainer
                             .clipShape(RoundedRectangle(cornerRadius: 16))
                         Image(uiImage: category.icon)
                             .renderingMode(.template)
                             .resizable()
                             .scaledToFit()
                             .padding(iconContainerSize * 0.15)
-                            .foregroundColor(Color.accentPurple(for: colorScheme))
+                            .foregroundColor(Color.accentPurple)
                     }
                     .frame(width: iconContainerSize, height: iconContainerSize)
 
@@ -231,7 +212,7 @@ struct CategoryCell: View {
                 Spacer()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.cardBackground(for: colorScheme))
+            .background(Color.cardBackground)
             .clipShape(RoundedRectangle(cornerRadius: 16))
             .shadow(color: .black.opacity(0.15), radius: 5, x: 2, y: 2)
         }

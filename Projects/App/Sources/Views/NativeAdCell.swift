@@ -13,7 +13,6 @@ private let relatedStocksAppStoreURL = URL(string: "https://apps.apple.com/app/i
 // A cell view that displays a native ad in the category grid
 struct NativeAdCell: View {
     @EnvironmentObject private var adManager: SwiftUIAdManager
-    @Environment(\.colorScheme) private var colorScheme
     let shouldLoadAd: Bool
 
     var body: some View {
@@ -27,7 +26,7 @@ struct NativeAdCell: View {
                     if let ad = nativeAd {
                         // Google native ad loaded
                         ZStack {
-                            Color.iconContainer(for: colorScheme)
+                            Color.iconContainer
                                 .clipShape(RoundedRectangle(cornerRadius: 16))
                             MediaViewSwiftUIView(mediaContent: ad.mediaContent)
                                 .scaledToFit()
@@ -56,7 +55,7 @@ struct NativeAdCell: View {
                     } else {
                         // Default: 관련주식검색기
                         ZStack {
-                            Color.iconContainer(for: colorScheme)
+                            Color.iconContainer
                                 .clipShape(RoundedRectangle(cornerRadius: 16))
                             Image("othreapp")
                                 .resizable()
@@ -82,7 +81,7 @@ struct NativeAdCell: View {
                     Spacer()
                 }
                 .frame(maxWidth: .infinity)
-                .background(Color.cardBackground(for: colorScheme))
+                .background(Color.cardBackground)
                 .clipShape(RoundedRectangle(cornerRadius: 16))
                 .shadow(color: .black.opacity(0.15), radius: 5, x: 2, y: 2)
                 .overlay(alignment: .topTrailing) {
