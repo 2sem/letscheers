@@ -6,7 +6,7 @@ ENABLE_BITCODE=NO
 EXCLUDED_ARCHS[sdk=iphonesimulator*]=i386
 INFOPLIST_FILE=letscheers/Info.plist
 INFOPLIST_KEY_LSApplicationCategoryType=public.app-category.lifestyle
-MARKETING_VERSION=2.0.0
+MARKETING_VERSION=2.1.0
 PRODUCT_BUNDLE_IDENTIFIER=com.credif.letscheers
 PRODUCT_NAME=$(TARGET_NAME)
 SUPPORTED_PLATFORMS=iphoneos iphonesimulator
