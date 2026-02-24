@@ -13,7 +13,6 @@ struct CategoryGridScreen: View {
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject var router: NavigationRouter
     @EnvironmentObject var adManager: SwiftUIAdManager
-    @EnvironmentObject var toastsManager: ToastsManager
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @AppStorage("LaunchCount") private var launchCount = 0
 
@@ -114,7 +113,7 @@ struct CategoryGridScreen: View {
     }
 
     private func showRandomToast() {
-        guard let toast = toastsManager.randomToast() else { return }
+        guard let toast = viewModel.randomToast() else { return }
         Task {
             await adManager.show(unit: .full)
             if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
