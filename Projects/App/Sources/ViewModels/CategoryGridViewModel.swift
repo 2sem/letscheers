@@ -12,7 +12,6 @@ import SwiftData
 @MainActor
 class CategoryGridViewModel: ObservableObject {
     @Published var categories: [CategoryViewModel] = []
-    private var allToastCategories: [ToastCategory] = []
 
     func loadCategories(modelContext: ModelContext) {
         // Define the category configurations
@@ -26,7 +25,6 @@ class CategoryGridViewModel: ObservableObject {
         // Fetch all categories from Swift Data once
         let descriptor = FetchDescriptor<ToastCategory>()
         let allCategories = (try? modelContext.fetch(descriptor)) ?? []
-        allToastCategories = allCategories
 
         // Create lookup dictionary by name
         let categoryLookup = Dictionary(uniqueKeysWithValues: allCategories.map { ($0.name, $0) })
@@ -71,9 +69,5 @@ class CategoryGridViewModel: ObservableObject {
         ))
 
         categories = viewModels
-    }
-
-    func randomToast() -> Toast? {
-        allToastCategories.flatMap(\.toasts).randomElement()
     }
 }

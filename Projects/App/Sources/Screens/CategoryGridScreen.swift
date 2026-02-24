@@ -113,7 +113,12 @@ struct CategoryGridScreen: View {
     }
 
     private func showRandomToast() {
-        guard let toast = viewModel.randomToast() else { return }
+        let count = (try? modelContext.fetchCount(FetchDescriptor<Toast>())) ?? 0
+        guard count > 0 else { return }
+        var descriptor = FetchDescriptor<Toast>()
+        descriptor.fetchOffset = Int.random(in: 0..<count)
+        descriptor.fetchLimit = 1
+        guard let toast = try? modelContext.fetch(descriptor).first else { return }
         Task {
             await adManager.show(unit: .full)
             if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
