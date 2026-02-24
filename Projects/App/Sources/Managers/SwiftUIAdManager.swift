@@ -46,13 +46,14 @@ class SwiftUIAdManager: NSObject, ObservableObject {
     @MainActor
     @discardableResult
     func show(unit: GADUnitName) async -> Bool {
-        await withCheckedContinuation { continuation in
+        guard LSDefaults.LaunchCount > 1 else { return false }
+        return await withCheckedContinuation { continuation in
             guard let gadManager else {
                 continuation.resume(returning: false)
                 return
             }
 
-            gadManager.show(unit: unit, isTesting: self.isTesting(unit: unit) ){ unit, _,result  in
+            gadManager.show(unit: unit, isTesting: self.isTesting(unit: unit)) { unit, _, result in
                 continuation.resume(returning: result)
             }
         }
