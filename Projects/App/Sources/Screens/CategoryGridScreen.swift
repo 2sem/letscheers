@@ -13,6 +13,7 @@ struct CategoryGridScreen: View {
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject var router: NavigationRouter
     @EnvironmentObject var adManager: SwiftUIAdManager
+    @EnvironmentObject var toastsManager: ToastsManager
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @AppStorage("LaunchCount") private var launchCount = 0
 
@@ -113,13 +114,13 @@ struct CategoryGridScreen: View {
     }
 
     private func showRandomToast() {
-        let toast = LCExcelController.shared.randomToast()
+        guard let toast = toastsManager.randomToast() else { return }
         Task {
             await adManager.show(unit: .full)
             if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                let rootVC = windowScene.windows.first?.rootViewController {
                 let alert = UIAlertController(
-                    title: toast.title ?? "추천 건배사",
+                    title: toast.title,
                     message: toast.contents,
                     preferredStyle: .alert
                 )

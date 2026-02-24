@@ -55,6 +55,12 @@ class ToastsManager: ObservableObject {
         return toasts.randomElement()
     }
 
+    func randomToast() -> Toast? {
+        let descriptor = FetchDescriptor<Toast>()
+        let toasts = (try? modelContext.fetch(descriptor)) ?? []
+        return toasts.randomElement()
+    }
+
     func searchToasts(query: String, inToastCategory categoryName: String? = nil) -> [Toast] {
         let descriptor: FetchDescriptor<Toast>
 
