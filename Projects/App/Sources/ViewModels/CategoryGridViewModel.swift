@@ -12,7 +12,7 @@ import SwiftData
 @MainActor
 class CategoryGridViewModel: ObservableObject {
     @Published var categories: [CategoryViewModel] = []
-    
+
     func loadCategories(modelContext: ModelContext) {
         // Define the category configurations
         let categoryConfigs: [(name: String, title: String, icon: String, background: String)] = [
@@ -21,20 +21,20 @@ class CategoryGridViewModel: ObservableObject {
             ("회식", "회식용 건배사", "dining", "bg_dining.jpg"),
             ("건강", "건강기원 건배사", "health", "bg_health.jpg")
         ]
-        
+
         // Fetch all categories from Swift Data once
         let descriptor = FetchDescriptor<ToastCategory>()
         let allCategories = (try? modelContext.fetch(descriptor)) ?? []
-        
+
         // Create lookup dictionary by name
         let categoryLookup = Dictionary(uniqueKeysWithValues: allCategories.map { ($0.name, $0) })
-        
+
         // Map to view models
         var viewModels: [CategoryViewModel] = []
-        
+
         for config in categoryConfigs {
             let toastCount = categoryLookup[config.name]?.toasts.count ?? 0
-            
+
             viewModels.append(CategoryViewModel(
                 name: config.name,
                 title: config.title,
@@ -44,7 +44,7 @@ class CategoryGridViewModel: ObservableObject {
                 count: toastCount
             ))
         }
-        
+
         // Add special categories
         viewModels.append(CategoryViewModel(
             name: "ads",
@@ -54,11 +54,11 @@ class CategoryGridViewModel: ObservableObject {
             background: nil,
             count: 0
         ))
-        
+
         // Query favorites count from Swift Data
         let favoritesDescriptor = FetchDescriptor<Favorite>()
         let favoritesCount = (try? modelContext.fetchCount(favoritesDescriptor)) ?? 0
-        
+
         viewModels.append(CategoryViewModel(
             name: "favorite",
             title: "즐겨찾기",
@@ -67,7 +67,7 @@ class CategoryGridViewModel: ObservableObject {
             background: nil,
             count: favoritesCount
         ))
-        
+
         categories = viewModels
     }
 }
