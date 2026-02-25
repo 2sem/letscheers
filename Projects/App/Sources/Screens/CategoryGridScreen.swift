@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct CategoryGridScreen: View {
     @StateObject private var viewModel = CategoryGridViewModel()
