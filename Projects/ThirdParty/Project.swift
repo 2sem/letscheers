@@ -21,8 +21,6 @@ let project = Project(
                 requirement: .upToNextMajor(from: "5.4.5")),
         .remote(url: "https://github.com/2sem/LSExtensions",
                 requirement: .exact("0.1.22")),
-        .remote(url: "https://github.com/2sem/LProgressWebViewController",
-                requirement: .upToNextMajor(from: "3.1.0")),
         .remote(url: "https://github.com/2sem/StringLogger",
                 requirement: .upToNextMajor(from: "0.7.0"))
     ],
