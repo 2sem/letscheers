@@ -34,8 +34,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, ReviewManagerDelegate, GA
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
         guard LSDefaults.LaunchCount % reviewInterval != 0 else{
-            if #available(iOS 10.3, *) {
-                SKStoreReviewController.requestReview()
+            if let scene = application.connectedScenes
+                .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
+                AppStore.requestReview(in: scene)
             }
             LSDefaults.increaseLaunchCount();
             return;
