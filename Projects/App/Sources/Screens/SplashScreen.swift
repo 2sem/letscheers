@@ -52,7 +52,7 @@ struct SplashScreen: View {
     private func performInitialization() async {
         // Run migration if Core Data exists (handles favorites migration)
         // This will skip if already migrated or no Core Data exists
-        let migrationResult = await migrateToSwiftData()
+        _ = await migrateToSwiftData()
         await updateProgress(0.3)
 
         // Check if this is first launch or needs migration
