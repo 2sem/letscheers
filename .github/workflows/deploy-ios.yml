@@ -138,6 +138,14 @@ jobs:
           </plist>
           EOF
 
+      - name: Write App Store release notes metadata
+        if: ${{ github.event.inputs.isReleasing == 'true' }}
+        run: |
+          mkdir -p fastlane/metadata/ko
+          cat > fastlane/metadata/ko/release_notes.txt <<'EOF'
+          ${{ github.event.inputs.body }}
+          EOF
+
       - name: Build and Archive App
         env:
           TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
