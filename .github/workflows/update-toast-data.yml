@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   update:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     env:
       GPG_PRIVATE_KEY_PATH: private.gpg
 
@@ -21,29 +21,18 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Import GPG Key
+      - name: Import Secret Key
         run: |
-          echo "${{ secrets.GPG_PRIVATE_KEY }}" | base64 -d > $GPG_PRIVATE_KEY_PATH
+          echo ${{ secrets.GPG_PRIVATE_KEY }} | base64 -d -o $GPG_PRIVATE_KEY_PATH
           gpg --batch --no-tty --yes --import $GPG_PRIVATE_KEY_PATH
-          rm $GPG_PRIVATE_KEY_PATH
-          gpg --batch --no-tty --yes --list-keys --fingerprint \
-            | grep -E "^      [0-9A-F]" | tr -d ' ' \
-            | awk '{print $1":6:"}' \
-            | gpg --batch --no-tty --import-ownertrust
 
-      - name: Install git-secret
+      - name: Install Encrypter
         run: |
-          curl -1sLf 'https://dl.cloudsmith.io/public/sobolevn/git-secret/gpg.D6B93412DBE6B994.key' \
-            | sudo gpg --dearmor -o /usr/share/keyrings/git-secret-archive-keyring.gpg
-          echo "deb [signed-by=/usr/share/keyrings/git-secret-archive-keyring.gpg] \
-            https://dl.cloudsmith.io/public/sobolevn/git-secret/deb/ubuntu focal main" \
-            | sudo tee /etc/apt/sources.list.d/git-secret.list
-          sudo apt-get update -qq
-          sudo apt-get install -y git-secret
+          brew install git-secret
 
-      - name: Decrypt xlsx
+      - name: Decrypt Secret Data
         run: |
-          git secret reveal -p "${{ secrets.GPG_PRIVATE_PWD }}"
+          git secret reveal -p ${{ secrets.GPG_PRIVATE_PWD }}
 
       - name: Install Claude Code
         run: |
