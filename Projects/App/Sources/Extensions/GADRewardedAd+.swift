@@ -12,7 +12,7 @@ import GoogleMobileAds
 extension GoogleMobileAds.RewardedAd{
     func isReady(for viewController: UIViewController? = nil) -> Bool{
         do{
-            if let viewController = viewController ?? UIApplication.shared.windows.first?.rootViewController{
+            if let viewController = viewController ?? (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.rootViewController{
                 try self.canPresent(from: viewController);
                 return true;
             }
