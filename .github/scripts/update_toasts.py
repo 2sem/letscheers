@@ -59,8 +59,12 @@ def search_new_toasts(categories: list, since_date: str) -> list:
 
     result = subprocess.run(
         ["claude", "-p", prompt, "--output-format", "json"],
-        capture_output=True, text=True,
+        capture_output=True, text=True, timeout=120,
     )
+
+    if result.returncode != 0:
+        print(f"claude error: {result.stderr}")
+        return []
 
     try:
         data = json.loads(result.stdout)

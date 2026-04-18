@@ -26,9 +26,18 @@ jobs:
           echo "${{ secrets.GPG_PRIVATE_KEY }}" | base64 -d > $GPG_PRIVATE_KEY_PATH
           gpg --batch --no-tty --yes --import $GPG_PRIVATE_KEY_PATH
           rm $GPG_PRIVATE_KEY_PATH
+          gpg --batch --no-tty --yes --list-keys --fingerprint \
+            | grep -E "^      [0-9A-F]" | tr -d ' ' \
+            | awk '{print $1":6:"}' \
+            | gpg --batch --no-tty --import-ownertrust
 
       - name: Install git-secret
         run: |
+          curl -1sLf 'https://dl.cloudsmith.io/public/sobolevn/git-secret/gpg.D6B93412DBE6B994.key' \
+            | sudo gpg --dearmor -o /usr/share/keyrings/git-secret-archive-keyring.gpg
+          echo "deb [signed-by=/usr/share/keyrings/git-secret-archive-keyring.gpg] \
+            https://dl.cloudsmith.io/public/sobolevn/git-secret/deb/ubuntu focal main" \
+            | sudo tee /etc/apt/sources.list.d/git-secret.list
           sudo apt-get update -qq
           sudo apt-get install -y git-secret
 
@@ -38,7 +47,7 @@ jobs:
 
       - name: Install Claude Code
         run: |
-          npm install -g @anthropic-ai/claude-code
+          npm install -g @anthropic-ai/claude-code@latest
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -71,6 +80,10 @@ jobs:
 
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          if git ls-remote --exit-code --heads origin "$BRANCH"; then
+            BRANCH="${BRANCH}-$(date +%H%M)"
+          fi
 
           git checkout -b "$BRANCH"
           git add Projects/App/Resources/Excel/cheers.xlsx.secret
