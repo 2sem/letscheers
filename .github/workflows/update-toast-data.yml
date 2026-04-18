@@ -1,0 +1,84 @@
+name: UPDATE TOAST DATA
+
+on:
+  schedule:
+    - cron: '0 2 1 * *'  # Monthly, 1st at 02:00 UTC (11:00 KST)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    env:
+      GPG_PRIVATE_KEY_PATH: private.gpg
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Import GPG Key
+        run: |
+          echo "${{ secrets.GPG_PRIVATE_KEY }}" | base64 -d > $GPG_PRIVATE_KEY_PATH
+          gpg --batch --no-tty --yes --import $GPG_PRIVATE_KEY_PATH
+          rm $GPG_PRIVATE_KEY_PATH
+
+      - name: Install git-secret
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y git-secret
+
+      - name: Decrypt xlsx
+        run: |
+          git secret reveal -p "${{ secrets.GPG_PRIVATE_PWD }}"
+
+      - name: Install Claude Code
+        run: |
+          npm install -g @anthropic-ai/claude-code
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Python dependencies
+        run: |
+          pip install openpyxl
+
+      - name: Search and update toasts
+        id: update
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+        run: |
+          python .github/scripts/update_toasts.py
+
+      - name: Re-encrypt xlsx
+        if: steps.update.outputs.has_new_toasts == 'true'
+        run: |
+          git secret hide
+
+      - name: Commit and create PR
+        if: steps.update.outputs.has_new_toasts == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          DATE=$(date +%Y-%m-%d)
+          BRANCH="data/toast-update-$DATE"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git checkout -b "$BRANCH"
+          git add Projects/App/Resources/Excel/cheers.xlsx.secret
+          git commit -m "data: 건배사 업데이트 $DATE"
+          git push origin "$BRANCH"
+
+          gh pr create \
+            --title "data: 건배사 업데이트 $DATE" \
+            --body-file .github/scripts/pr_body.md \
+            --base main \
+            --head "$BRANCH"
