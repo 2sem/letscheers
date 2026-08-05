@@ -47,6 +47,33 @@ def read_existing_toasts(ws, col_map: dict) -> tuple:
     return existing, max_no
 
 
+def normalize_text(value) -> str:
+    return str(value or "").strip()
+
+
+def filter_new_toasts(new_toasts: list, existing_titles: set) -> list:
+    filtered = []
+    seen_titles = set()
+
+    for toast in new_toasts:
+        title = normalize_text(toast.get("title"))
+        if not title:
+            continue
+
+        title_key = title
+        if title_key in existing_titles or title_key in seen_titles:
+            continue
+
+        seen_titles.add(title_key)
+        filtered.append({
+            "title": title,
+            "contents": normalize_text(toast.get("contents")),
+            "category": normalize_text(toast.get("category")),
+        })
+
+    return filtered
+
+
 def search_new_toasts(categories: list, since_date: str) -> list:
     categories_str = ", ".join(categories)
     prompt = (
@@ -124,14 +151,14 @@ def main():
 
     col_map = read_column_map(ws)
     existing, max_no = read_existing_toasts(ws, col_map)
-    existing_titles = {t["title"] for t in existing}
+    existing_titles = {normalize_text(t["title"]) for t in existing if normalize_text(t["title"])}
     categories = sorted({t["category"] for t in existing if t["category"]})
 
     since_date = get_last_modified_date()
     print(f"Existing: {len(existing)} toasts | Since: {since_date} | Categories: {categories}")
 
     new_toasts = search_new_toasts(categories, since_date)
-    new_toasts = [t for t in new_toasts if t.get("title") and t["title"] not in existing_titles]
+    new_toasts = filter_new_toasts(new_toasts, existing_titles)
 
     if not new_toasts:
         print("No new toasts found")
