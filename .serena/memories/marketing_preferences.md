@@ -1,0 +1,1 @@
+Preferred App Store promotion text for letscheers: "회식·술자리 건배제의, 이제 당황하지 마세요. 상황별 건배사를 쉽고 빠르게 찾아보세요." User selected this as the preferred final version.
