@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import json
 import os
+import re
 import subprocess
 
 import openpyxl
@@ -51,20 +52,27 @@ def normalize_text(value) -> str:
     return str(value or "").strip()
 
 
+def title_key(value) -> str:
+    """Comparison key for a toast title, ignoring all whitespace.
+
+    Titles arrive spaced inconsistently — a search can return 아프지말자 for a
+    sheet that already holds 아프지 말자, which reads as the same toast to a
+    user but not to a plain string compare.
+    """
+    return re.sub(r"\s+", "", normalize_text(value))
+
+
 def filter_new_toasts(new_toasts: list, existing_titles: set) -> list:
     filtered = []
-    seen_titles = set()
+    seen_titles = {title_key(t) for t in existing_titles}
 
     for toast in new_toasts:
         title = normalize_text(toast.get("title"))
-        if not title:
+        key = title_key(title)
+        if not key or key in seen_titles:
             continue
 
-        title_key = title
-        if title_key in existing_titles or title_key in seen_titles:
-            continue
-
-        seen_titles.add(title_key)
+        seen_titles.add(key)
         filtered.append({
             "title": title,
             "contents": normalize_text(toast.get("contents")),
@@ -151,7 +159,7 @@ def main():
 
     col_map = read_column_map(ws)
     existing, max_no = read_existing_toasts(ws, col_map)
-    existing_titles = {normalize_text(t["title"]) for t in existing if normalize_text(t["title"])}
+    existing_titles = {t["title"] for t in existing if normalize_text(t["title"])}
     categories = sorted({t["category"] for t in existing if t["category"]})
 
     since_date = get_last_modified_date()
