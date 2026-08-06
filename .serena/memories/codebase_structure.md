@@ -97,7 +97,7 @@ letscheers/
 │
 ├── Tuist.swift                    # Tuist configuration (Xcode 16.0+)
 ├── Workspace.swift                # Tuist workspace definition
-├── .mise.toml                     # Tool version management (Tuist 4.38.2)
+├── .mise.toml                     # Tool version management (Tuist 4.203.0)
 ├── .package.resolved              # SPM resolved versions
 ├── .gitignore
 └── .DS_Store
