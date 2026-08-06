@@ -95,6 +95,35 @@ LCModelController.shared
 - Only favorites are persisted in Core Data
 - Categories are loaded at app launch from Excel
 
+**CRITICAL — `cheers.xlsx` must keep its sharedStrings table.**
+
+`LCExcelController.swift` calls `try! document.parseSharedStrings()`, which
+traps when `xl/sharedStrings.xml` is missing, and CoreXLSX's `stringValue(_:)`
+resolves only `t="s"` cells. A workbook without that part is a **launch crash**,
+not a degraded list.
+
+openpyxl 3.1.x writes every string as `t="inlineStr"` and emits no
+`xl/sharedStrings.xml`, so a plain `load_workbook` → `save` round-trip destroys
+it. Any code path that writes this workbook **must** call
+`restore_shared_strings()` from `.github/scripts/xlsx_shared_strings.py`
+immediately after saving. `update_toasts.py` and `append_toasts.py` already do.
+
+Verify after any change to the workbook:
+
+```bash
+unzip -l Projects/App/Resources/Excel/cheers.xlsx | grep sharedStrings
+```
+
+To repair a workbook that already lost the part (idempotent):
+
+```bash
+python3 .github/scripts/xlsx_shared_strings.py Projects/App/Resources/Excel/cheers.xlsx
+```
+
+Never fix this by editing the Swift side to tolerate inline strings — the
+workbook format is the contract, and the original Google Sheets export
+satisfies it.
+
 ### View Architecture
 
 **RxSwift-based reactive bindings:**
@@ -225,6 +254,9 @@ GitHub Actions workflow (`.github/workflows/deploy-ios.yml`):
 - **Swift 5.0** with bridging header for Objective-C compatibility
 - **No Catalyst or XR support** (explicitly disabled)
 - **Xcode 16.0+** required (Tuist compatibility constraint)
+- **`cheers.xlsx` must keep `xl/sharedStrings.xml`** — writing it with openpyxl
+  strips the part and crashes the app at launch. Always call
+  `restore_shared_strings()` after saving (see Data Architecture)
 
 ## Development Notes
 

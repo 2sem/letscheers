@@ -5,6 +5,8 @@ import subprocess
 
 import openpyxl
 
+from xlsx_shared_strings import restore_shared_strings
+
 XLSX_PATH = "Projects/App/Resources/Excel/cheers.xlsx"
 SHEET_NAME = "기본_건배사"
 PR_BODY_PATH = ".github/scripts/pr_body.md"
@@ -171,6 +173,7 @@ def main():
         append_toast(ws, col_map, max_no, toast["title"], toast.get("contents", ""), toast.get("category", ""))
 
     wb.save(XLSX_PATH)
+    restore_shared_strings(XLSX_PATH)
     write_pr_body(new_toasts, since_date)
     set_output("has_new_toasts", "true")
 
