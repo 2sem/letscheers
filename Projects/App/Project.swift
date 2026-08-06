@@ -81,6 +81,9 @@ let project = Project(
                 .Projects.ThirdParty,
                 .Projects.DynamicThirdParty,
                 .package(product: "GADManager", type: .runtime)
+            ],
+            coreDataModels: [
+                .coreDataModel("Resources/Databases/letscheers.xcdatamodeld")
             ]
         )
     ]

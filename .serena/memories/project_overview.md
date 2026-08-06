@@ -17,7 +17,7 @@ letscheers is an iOS app that provides Korean drinking toast phrases and cheers 
 - **Language**: Swift 5.0
 - **UI Framework**: UIKit (Interface Builder + Programmatic)
 - **Architecture**: MVC
-- **Project Management**: Tuist 4.38.2
+- **Project Management**: Tuist 4.203.0
 - **Xcode**: 16.0+ compatible (currently using 16.2)
 - **Deployment**: iOS 13.0+
 
