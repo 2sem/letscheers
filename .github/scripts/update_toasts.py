@@ -3,6 +3,7 @@ import json
 import os
 import re
 import subprocess
+from datetime import date
 
 import openpyxl
 
@@ -10,6 +11,7 @@ from xlsx_shared_strings import restore_shared_strings
 
 XLSX_PATH = "Projects/App/Resources/Excel/cheers.xlsx"
 SHEET_NAME = "기본_건배사"
+INFO_SHEET_NAME = "info"
 PR_BODY_PATH = ".github/scripts/pr_body.md"
 
 
@@ -132,6 +134,41 @@ def append_toast(ws, col_map: dict, no: int, title: str, contents: str, category
         ws.cell(row=next_row, column=category_col).value = category
 
 
+def bump_info_version(wb) -> tuple:
+    """Bump the info sheet's version (patch component) and stamp today's date.
+
+    SplashScreen.performInitialization only re-syncs SwiftData from the workbook
+    when info!version differs from the stored LastDataVersion. Without moving
+    this cell a data change is invisible to every existing install — only fresh
+    installs would ever see the new toasts.
+
+    Returns (old_version, new_version), or (None, None) if there is no info sheet.
+    """
+    if INFO_SHEET_NAME not in wb.sheetnames:
+        return None, None
+
+    ws = wb[INFO_SHEET_NAME]
+    old_version = new_version = None
+
+    for row in ws.iter_rows():
+        if len(row) < 3:
+            continue
+        key = normalize_text(row[1].value).lower()
+        if key == "version":
+            old_version = normalize_text(row[2].value)
+            parts = old_version.split(".")
+            if len(parts) == 3 and parts[2].isdigit():
+                parts[2] = str(int(parts[2]) + 1)
+                new_version = ".".join(parts)
+            else:
+                new_version = f"{old_version}.1" if old_version else "1.0.1"
+            row[2].value = new_version
+        elif key == "date":
+            row[2].value = date.today().isoformat()
+
+    return old_version, new_version
+
+
 def write_pr_body(new_toasts: list, since_date: str):
     lines = [
         "## 건배사 데이터 업데이트",
@@ -179,6 +216,10 @@ def main():
     for toast in new_toasts:
         max_no += 1
         append_toast(ws, col_map, max_no, toast["title"], toast.get("contents", ""), toast.get("category", ""))
+
+    old_v, new_v = bump_info_version(wb)
+    if new_v:
+        print(f"info version: {old_v} -> {new_v}")
 
     wb.save(XLSX_PATH)
     restore_shared_strings(XLSX_PATH)

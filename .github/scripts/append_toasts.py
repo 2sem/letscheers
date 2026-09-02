@@ -25,6 +25,7 @@ from update_toasts import (
     XLSX_PATH,
     SHEET_NAME,
     append_toast,
+    bump_info_version,
     filter_new_toasts,
     normalize_text,
     read_column_map,
@@ -58,9 +59,13 @@ def main():
         max_no += 1
         append_toast(ws, col_map, max_no, toast["title"], toast["contents"], toast["category"])
 
+    old_v, new_v = bump_info_version(wb)
+
     wb.save(XLSX_PATH)
     restore_shared_strings(XLSX_PATH)
 
+    if new_v:
+        print(f"info version: {old_v} -> {new_v}")
     print(f"Added {len(new_toasts)} toasts ({skipped} duplicates skipped), now at no {max_no}\n")
     print("| 건배사 | 의미 | 분류 |")
     print("|--------|------|------|")
