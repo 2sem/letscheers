@@ -60,19 +60,21 @@ fastlane ios release description:"Changes" isReleasing:true
 
 ### Module Structure
 
-The project is organized as three Tuist modules:
+The project is organized as two Tuist modules:
 
 1. **App** (`.app`) - Main application
    - Bundle ID: `com.credif.letscheers`
-   - Depends on ThirdParty + DynamicThirdParty + GADManager
+   - Depends on ThirdParty + GADManager + Firebase (SPM)
 
 2. **ThirdParty** (`.staticFramework`) - Static dependencies
    - RxSwift/RxCocoa, KakaoSDK, CoreXLSX, etc.
    - Bundle ID: `com.credif.letscheers.thirdparty`
 
-3. **DynamicThirdParty** (`.framework`) - Firebase (must be dynamic)
-   - FirebaseCrashlytics, Analytics, Messaging, RemoteConfig
-   - Bundle ID: `com.credif.letscheers.thirdparty.dynamic`
+Firebase (Core, Crashlytics, Analytics, Messaging, RemoteConfig) is a
+Tuist external SPM dependency declared in `Tuist/Package.swift` and linked
+into App directly via `.externals.firebase.*` helpers in
+`TargetDependency+.swift`. The old `DynamicThirdParty` `.framework` module
+has been removed.
 
 ### Data Architecture
 
@@ -178,7 +180,7 @@ packages: [
 ]
 ```
 
-**To DynamicThirdParty (Firebase only):** Edit `Projects/DynamicThirdParty/Project.swift`
+**To Firebase (external SPM):** Edit `Tuist/Package.swift`, then add the product to App's `dependencies` via a `.externals.firebase.*` helper (define new ones in `TargetDependency+.swift`). Run `mise x -- tuist install` after changing `Tuist/Package.swift`.
 
 **Runtime packages (like GADManager):** Edit `Projects/App/Project.swift` with `.package(product: "...", type: .runtime)`
 
