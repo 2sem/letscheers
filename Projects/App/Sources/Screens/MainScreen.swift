@@ -10,7 +10,8 @@ import SwiftUI
 
 struct MainScreen: View {
     @StateObject private var router = NavigationRouter()
-    
+    @EnvironmentObject private var randomCoordinator: RandomToastCoordinator
+
     var body: some View {
         NavigationStack(path: $router.path) {
             CategoryGridScreen()
@@ -29,5 +30,28 @@ struct MainScreen: View {
                 }
         }
         .environmentObject(router)
+        .overlay {
+            if randomCoordinator.isPresentingAd {
+                RandomAdWaitingOverlay()
+            }
+        }
+        .sheet(item: $randomCoordinator.presentedPrompt) { flow in
+            RandomToastSheet(flow: flow)
+        }
+        .sheet(item: $randomCoordinator.presentedResult) { flow in
+            RandomToastSheet(flow: flow)
+        }
+        .sheet(item: $randomCoordinator.presentedEmpty) { presentation in
+            RandomToastEmptyView(error: presentation.error) {
+                randomCoordinator.close()
+            }
+            .presentationDetents([.medium])
+            .presentationDragIndicator(.hidden)
+            .presentationBackground(Color.cardBackground)
+            .presentationCornerRadius(24)
+            .onDisappear {
+                randomCoordinator.close()
+            }
+        }
     }
 }

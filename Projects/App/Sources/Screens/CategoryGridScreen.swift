@@ -13,7 +13,6 @@ struct CategoryGridScreen: View {
     @StateObject private var viewModel = CategoryGridViewModel()
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject var router: NavigationRouter
-    @EnvironmentObject var adManager: SwiftUIAdManager
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @AppStorage("LaunchCount") private var launchCount = 0
 
@@ -64,11 +63,7 @@ struct CategoryGridScreen: View {
             }
 
             ToolbarItem(placement: .topBarLeading) {
-                Button {
-                    showRandomToast()
-                } label: {
-                    Image(systemName: "shuffle")
-                }
+                RandomToastButton(style: .capsule, pool: .all)
             }
         }
         .task {
@@ -113,27 +108,6 @@ struct CategoryGridScreen: View {
         }
     }
 
-    private func showRandomToast() {
-        let count = (try? modelContext.fetchCount(FetchDescriptor<Toast>())) ?? 0
-        guard count > 0 else { return }
-        var descriptor = FetchDescriptor<Toast>()
-        descriptor.fetchOffset = Int.random(in: 0..<count)
-        descriptor.fetchLimit = 1
-        guard let toast = try? modelContext.fetch(descriptor).first else { return }
-        Task {
-            await adManager.show(unit: .full)
-            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-               let rootVC = windowScene.windows.first?.rootViewController {
-                let alert = UIAlertController(
-                    title: toast.title,
-                    message: toast.contents,
-                    preferredStyle: .alert
-                )
-                alert.addAction(UIAlertAction(title: "확인", style: .default))
-                rootVC.present(alert, animated: true)
-            }
-        }
-    }
 }
 
 // MARK: - Category Cell

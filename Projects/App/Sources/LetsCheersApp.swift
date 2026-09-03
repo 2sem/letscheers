@@ -16,6 +16,7 @@ struct LetsCheersApp: App {
 
     @StateObject private var appState = AppState()
     @StateObject private var adManager = SwiftUIAdManager()
+    @StateObject private var randomCoordinator = RandomToastCoordinator()
 
     @State private var isSetupDone = false
     @State private var isFromBackground = false
@@ -29,6 +30,7 @@ struct LetsCheersApp: App {
                     MainScreen()
                         .environmentObject(appState)
                         .environmentObject(adManager)
+                        .environmentObject(randomCoordinator)
                         .environmentObject(appState.favoritesManager)
                         .environmentObject(appState.toastsManager)
                         .modelContainer(appState.swiftDataContainer)
