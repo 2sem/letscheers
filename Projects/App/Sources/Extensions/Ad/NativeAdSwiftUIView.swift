@@ -25,16 +25,44 @@ import GoogleMobileAds
 
 // Info.plist에서 네이티브 광고 단위 ID 읽기
 
+/// The three states a native-ad row can be in. Consumers switch on this to
+/// decide what to draw — a loaded ad, a placeholder, or a collapsed row.
+enum NativeAdPhase: Equatable {
+    case loading
+    case loaded(NativeAd)
+    case failed
+
+    /// The ad when one is available, `nil` while loading or after a failure.
+    var ad: NativeAd? {
+        if case .loaded(let ad) = self { return ad }
+        return nil
+    }
+}
+
 @Observable
-final class NativeAdLoaderCoordinator: NSObject, ObservableObject, AdLoaderDelegate, NativeAdLoaderDelegate {
+private final class NativeAdLoaderCoordinator: NSObject, AdLoaderDelegate, NativeAdLoaderDelegate {
+    enum LoadState: Equatable {
+        case idle
+        case loading
+        case loaded
+        case failed
+    }
+
     var nativeAd: NativeAd?
+    private(set) var loadState: LoadState = .idle
     private var adLoader: AdLoader?
 
+    /// Fire-once per instance. Repeated calls (e.g. `.task` + `.onChange`) are ignored
+    /// so a row that scrolls in and out of view never re-requests an ad.
     func load(withAdManager manager: SwiftUIAdManager, forUnit unit: SwiftUIAdManager.GADUnitName) {
+        guard loadState == .idle else { return }
+
         guard let adLoader = manager.createAdLoader(forUnit: unit) else {
+            loadState = .failed
             return
         }
 
+        loadState = .loading
         self.adLoader = adLoader
         self.adLoader?.delegate = self
 
@@ -47,10 +75,12 @@ final class NativeAdLoaderCoordinator: NSObject, ObservableObject, AdLoaderDeleg
         print("NativeAd load failed: \(error)")
         #endif
         self.nativeAd = nil
+        self.loadState = .failed
     }
 
     func adLoader(_ adLoader: AdLoader, didReceive nativeAd: NativeAd) {
         self.nativeAd = nativeAd
+        self.loadState = .loaded
     }
 }
 
@@ -58,24 +88,44 @@ struct NativeAdSwiftUIView<Content: View>: View {
     @EnvironmentObject private var adManager: SwiftUIAdManager
 
     @State private var coordinator: NativeAdLoaderCoordinator
-    private let contentBuilder: (NativeAd?) -> Content
+    private let contentBuilder: (NativeAdPhase) -> Content
     private let adUnit: SwiftUIAdManager.GADUnitName
     @State var shouldLoadAd: Bool
 
-    init(adUnit: SwiftUIAdManager.GADUnitName, shouldLoadAd: Bool, @ViewBuilder content: @escaping (NativeAd?) -> Content) {
+    init(
+        adUnit: SwiftUIAdManager.GADUnitName,
+        shouldLoadAd: Bool,
+        @ViewBuilder content: @escaping (NativeAdPhase) -> Content
+    ) {
         self.adUnit = adUnit
         _coordinator = State(wrappedValue: NativeAdLoaderCoordinator())
         self.contentBuilder = content
         self.shouldLoadAd = shouldLoadAd
     }
 
+    private var phase: NativeAdPhase {
+        switch coordinator.loadState {
+        case .idle, .loading:
+            return .loading
+        case .loaded:
+            // `nativeAd` is always set alongside `.loaded`; fall back defensively.
+            return coordinator.nativeAd.map(NativeAdPhase.loaded) ?? .loading
+        case .failed:
+            return .failed
+        }
+    }
+
     var body: some View {
-        ZStack(alignment: .center) {
-            if let ad = coordinator.nativeAd {
+        let phase = phase
+
+        return ZStack(alignment: .center) {
+            if let ad = phase.ad {
                 NativeAdRepresentable(nativeAd: ad)
             }
-            contentBuilder(coordinator.nativeAd)
-                .allowsHitTesting(coordinator.nativeAd != nil ? false : true)
+            contentBuilder(phase)
+                // Once a real ad is on screen, let taps fall through to the
+                // NativeAdView behind it so AdMob registers the click.
+                .allowsHitTesting(phase.ad == nil)
         }
         .onChange(of: adManager.isReady, initial: false) {
             guard adManager.isReady, shouldLoadAd else { return }
@@ -84,22 +134,36 @@ struct NativeAdSwiftUIView<Content: View>: View {
         }
         .task {
             guard adManager.isReady, shouldLoadAd else { return }
-            
+
             coordinator.load(withAdManager: adManager, forUnit: adUnit)
         }
-        .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
-        .listRowBackground(Color.clear)
     }
 }
 
 // Developer placeholder 제거됨. 상위 View에서 nil 상태를 표현하세요.
+
+/// A `NativeAdView` that can never paint a background. The SDK re-sets its
+/// `backgroundColor` during async layout, so a one-off `.clear` in
+/// `updateUIView` does not stick — this hard-clamps the getter/setter, letting
+/// a borderless list row show its own background through the tracking layer.
+private final class TransparentNativeAdView: NativeAdView {
+    override var backgroundColor: UIColor? {
+        get { .clear }
+        set { /* ignored — always transparent */ }
+    }
+
+    override var isOpaque: Bool {
+        get { false }
+        set { /* ignored */ }
+    }
+}
 
 private struct NativeAdRepresentable: UIViewRepresentable {
     let nativeAd: NativeAd
     let headlineView = UILabel()
 
     func makeUIView(context: Context) -> NativeAdView {
-        let adView = NativeAdView()
+        let adView = TransparentNativeAdView()
 //        adView.advertiserView = .init()
         adView.headlineView = self.headlineView
         // configureSubviews(for: adView)

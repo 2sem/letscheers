@@ -13,11 +13,12 @@ extension SwiftUIAdManager {
         case launch = "Launch"
         case full = "FullAd"
         case native = "NativeAd"
+        case toastListNativeAd = "ToastListNativeAd"
     }
 
 #if DEBUG
     var testUnits: [GADUnitName] {
-        [.launch, .full, .native]
+        [.launch, .full, .native, .toastListNativeAd]
     }
 #else
     var testUnits: [GADUnitName] { [] }
