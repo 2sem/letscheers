@@ -80,8 +80,12 @@ let project = Project(
             ],
             dependencies: [
                 .Projects.ThirdParty,
-                .Projects.DynamicThirdParty,
-                .package(product: "GADManager", type: .runtime)
+                .package(product: "GADManager", type: .runtime),
+                .externals.firebase.core,
+                .externals.firebase.crashlytics,
+                .externals.firebase.analytics,
+                .externals.firebase.messaging,
+                .externals.firebase.remoteConfig,
             ],
             coreDataModels: [
                 .coreDataModel("Resources/Databases/letscheers.xcdatamodeld")
