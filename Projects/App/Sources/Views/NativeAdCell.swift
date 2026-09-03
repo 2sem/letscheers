@@ -16,7 +16,9 @@ struct NativeAdCell: View {
     let shouldLoadAd: Bool
 
     var body: some View {
-        NativeAdSwiftUIView(adUnit: .native, shouldLoadAd: shouldLoadAd) { nativeAd in
+        NativeAdSwiftUIView(adUnit: .native, shouldLoadAd: shouldLoadAd) { phase in
+            let nativeAd = phase.ad
+
             GeometryReader { geometry in
                 let iconContainerSize = min(geometry.size.width * 0.65, geometry.size.height * 0.5)
 

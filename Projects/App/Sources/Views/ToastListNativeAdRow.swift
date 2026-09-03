@@ -11,10 +11,10 @@ import GoogleMobileAds
 
 /// A row-shaped native ad interleaved into the toast list.
 ///
-/// - Reuses ``NativeAdSwiftUIView`` / ``NativeAdLoaderCoordinator`` as the loader
-///   and click-tracking layer (the SwiftUI content below only draws the visuals).
+/// - Reuses ``NativeAdSwiftUIView`` as the loader and click-tracking layer and
+///   switches on its ``NativeAdPhase`` (the SwiftUI content only draws the visuals).
 /// - Collapses to zero height when the ad fails to load, so there is no empty gap
-///   and no repeated reload attempts (the coordinator is fire-once per instance).
+///   and no repeated reload attempts (the loader is fire-once per instance).
 /// - Dark-theme card styling consistent with `ToastRow`, clearly labelled `광고`.
 struct ToastListNativeAdRow: View {
     @EnvironmentObject private var adManager: SwiftUIAdManager
@@ -23,34 +23,32 @@ struct ToastListNativeAdRow: View {
     /// Matches `ToastListContent.backgroundRowColor` so the ad reads as part of the list.
     private let backgroundRowColor: Color
 
-    @State private var loadState: NativeAdLoaderCoordinator.LoadState = .idle
-
     init(shouldLoadAd: Bool, backgroundRowColor: Color = .cardBackground) {
         self.shouldLoadAd = shouldLoadAd
         self.backgroundRowColor = backgroundRowColor
     }
 
     var body: some View {
-        Group {
-            if loadState == .failed {
-                // Collapse the row entirely — no gap, no separator.
+        NativeAdSwiftUIView(adUnit: .toastListNativeAd, shouldLoadAd: shouldLoadAd) { phase in
+            switch phase {
+            case .loaded(let ad):
+                card { loadedContent(ad) }
+                    .accessibilityLabel(accessibilityText(for: ad))
+                    .toastAdRowInsets()
+
+            case .loading:
+                card { placeholderContent }
+                    .accessibilityLabel("광고 불러오는 중")
+                    .toastAdRowInsets()
+
+            case .failed:
+                // Collapse the row entirely — no gap, no separator, no retry.
                 Color.clear
                     .frame(height: 0)
                     .listRowInsets(EdgeInsets())
                     .listRowBackground(Color.clear)
                     .listRowSeparator(.hidden)
                     .accessibilityHidden(true)
-            } else {
-                NativeAdSwiftUIView(
-                    adUnit: .toastListNativeAd,
-                    shouldLoadAd: shouldLoadAd,
-                    onLoadStateChange: { loadState = $0 }
-                ) { nativeAd in
-                    card(for: nativeAd)
-                }
-                .listRowInsets(EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16))
-                .listRowBackground(Color.clear)
-                .listRowSeparator(.hidden)
             }
         }
         .task {
@@ -61,14 +59,9 @@ struct ToastListNativeAdRow: View {
 
     // MARK: - Card
 
-    @ViewBuilder
-    private func card(for nativeAd: NativeAd?) -> some View {
+    private func card<Inner: View>(@ViewBuilder _ inner: () -> Inner) -> some View {
         ZStack(alignment: .topLeading) {
-            if let ad = nativeAd {
-                loadedContent(ad)
-            } else {
-                placeholderContent
-            }
+            inner()
 
             AdBadgeView()
                 .padding(8)
@@ -85,7 +78,6 @@ struct ToastListNativeAdRow: View {
         .padding(.trailing, 2)
         .padding(.top, 2)
         .accessibilityElement(children: .combine)
-        .accessibilityLabel(accessibilityText(for: nativeAd))
         .accessibilityAddTraits(.isButton)
     }
 
@@ -169,11 +161,22 @@ struct ToastListNativeAdRow: View {
         .redacted(reason: .placeholder)
     }
 
-    private func accessibilityText(for nativeAd: NativeAd?) -> String {
-        guard let ad = nativeAd else { return "광고 불러오는 중" }
+    private func accessibilityText(for ad: NativeAd) -> String {
         let headline = ad.headline ?? ""
         let cta = ad.callToAction ?? ""
         return "광고. \(headline). \(cta)"
+    }
+}
+
+// MARK: - Row insets
+
+private extension View {
+    /// The list-row layout the ad card owns (the bridge no longer sets any).
+    func toastAdRowInsets() -> some View {
+        self
+            .listRowInsets(EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16))
+            .listRowBackground(Color.clear)
+            .listRowSeparator(.hidden)
     }
 }
 
