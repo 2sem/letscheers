@@ -34,9 +34,9 @@ private struct ToastListContent: View {
     let backgroundImage: UIImage?
     @ObservedObject var viewModel: ToastListViewModel
     @Query var toasts: [Toast]
+    @Query private var categoryMatches: [ToastCategory]
 
     @EnvironmentObject var favoritesManager: FavoritesManager
-    @EnvironmentObject var adManager: SwiftUIAdManager
     @State private var selectedToast: ToastViewModel?
     @State private var showShareAlert = false
 
@@ -44,11 +44,18 @@ private struct ToastListContent: View {
         self.title = title
         self.backgroundImage = backgroundImage
         self.viewModel = viewModel
-        
+
         let categoryName = viewModel.categoryName
         _toasts = Query(filter: #Predicate<Toast>{ toast in
             toast.category?.name == categoryName
         }, sort: \.no, order: .reverse)
+        _categoryMatches = Query(filter: #Predicate<ToastCategory> { category in
+            category.name == categoryName
+        })
+    }
+
+    private var randomPool: RandomPool? {
+        categoryMatches.first.map { .category($0.persistentModelID) }
     }
 
     private var backgroundRowColor: Color {
@@ -97,11 +104,7 @@ private struct ToastListContent: View {
         })
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    showRandomToast()
-                } label: {
-                    Image(systemName: "shuffle")
-                }
+                RandomToastButton(style: .icon, pool: randomPool)
             }
         }
         .alert(selectedToast?.toast.title ?? "추천 건배사", isPresented: $showShareAlert) {
@@ -118,22 +121,6 @@ private struct ToastListContent: View {
         }
         .task {
             self.viewModel.refresh(toasts: toasts)
-        }
-    }
-
-    private func showRandomToast() {
-        guard let toastViewModel = viewModel.randomToast(modelContext: modelContext) else {
-            print("Failed to get random toast")
-            return
-        }
-
-        print("Random toast: \(toastViewModel.toast.title)")
-
-        // Show interstitial ad first, then alert
-        Task {
-            await adManager.show(unit: .full)
-            self.selectedToast = toastViewModel
-            self.showShareAlert = true
         }
     }
 

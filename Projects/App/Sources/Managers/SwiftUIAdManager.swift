@@ -43,9 +43,13 @@ class SwiftUIAdManager: NSObject, ObservableObject {
     ///
     /// Note: This method may cause undo/transaction issues in SwiftUI.
     /// To avoid potential problems, consider using `showDeferred(unit:)` which defers the call to the main queue and ensures proper transaction handling.
+    /// - Parameter force: when `true`, bypasses `GADManager`'s frequency
+    ///   interval (the 60-min cap) but still requires a loaded ad. Used only by
+    ///   the opt-in random-toast flow, where the user explicitly asked to watch
+    ///   an ad. `force` does NOT bypass the first-launch rule below.
     @MainActor
     @discardableResult
-    func show(unit: GADUnitName) async -> Bool {
+    func show(unit: GADUnitName, force: Bool = false) async -> Bool {
         guard LSDefaults.LaunchCount > 1 else { return false }
         return await withCheckedContinuation { continuation in
             guard let gadManager else {
@@ -53,7 +57,7 @@ class SwiftUIAdManager: NSObject, ObservableObject {
                 return
             }
 
-            gadManager.show(unit: unit, isTesting: self.isTesting(unit: unit)) { unit, _, result in
+            gadManager.show(unit: unit, force: force, isTesting: self.isTesting(unit: unit)) { unit, _, result in
                 continuation.resume(returning: result)
             }
         }

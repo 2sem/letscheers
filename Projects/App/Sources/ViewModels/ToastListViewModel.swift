@@ -54,22 +54,4 @@ class ToastListViewModel: ObservableObject {
             try? modelContext.save()
         }
     }
-
-    func randomToast(modelContext: ModelContext) -> ToastViewModel? {
-        // Query category and get random toast
-        let descriptor = FetchDescriptor<ToastCategory>(
-            predicate: #Predicate<ToastCategory> { category in
-                category.name == categoryName
-            }
-        )
-        
-        guard let category = try? modelContext.fetch(descriptor).first,
-              !category.toasts.isEmpty else {
-            return nil
-        }
-        
-        let randomToast = category.toasts.randomElement()!
-        
-        return ToastViewModel(toast: randomToast)
-    }
 }
