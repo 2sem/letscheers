@@ -142,12 +142,28 @@ struct NativeAdSwiftUIView<Content: View>: View {
 
 // Developer placeholder 제거됨. 상위 View에서 nil 상태를 표현하세요.
 
+/// A `NativeAdView` that can never paint a background. The SDK re-sets its
+/// `backgroundColor` during async layout, so a one-off `.clear` in
+/// `updateUIView` does not stick — this hard-clamps the getter/setter, letting
+/// a borderless list row show its own background through the tracking layer.
+private final class TransparentNativeAdView: NativeAdView {
+    override var backgroundColor: UIColor? {
+        get { .clear }
+        set { /* ignored — always transparent */ }
+    }
+
+    override var isOpaque: Bool {
+        get { false }
+        set { /* ignored */ }
+    }
+}
+
 private struct NativeAdRepresentable: UIViewRepresentable {
     let nativeAd: NativeAd
     let headlineView = UILabel()
 
     func makeUIView(context: Context) -> NativeAdView {
-        let adView = NativeAdView()
+        let adView = TransparentNativeAdView()
 //        adView.advertiserView = .init()
         adView.headlineView = self.headlineView
         // configureSubviews(for: adView)
