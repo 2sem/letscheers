@@ -67,7 +67,10 @@ struct LetsCheersApp: App {
             adManager.prepare(openingUnit: .launch, interval: 60.0)
             #else
             adManager.prepare(interstitialUnit: .full, interval: 60.0 * 60)
-            adManager.prepare(openingUnit: .launch, interval: 60.0 * 5)
+            // Resume ad: only on a genuinely new session, not every dinner-table
+            // reopen — the grid/list native ads and the opt-in interstitial carry
+            // the rest.
+            adManager.prepare(openingUnit: .launch, interval: 60.0 * 60 * 4)
             #endif
             adManager.canShowFirstTime = true
         }
