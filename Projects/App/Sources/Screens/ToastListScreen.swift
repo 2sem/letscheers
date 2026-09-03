@@ -39,6 +39,7 @@ private struct ToastListContent: View {
     @EnvironmentObject var favoritesManager: FavoritesManager
     @State private var selectedToast: ToastViewModel?
     @State private var showShareAlert = false
+    @AppStorage("LaunchCount") private var launchCount = 0
 
     init(title: String, backgroundImage: UIImage?, viewModel: ToastListViewModel) {
         self.title = title
@@ -62,6 +63,34 @@ private struct ToastListContent: View {
         Color.cardBackground.opacity(backgroundImage != nil ? 0.5 : 1.0)
     }
 
+    /// Placement rules (manager decision on issue #91):
+    /// - no ads while searching
+    /// - lists shorter than 5 toasts get no ad
+    /// - first ad after toast index 4, then one every 10 toasts (index 4, 14, 24, …)
+    private static let firstAdAfterIndex = 4
+    private static let adInterval = 10
+
+    private var displayItems: [ToastListItem] {
+        let toasts = viewModel.filteredToasts
+
+        guard viewModel.searchText.isEmpty,
+              toasts.count > Self.firstAdAfterIndex else {
+            return toasts.map { .toast($0) }
+        }
+
+        var items: [ToastListItem] = []
+        var slotIndex = 0
+        for (index, toast) in toasts.enumerated() {
+            items.append(.toast(toast))
+            if index >= Self.firstAdAfterIndex,
+               (index - Self.firstAdAfterIndex) % Self.adInterval == 0 {
+                items.append(.ad(slotIndex: slotIndex))
+                slotIndex += 1
+            }
+        }
+        return items
+    }
+
     var body: some View {
         ZStack {
             // Base background color (same as category grid)
@@ -83,14 +112,23 @@ private struct ToastListContent: View {
 
             // List layer
             List {
-                ForEach(viewModel.filteredToasts) { toast in
-                    ToastRow(viewModel: toast) {
-                        viewModel.toggleFavorite(for: toast, modelContext: modelContext)
-                    }
-                    .listRowBackground(backgroundRowColor)
-                    .onTapGesture {
-                        selectedToast = toast
-                        showShareAlert = true
+                ForEach(displayItems) { item in
+                    switch item {
+                    case .toast(let toast):
+                        ToastRow(viewModel: toast) {
+                            viewModel.toggleFavorite(for: toast, modelContext: modelContext)
+                        }
+                        .listRowBackground(backgroundRowColor)
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            selectedToast = toast
+                            showShareAlert = true
+                        }
+                    case .ad:
+                        ToastListNativeAdRow(
+                            shouldLoadAd: launchCount > 1,
+                            backgroundRowColor: backgroundRowColor
+                        )
                     }
                 }
             }
@@ -140,6 +178,22 @@ private struct ToastListContent: View {
            let rootVC = windowScene.windows.first?.rootViewController {
             activityVC.popoverPresentationController?.sourceView = rootVC.view
             rootVC.present(activityVC, animated: true)
+        }
+    }
+}
+
+// MARK: - Display Model
+
+/// A toast list row is either a toast or an interleaved native-ad slot.
+private enum ToastListItem: Identifiable {
+    case toast(ToastViewModel)
+    case ad(slotIndex: Int)
+
+    /// Stable across scrolls so ad rows never reload and toast identity is preserved.
+    var id: String {
+        switch self {
+        case .toast(let viewModel): return "toast-\(viewModel.id)"
+        case .ad(let slotIndex): return "ad-\(slotIndex)"
         }
     }
 }

@@ -27,14 +27,28 @@ import GoogleMobileAds
 
 @Observable
 final class NativeAdLoaderCoordinator: NSObject, ObservableObject, AdLoaderDelegate, NativeAdLoaderDelegate {
+    enum LoadState: Equatable {
+        case idle
+        case loading
+        case loaded
+        case failed
+    }
+
     var nativeAd: NativeAd?
+    private(set) var loadState: LoadState = .idle
     private var adLoader: AdLoader?
 
+    /// Fire-once per instance. Repeated calls (e.g. `.task` + `.onChange`) are ignored
+    /// so a row that scrolls in and out of view never re-requests an ad.
     func load(withAdManager manager: SwiftUIAdManager, forUnit unit: SwiftUIAdManager.GADUnitName) {
+        guard loadState == .idle else { return }
+
         guard let adLoader = manager.createAdLoader(forUnit: unit) else {
+            loadState = .failed
             return
         }
 
+        loadState = .loading
         self.adLoader = adLoader
         self.adLoader?.delegate = self
 
@@ -47,10 +61,12 @@ final class NativeAdLoaderCoordinator: NSObject, ObservableObject, AdLoaderDeleg
         print("NativeAd load failed: \(error)")
         #endif
         self.nativeAd = nil
+        self.loadState = .failed
     }
 
     func adLoader(_ adLoader: AdLoader, didReceive nativeAd: NativeAd) {
         self.nativeAd = nativeAd
+        self.loadState = .loaded
     }
 }
 
@@ -60,12 +76,19 @@ struct NativeAdSwiftUIView<Content: View>: View {
     @State private var coordinator: NativeAdLoaderCoordinator
     private let contentBuilder: (NativeAd?) -> Content
     private let adUnit: SwiftUIAdManager.GADUnitName
+    private let onLoadStateChange: ((NativeAdLoaderCoordinator.LoadState) -> Void)?
     @State var shouldLoadAd: Bool
 
-    init(adUnit: SwiftUIAdManager.GADUnitName, shouldLoadAd: Bool, @ViewBuilder content: @escaping (NativeAd?) -> Content) {
+    init(
+        adUnit: SwiftUIAdManager.GADUnitName,
+        shouldLoadAd: Bool,
+        onLoadStateChange: ((NativeAdLoaderCoordinator.LoadState) -> Void)? = nil,
+        @ViewBuilder content: @escaping (NativeAd?) -> Content
+    ) {
         self.adUnit = adUnit
         _coordinator = State(wrappedValue: NativeAdLoaderCoordinator())
         self.contentBuilder = content
+        self.onLoadStateChange = onLoadStateChange
         self.shouldLoadAd = shouldLoadAd
     }
 
@@ -76,6 +99,9 @@ struct NativeAdSwiftUIView<Content: View>: View {
             }
             contentBuilder(coordinator.nativeAd)
                 .allowsHitTesting(coordinator.nativeAd != nil ? false : true)
+        }
+        .onChange(of: coordinator.loadState, initial: true) { _, newValue in
+            onLoadStateChange?(newValue)
         }
         .onChange(of: adManager.isReady, initial: false) {
             guard adManager.isReady, shouldLoadAd else { return }
