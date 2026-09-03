@@ -60,22 +60,15 @@ struct RandomToastButton: View {
                     .font(.subheadline)
                     .fontWeight(.semibold)
             }
-            .foregroundStyle(Color.navBar)
-            .padding(.horizontal, 12)
-            .padding(.vertical, 6)
-            .background(Capsule().fill(Color.accentPurple))
-            .frame(minWidth: 44, minHeight: 44)
-            .contentShape(Capsule())
+            .foregroundStyle(Color.primary)
             .fixedSize()
         }
     }
 
-    @ViewBuilder
+    /// One `.bounce` per 랜덤 tap. The roll window is ~0.15s, so a single
+    /// bounce reads better than a looping spin; Reduce Motion is handled by the
+    /// system for `symbolEffect`.
     private var glyph: some View {
-        if isRolling {
-            RollingShuffleIcon()
-        } else {
-            Image(systemName: "shuffle")
-        }
+        Image(systemName: "shuffle")
     }
 }

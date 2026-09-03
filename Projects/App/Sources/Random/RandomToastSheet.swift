@@ -9,13 +9,14 @@
 import SwiftUI
 import SwiftData
 
-/// The single flow surface for both entry points (home grid + category list).
+/// The flow surface for both entry points (home grid + category list).
 ///
-/// One `.sheet(item:)` whose content crossfades between the three phases —
-/// `.prompt` (opt-in), `.loading` (awaiting the interstitial), `.result` (the
-/// reveal). The ad is only ever shown on the explicit `.prompt` → accept path,
-/// with the frequency cap forced off since the user opted in. Re-roll never
-/// touches the ad manager and never changes phase.
+/// A single sheet instance shows exactly one phase: `.prompt` (opt-in) or
+/// `.result` (the reveal). Accepting the ad fully dismisses the prompt sheet —
+/// the interstitial needs the root view controller — then the result is
+/// presented as a fresh sheet after `show(.full)` returns. The wait indicator
+/// during the ad call lives on the root (`RandomAdWaitingOverlay`), not here.
+/// Re-roll never touches the ad manager.
 struct RandomToastSheet: View {
     /// Snapshot captured by `.sheet(item:)` — used only for `id` stability and
     /// as a fallback. The live value is read from the coordinator.
@@ -26,7 +27,6 @@ struct RandomToastSheet: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     @State private var detent: PresentationDetent = .height(300)
     @State private var isExpanded = false
@@ -36,8 +36,16 @@ struct RandomToastSheet: View {
 
     // MARK: Live state
 
-    private var live: RandomFlow { coordinator.presentedFlow ?? flow }
-    private var phase: RandomFlowPhase { live.phase }
+    /// This instance is either the prompt sheet or the result sheet — `flow.phase`
+    /// is fixed for its life. Read the live value from the matching coordinator
+    /// binding so a re-roll's in-place toast swap is picked up.
+    private var live: RandomFlow {
+        switch flow.phase {
+        case .prompt: return coordinator.presentedPrompt ?? flow
+        case .result: return coordinator.presentedResult ?? flow
+        }
+    }
+    private var phase: RandomFlowPhase { flow.phase }
     private var liveToast: Toast { live.toast }
 
     private var isAccessibilitySize: Bool { dynamicTypeSize >= .accessibility1 }
@@ -51,7 +59,7 @@ struct RandomToastSheet: View {
 
     private var currentDetent: PresentationDetent {
         switch phase {
-        case .prompt, .loading:
+        case .prompt:
             return promptDetent
         case .result:
             return resultDetent
@@ -89,28 +97,28 @@ struct RandomToastSheet: View {
             .presentationCornerRadius(24)
             .interactiveDismissDisabled(phase != .result)
             .sensoryFeedback(.impact(weight: .light), trigger: heroTick)
-            .animation(phaseAnimation, value: phase)
             .onAppear {
-                detent = promptDetent
+                detent = currentDetent
                 if isAccessibilitySize { isExpanded = true }
-            }
-            .onChange(of: phase) { _, newPhase in
-                withAnimation(phaseAnimation) {
-                    detent = (newPhase == .result) ? resultDetent : promptDetent
-                }
-                if newPhase == .result {
+                if phase == .result {
                     heroTick += 1
                     heroFocused = true
                 }
             }
-            .onChange(of: coordinator.presentedFlow?.toast.persistentModelID) { _, newID in
+            .onChange(of: coordinator.presentedResult?.toast.persistentModelID) { _, newID in
                 guard newID != nil, phase == .result else { return }
                 heroTick += 1
                 heroFocused = true
                 AccessibilityNotification.Announcement("새 건배사. \(liveToast.title)").post()
             }
             .onDisappear {
-                coordinator.close()
+                // Only the result sheet resets on dismiss. The prompt is torn
+                // down either by 취소 (already `close()`d) or by 광고 보고 뽑기
+                // (the accept `Task` owns the flow), so it must not `close()`
+                // here — that would wipe the result the Task is about to present.
+                if phase == .result {
+                    coordinator.close()
+                }
             }
     }
 
@@ -119,18 +127,9 @@ struct RandomToastSheet: View {
         switch phase {
         case .prompt:
             RandomAdPromptView(onAccept: acceptAd, onDecline: coordinator.decline)
-                .transition(.opacity)
-        case .loading:
-            RandomLoadingView()
-                .transition(.opacity)
         case .result:
             resultContent
-                .transition(.opacity)
         }
-    }
-
-    private var phaseAnimation: Animation {
-        reduceMotion ? .linear(duration: 0.15) : .smooth(duration: 0.3)
     }
 
     // MARK: Result phase
@@ -223,18 +222,25 @@ struct RandomToastSheet: View {
 
     // MARK: Actions
 
-    /// 광고 보고 뽑기 — prompt → loading → `show(.full, force: true)` → result.
-    /// The `false` fast-path (no ad / capped / LaunchCount ≤ 1) advances to the
-    /// reveal identically, with no error or message.
+    /// 광고 보고 뽑기 — dismiss the prompt, wait for it to clear, show the
+    /// interstitial, then present the result as a fresh sheet. The `false`
+    /// fast-path (no ad / capped / LaunchCount ≤ 1) reaches the reveal
+    /// identically, with no error or message.
+    ///
+    /// The `Task` is unstructured on purpose: it must outlive this view, which
+    /// is torn down the moment `beginAwaitingAd()` clears `presentedPrompt`.
     private func acceptAd() {
-        coordinator.beginLoading()
-        Task {
-            // Minimum loading display so the phase never flashes.
-            try? await Task.sleep(for: .seconds(0.35))
+        coordinator.beginAwaitingAd()
+        Task { @MainActor in
+            // Wait out the prompt sheet's full dismiss transition — presenting a
+            // new sheet mid-dismiss leaves SwiftUI with a stuck dimming scrim.
+            try? await Task.sleep(for: .seconds(0.65))
+            coordinator.setPresentingAd(true)
             _ = await adManager.show(unit: .full, force: true)
-            // Short settle after the ad returns before the reveal.
-            try? await Task.sleep(for: .seconds(0.2))
-            coordinator.finishLoading()
+            coordinator.setPresentingAd(false)
+            // Let the wait overlay clear before the result sheet presents.
+            try? await Task.sleep(for: .seconds(0.3))
+            coordinator.revealPendingResult()
         }
     }
 

@@ -30,7 +30,15 @@ struct MainScreen: View {
                 }
         }
         .environmentObject(router)
-        .sheet(item: $randomCoordinator.presentedFlow) { flow in
+        .overlay {
+            if randomCoordinator.isPresentingAd {
+                RandomAdWaitingOverlay()
+            }
+        }
+        .sheet(item: $randomCoordinator.presentedPrompt) { flow in
+            RandomToastSheet(flow: flow)
+        }
+        .sheet(item: $randomCoordinator.presentedResult) { flow in
             RandomToastSheet(flow: flow)
         }
         .sheet(item: $randomCoordinator.presentedEmpty) { presentation in
