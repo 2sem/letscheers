@@ -49,6 +49,15 @@ jobs:
       - name: Install Mise
         uses: jdx/mise-action@v5
   
+      - name: Cache Tuist dependencies
+        uses: actions/cache@v6
+        with:
+          path: |
+            Tuist/.build
+            ~/.cache/swifterpm
+          # Shared by CI and CD: pinned by Package.resolved, safe to reuse. Bump the prefix when the path list changes.
+          key: tuist-deps-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('Tuist/Package.resolved', '.mise.toml') }}
+
       - name: Log in Tuist
         run: |
           tuist auth login
