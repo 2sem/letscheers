@@ -21,8 +21,6 @@ public extension TargetDependency {
             public static let core: TargetDependency = .external(name: "FirebaseCore")
             public static let crashlytics: TargetDependency = .external(name: "FirebaseCrashlytics")
             public static let analytics: TargetDependency = .external(name: "FirebaseAnalytics")
-            public static let messaging: TargetDependency = .external(name: "FirebaseMessaging")
-            public static let remoteConfig: TargetDependency = .external(name: "FirebaseRemoteConfig")
         }
     }
 }

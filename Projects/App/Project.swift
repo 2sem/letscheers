@@ -83,8 +83,6 @@ let project = Project(
                 .externals.firebase.core,
                 .externals.firebase.crashlytics,
                 .externals.firebase.analytics,
-                .externals.firebase.messaging,
-                .externals.firebase.remoteConfig,
             ],
             coreDataModels: [
                 .coreDataModel("Resources/Databases/letscheers.xcdatamodeld")
