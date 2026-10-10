@@ -23,3 +23,7 @@ HEADER_SEARCH_PATHS[config=Release]=$(inherited) ${PODS_ROOT}/Firebase/Core/Sour
 LD_RUNPATH_SEARCH_PATHS[config=Release]=$(inherited) @executable_path/Frameworks
 PROVISIONING_PROFILE_SPECIFIER[config=Release]=letscheers
 USER_HEADER_SEARCH_PATHS[config=Release]="${PODS_ROOT}/XlsxReaderWritera"/** "${PODS_ROOT}/XMLDictionarya"/**
+
+// LSExtensions (static) adds Swift extensions on UIKit classes; without -ObjC the
+// linker drops them and calls crash with "unrecognized selector".
+OTHER_LDFLAGS=$(inherited) -ObjC
