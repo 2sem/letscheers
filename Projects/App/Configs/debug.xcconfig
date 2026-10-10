@@ -24,3 +24,7 @@ LD_RUNPATH_SEARCH_PATHS[config=Debug]=$(inherited) @executable_path/Frameworks
 PROVISIONING_PROFILE_SPECIFIER[config=Debug]=
 SWIFT_OPTIMIZATION_LEVEL[config=Debug]=-Onone
 USER_HEADER_SEARCH_PATHS[config=Debug]="${PODS_ROOT}/XlsxReaderWritera"/** "${PODS_ROOT}/XMLDictionarya"/**
+
+// LSExtensions (static) adds Swift extensions on UIKit classes; without -ObjC the
+// linker drops them and calls crash with "unrecognized selector".
+OTHER_LDFLAGS=$(inherited) -ObjC
