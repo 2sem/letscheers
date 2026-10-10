@@ -8,14 +8,14 @@
 import Foundation
 import ProjectDescription
 
-// MARK: Store Projects
+// MARK: External SPM packages
 public extension TargetDependency {
-    private static func targetProject(_ name: String) -> TargetDependency {
-        return .project(target: name, path: .projects(name))
-    }
-
     class externals {
         public static let gadManager: TargetDependency = .external(name: "GADManager")
+        public static let coreXLSX: TargetDependency = .external(name: "CoreXLSX")
+        public static let kakaoSDK: TargetDependency = .external(name: "KakaoSDK")
+        public static let lsExtensions: TargetDependency = .external(name: "LSExtensions")
+        public static let stringLogger: TargetDependency = .external(name: "StringLogger")
 
         public class firebase {
             public static let core: TargetDependency = .external(name: "FirebaseCore")
@@ -24,9 +24,5 @@ public extension TargetDependency {
             public static let messaging: TargetDependency = .external(name: "FirebaseMessaging")
             public static let remoteConfig: TargetDependency = .external(name: "FirebaseRemoteConfig")
         }
-    }
-    
-    class Projects {
-        public static let ThirdParty: TargetDependency = .targetProject("ThirdParty")
     }
 }
