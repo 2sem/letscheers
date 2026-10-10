@@ -43,10 +43,10 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
 
     - name: Install Mise
-      uses: jdx/mise-action@v2
+      uses: jdx/mise-action@v5
 
     - name: Log in Tuist
       run: |

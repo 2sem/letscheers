@@ -31,7 +31,7 @@ jobs:
         GPG_PRIVATE_KEY_PATH: 'private.gpg'
     steps:
       - name: Checkout project
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Import Secret Key
         run: |
@@ -47,7 +47,7 @@ jobs:
           git secret reveal -p ${{ secrets.GPG_PRIVATE_PWD }}
       
       - name: Install Mise
-        uses: jdx/mise-action@v2
+        uses: jdx/mise-action@v5
   
       - name: Log in Tuist
         run: |
