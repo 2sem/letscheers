@@ -175,7 +175,7 @@ Do not declare `packages:` in `Project.swift`.
 ### Project Manifests
 
 - `Workspace.swift` - Defines workspace with projects array
-- `Tuist.swift` - Global config (Xcode 16.0+ compatibility)
+- `Tuist.swift` - Global config (compatibleXcodeVersions: 26.x and 27.x)
 - `Projects/*/Project.swift` - Individual module definitions
 - `Tuist/ProjectDescriptionHelpers/` - Shared constants and helpers
 
@@ -231,7 +231,7 @@ Build Settings pane is read-only in practice: edits there are lost on the next `
 ## CI/CD
 
 GitHub Actions workflow (`.github/workflows/deploy-ios.yml`):
-1. Runs on macOS 15 with Xcode 16.2
+1. Runs on the `xcode-27` runner image (macOS 27, Xcode 27.0 as the default Xcode; no `xcode-select` step)
 2. Decrypts secrets via git-secret + GPG
 3. Installs Tuist via mise
 4. Builds workspace
@@ -243,7 +243,7 @@ GitHub Actions workflow (`.github/workflows/deploy-ios.yml`):
 - **Dark mode only** (`UIUserInterfaceStyle: Dark` in Info.plist)
 - **Swift 5.0** with bridging header for Objective-C compatibility
 - **No Catalyst or XR support** (explicitly disabled)
-- **Xcode 16.0+** required (Tuist compatibility constraint)
+- **Xcode 26.0+** required (Tuist `compatibleXcodeVersions`: 26.x, 27.x)
 - **`cheers.xlsx` must keep `xl/sharedStrings.xml`** — writing it with openpyxl
   strips the part and crashes the app at launch. Always call
   `restore_shared_strings()` after saving (see Data Architecture)
