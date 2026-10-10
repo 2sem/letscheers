@@ -15,6 +15,8 @@ public extension TargetDependency {
     }
 
     class externals {
+        public static let gadManager: TargetDependency = .external(name: "GADManager")
+
         public class firebase {
             public static let core: TargetDependency = .external(name: "FirebaseCore")
             public static let crashlytics: TargetDependency = .external(name: "FirebaseCrashlytics")

@@ -19,11 +19,6 @@ let skAdNetworks: [Plist.Value] = skAdNetworkIDs
 
 let project = Project(
     name: "App",
-    packages: [
-        .remote(url: "https://github.com/2sem/GADManager",
-                requirement: .upToNextMajor(from: "1.3.8")),
-//        .local(path: .relativeToRoot("../../../pods/GADManager/src/GADManager"))
-    ],
     settings: .settings(configurations: [
         .debug(
             name: "Debug",
@@ -81,7 +76,7 @@ let project = Project(
             ],
             dependencies: [
                 .Projects.ThirdParty,
-                .package(product: "GADManager", type: .runtime),
+                .externals.gadManager,
                 .externals.firebase.core,
                 .externals.firebase.crashlytics,
                 .externals.firebase.analytics,

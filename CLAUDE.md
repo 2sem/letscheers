@@ -173,16 +173,10 @@ Projects/App/Sources/
 
 ### Adding Dependencies
 
-**To ThirdParty (static):** Edit `Projects/ThirdParty/Project.swift`
-```swift
-packages: [
-    .remote(url: "...", requirement: .upToNextMajor(from: "1.0.0"))
-]
-```
-
-**To Firebase (external SPM):** Edit `Tuist/Package.swift`, then add the product to App's `dependencies` via a `.externals.firebase.*` helper (define new ones in `TargetDependency+.swift`). Run `mise x -- tuist install` after changing `Tuist/Package.swift`.
-
-**Runtime packages (like GADManager):** Edit `Projects/App/Project.swift` with `.package(product: "...", type: .runtime)`
+All SPM packages live in `Tuist/Package.swift` (resolved by Tuist's swifterpm). Add the
+`.package(url:...)`, run `mise x -- tuist install`, then reference the product from a target
+with `.external(name: "Product")` (or a `.externals.*` helper in `TargetDependency+.swift`).
+Do not declare `packages:` in `Project.swift`.
 
 ### Project Manifests
 
