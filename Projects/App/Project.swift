@@ -17,16 +17,45 @@ let skAdNetworkIDs: [String] = [
 let skAdNetworks: [Plist.Value] = skAdNetworkIDs
     .map { .dictionary(["SKAdNetworkIdentifier": .string("\($0).skadnetwork")]) }
 
+// Bump both together for a release; the build number must be strictly higher than the last submitted one.
+let marketingVersion = "2.2.0"
+let buildNumber = "3"
+
 let project = Project(
     name: "App",
-    settings: .settings(configurations: [
-        .debug(
-            name: "Debug",
-            xcconfig: "Configs/debug.xcconfig"),
-        .release(
-            name: "Release",
-            xcconfig: "Configs/release.xcconfig")
-    ]),
+    settings: .settings(
+        base: [
+            "ASSETCATALOG_COMPILER_APPICON_NAME": "AppIcon",
+            "CLANG_ENABLE_MODULES": "YES",
+            "CURRENT_PROJECT_VERSION": .string(buildNumber),
+            "DEVELOPMENT_TEAM": "M29A6H95KD",
+            "INFOPLIST_KEY_LSApplicationCategoryType": "public.app-category.lifestyle",
+            "MARKETING_VERSION": .string(marketingVersion),
+            "PRODUCT_BUNDLE_IDENTIFIER": "com.credif.letscheers",
+            "PRODUCT_NAME": "$(TARGET_NAME)",
+            "SUPPORTS_MACCATALYST": "NO",
+            "SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD": "NO",
+            "SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD": "NO",
+            "SWIFT_OBJC_BRIDGING_HEADER": "Sources/letscheers-Bridging-Header.h",
+            "TARGETED_DEVICE_FAMILY": "1,2",
+            // LSExtensions (static) adds Swift extensions on UIKit classes; without -ObjC the
+            // linker drops them and calls crash with "unrecognized selector".
+            "OTHER_LDFLAGS": "$(inherited) -ObjC",
+        ],
+        configurations: [
+            .debug(name: "Debug", settings: [
+                "CODE_SIGN_IDENTITY": "Apple Development",
+                "CODE_SIGN_STYLE": "Automatic",
+                "PROVISIONING_PROFILE_SPECIFIER": "",
+                "SWIFT_OPTIMIZATION_LEVEL": "-Onone",
+            ]),
+            .release(name: "Release", settings: [
+                "CODE_SIGN_IDENTITY": "iPhone Distribution",
+                "CODE_SIGN_STYLE": "Manual",
+                "PROVISIONING_PROFILE_SPECIFIER": "letscheers",
+            ]),
+        ]
+    ),
     targets: [
         .target(
             name: "App",

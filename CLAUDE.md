@@ -218,15 +218,15 @@ static var appBundleId: String { "com.credif.letscheers" }
 
 ## Build Configurations
 
-Two xcconfig files in `Projects/App/Configs/`:
+Build settings live in `Projects/App/Project.swift` (no xcconfig files). Xcode's
+Build Settings pane is read-only in practice: edits there are lost on the next `tuist generate`.
 
-- **debug.xcconfig** - Automatic signing, simulator support, debug optimization
-- **release.xcconfig** - Manual signing (for CI/CD), production settings
-
-Both specify:
-- `MARKETING_VERSION=1.1.17` (update for new releases)
-- `IPHONEOS_DEPLOYMENT_TARGET=13.0`
-- `TARGETED_DEVICE_FAMILY=1,2` (iPhone + iPad)
+- `base` - shared settings, including `-ObjC` (required: static LSExtensions adds Swift
+  extensions on UIKit classes that the linker would otherwise drop)
+- `Debug` - Automatic signing, `-Onone`
+- `Release` - Manual signing (provisioning profile `letscheers`, for CI/CD)
+- `marketingVersion` / `buildNumber` constants at the top of `Project.swift` - bump both
+  for a release (build number must be strictly higher than the last submitted one)
 
 ## CI/CD
 
