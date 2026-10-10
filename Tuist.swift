@@ -10,7 +10,7 @@ import ProjectDescription
 let tuist = Tuist(
     fullHandle: "gamehelper/letscheers",
     project: .tuist(
-        compatibleXcodeVersions: .list(["26.0", "27.0"]),
+        compatibleXcodeVersions: .list([.upToNextMajor("26.0"), .upToNextMajor("27.0")]),
 //                    swiftVersion: "",
 //                    plugins: <#T##[PluginLocation]#>,
         generationOptions: .options(
