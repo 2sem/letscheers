@@ -98,10 +98,9 @@ let project = Project(
                     "UIViewControllerBasedStatusBarAppearance": true
                 ]
             ),
-            sources: ["Sources/**"],
-            resources: [
-                .glob(pattern: "Resources/**",
-                      excluding: ["Resources/Databases/letscheers.xcdatamodeld/**"])
+            buildableFolders: [
+                "Sources",
+                "Resources",
             ],
             dependencies: [
                 .externals.coreXLSX,
@@ -112,9 +111,6 @@ let project = Project(
                 .externals.firebase.core,
                 .externals.firebase.crashlytics,
                 .externals.firebase.analytics,
-            ],
-            coreDataModels: [
-                .coreDataModel("Resources/Databases/letscheers.xcdatamodeld")
             ]
         )
     ]

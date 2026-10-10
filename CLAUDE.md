@@ -34,7 +34,7 @@ mise x -- tuist build
 mise x -- tuist clean
 ```
 
-**CRITICAL**: Only run `tuist generate` when adding or removing files. Do not regenerate for code-only changes.
+`Sources/` and `Resources/` are Xcode buildable folders (synchronized groups): adding, removing or moving files inside them needs **no** regeneration. Run `tuist generate` only when manifests (`Project.swift`, `Tuist/Package.swift`, helpers) change.
 
 ### Development Workflow
 
@@ -251,7 +251,7 @@ GitHub Actions workflow (`.github/workflows/deploy-ios.yml`):
 ## Development Notes
 
 - Think and implement code following Paul Hudson or Antoine van der Lee patterns
-- Never regenerate Tuist project without file insertion/deletion
+- Never regenerate Tuist project unless a manifest changed (files in buildable folders sync automatically)
 - Use `mise x --` prefix for all Tuist commands to ensure correct version
 - Favorites are the only mutable data; toasts are read-only from Excel
 - All LC-prefixed controllers are singletons accessed via `.shared`
