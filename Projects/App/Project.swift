@@ -75,7 +75,10 @@ let project = Project(
                       excluding: ["Resources/Databases/letscheers.xcdatamodeld/**"])
             ],
             dependencies: [
-                .Projects.ThirdParty,
+                .externals.coreXLSX,
+                .externals.kakaoSDK,
+                .externals.lsExtensions,
+                .externals.stringLogger,
                 .externals.gadManager,
                 .externals.firebase.core,
                 .externals.firebase.crashlytics,

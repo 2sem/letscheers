@@ -1,5 +1,5 @@
 {
-  "originHash" : "739f46ee455355dc20899d8e5bb790ae5d86032c02b8acc18208d9126b11c1b7",
+  "originHash" : "e098c4d05671c42816122782933186aaba80c3b1ed2f61fb764bff5f721eb175",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -35,15 +35,6 @@
       "state" : {
         "revision" : "1391f3832ea2eeee5186ea8abb81ea49ed0609cc",
         "version" : "0.14.2"
-      }
-    },
-    {
-      "identity" : "dropdown",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/AssistoLab/DropDown",
-      "state" : {
-        "branch" : "master",
-        "revision" : "2ab6f6ce19f0117d1a76ea043ef8f57722c65d16"
       }
     },
     {

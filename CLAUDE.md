@@ -60,21 +60,15 @@ fastlane ios release description:"Changes" isReleasing:true
 
 ### Module Structure
 
-The project is organized as two Tuist modules:
+The project is a single Tuist module:
 
-1. **App** (`.app`) - Main application
-   - Bundle ID: `com.credif.letscheers`
-   - Depends on ThirdParty + GADManager + Firebase (SPM)
+- **App** (`.app`) - Main application
+  - Bundle ID: `com.credif.letscheers`
+  - Depends directly on external SPM packages (CoreXLSX, KakaoSDK, LSExtensions,
+    StringLogger, GADManager, Firebase) declared in `Tuist/Package.swift`
+    and linked via `.externals.*` helpers in `TargetDependency+.swift`.
 
-2. **ThirdParty** (`.staticFramework`) - Static dependencies
-   - RxSwift/RxCocoa, KakaoSDK, CoreXLSX, etc.
-   - Bundle ID: `com.credif.letscheers.thirdparty`
-
-Firebase (Core, Crashlytics, Analytics, Messaging, RemoteConfig) is a
-Tuist external SPM dependency declared in `Tuist/Package.swift` and linked
-into App directly via `.externals.firebase.*` helpers in
-`TargetDependency+.swift`. The old `DynamicThirdParty` `.framework` module
-has been removed.
+The old `ThirdParty` static framework and `DynamicThirdParty` modules have been removed.
 
 ### Data Architecture
 
@@ -190,8 +184,8 @@ Do not declare `packages:` in `Project.swift`.
 // String+.swift defines bundle ID
 static var appBundleId: String { "com.credif.letscheers" }
 
-// TargetDependency+.swift provides project dependencies
-.Projects.ThirdParty  // instead of .project(target: "ThirdParty", ...)
+// TargetDependency+.swift provides external package dependencies
+.externals.gadManager  // instead of .external(name: "GADManager")
 ```
 
 ## Data Flow
