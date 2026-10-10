@@ -16,12 +16,20 @@ on:
     branches: [ "main" ]
     paths:
       - '**/*.swift'
-      - 'mise.toml'
+      - '.mise.toml'
+      - 'Tuist/Package.resolved'
+      - '.github/workflows/build-test.yml'
   pull_request:
     branches: [ "main" ]
     paths:
       - '**/*.swift'
-      - 'mise.toml'
+      - '.mise.toml'
+      - 'Tuist/Package.resolved'
+      - '.github/workflows/build-test.yml'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build-test:
@@ -47,6 +55,16 @@ jobs:
 
     - name: Install Mise
       uses: jdx/mise-action@v5
+
+    - name: Cache Tuist dependencies
+      uses: actions/cache@v6
+      with:
+        path: |
+          Tuist/.build
+          ~/.cache/swifterpm
+          ~/.cache/tuist
+        # Key on the lockfile and the Tuist version (.mise.toml). Bump the prefix when the path list changes.
+        key: tuist-v1-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('Tuist/Package.resolved', '.mise.toml') }}
 
     - name: Log in Tuist
       run: |
