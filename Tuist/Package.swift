@@ -31,6 +31,6 @@ let package = Package(
         .package(url: "https://github.com/kakao/kakao-ios-sdk", from: "2.27.2"),
         .package(url: "https://github.com/2sem/LSExtensions", exact: "0.1.23"),
         .package(url: "https://github.com/2sem/StringLogger", from: "0.7.0"),
-        .package(url: "https://github.com/2sem/GADManager", from: "1.3.8"),
+        .package(url: "https://github.com/2sem/GADManager", from: "1.5.0"),
     ]
 )

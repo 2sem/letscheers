@@ -211,7 +211,7 @@ static var appBundleId: String { "com.credif.letscheers" }
 
 ## Google Mobile Ads Integration
 
-- **GADManager 1.3.5** handles ad lifecycle
+- **GADManager 1.5.0** handles ad lifecycle
 - Ad unit IDs in `Info.plist` under `GADUnitIdentifiers` dictionary
 - `AppDelegate` conforms to `GADRewardManagerDelegate`
 - Extensions: `GADBannerView+.swift`, `GADRewardedAd+.swift`, `GADInterstitialAd+.swift`
