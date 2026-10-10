@@ -57,6 +57,7 @@ jobs:
       uses: jdx/mise-action@v5
 
     - name: Cache Tuist dependencies
+      id: deps-cache
       uses: actions/cache@v6
       with:
         path: |
@@ -80,12 +81,15 @@ jobs:
       run: |
         tuist install
 
+    # Only worth the round-trip when the dependency cache hit; a cold run builds from sources.
     - name: Setup Tuist Cache Service
+      if: steps.deps-cache.outputs.cache-hit == 'true'
       run: |
         tuist setup cache
 
     - name: Test App
       env:
         SCHEME: App
+        TUIST_TEST_BINARY_CACHE: ${{ steps.deps-cache.outputs.cache-hit == 'true' && 'true' || 'false' }}
       run: |
         tuist test
