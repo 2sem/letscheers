@@ -100,7 +100,8 @@ let project = Project(
             ),
             buildableFolders: [
                 "Sources",
-                "Resources",
+                // Encrypted copy of cheers.xlsx (git-secret); must not ship in the app bundle.
+                .folder("Resources", exceptions: [.exception(excluded: ["Excel/cheers.xlsx.secret"])]),
             ],
             dependencies: [
                 .externals.coreXLSX,
