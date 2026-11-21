@@ -10,7 +10,7 @@ brew install mise
 ### Install Tuist
 ```bash
 mise install tuist
-# Tuist version 4.207.0 will be installed as specified in .mise.toml
+# Tuist version 4.218.2 will be installed as specified in .mise.toml
 ```
 
 ## Tuist Workflow
