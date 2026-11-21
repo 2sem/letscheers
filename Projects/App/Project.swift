@@ -18,8 +18,8 @@ let skAdNetworks: [Plist.Value] = skAdNetworkIDs
     .map { .dictionary(["SKAdNetworkIdentifier": .string("\($0).skadnetwork")]) }
 
 // Bump both together for a release; the build number must be strictly higher than the last submitted one.
-let marketingVersion = "2.2.1"
-let buildNumber = "4"
+let marketingVersion = "2.3.0"
+let buildNumber = "5"
 
 let project = Project(
     name: "App",
