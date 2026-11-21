@@ -26,10 +26,10 @@ import PackageDescription
 let package = Package(
     name: "letscheers",
     dependencies: [
-        .package(id: "firebase.firebase-ios-sdk", .upToNextMinor(from: "12.18.0")),
+        .package(id: "firebase.firebase-ios-sdk", .upToNextMinor(from: "13.2.0")),
         .package(id: "coreoffice.corexlsx", exact: "0.14.2"),
-        .package(id: "kakao.kakao-ios-sdk", from: "2.27.2"),
-        .package(url: "https://github.com/2sem/LSExtensions", exact: "0.1.23"),
+        .package(id: "kakao.kakao-ios-sdk", from: "2.30.0"),
+        .package(url: "https://github.com/2sem/LSExtensions", exact: "0.1.24"),
         .package(url: "https://github.com/2sem/StringLogger", from: "0.7.0"),
         .package(url: "https://github.com/2sem/GADManager", from: "1.5.0"),
     ]

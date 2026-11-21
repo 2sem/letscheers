@@ -28,22 +28,22 @@ letscheers is an iOS app that provides Korean drinking toast phrases and cheers 
 - **RxCocoa 5.1+**: Reactive extensions for Cocoa
 - **CoreXLSX 0.14.1**: Excel file handling
 - **DropDown**: Dropdown UI component
-- **KakaoSDK 2.22.2+**: Kakao platform integration for sharing
+- **KakaoSDK 2.30.0+**: Kakao platform integration for sharing
 - **Toast-Swift 5.1+**: Toast notifications
 - **SwiftyGif 5.4.5+**: GIF support
-- **LSExtensions 0.1.22**: Custom utility extensions
+- **LSExtensions 0.1.24**: Custom utility extensions
 - **LSCountDownLabel 0.0.5+**: Countdown timer label
 - **StringLogger 0.7.0+**: Logging utility
 
 #### Dynamic Framework (DynamicThirdParty)
-- **Firebase 11.14.0+**:
+- **Firebase 13.2.0+**:
   - FirebaseCrashlytics
   - FirebaseAnalytics
   - FirebaseMessaging
   - FirebaseRemoteConfig
 
 #### Runtime Packages
-- **GADManager 1.3.5+**: Google Mobile Ads integration
+- **GADManager 1.5.0+ (GoogleMobileAds 12.x, capped by GADManager)**: Google Mobile Ads integration
 
 ### Project Structure
 ```
