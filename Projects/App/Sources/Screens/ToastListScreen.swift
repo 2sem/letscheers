@@ -47,7 +47,7 @@ private struct ToastListContent: View {
     }
 
     /// Placement rules (manager decision on issue #91):
-    /// - no ads while searching
+    /// - no ads while searching or on the first launch (`launchCount <= 1`)
     /// - lists shorter than 5 toasts get no ad
     /// - first ad after toast index 4, then one every 10 toasts (index 4, 14, 24, …)
     private static let firstAdAfterIndex = 4
@@ -56,7 +56,8 @@ private struct ToastListContent: View {
     private var displayItems: [ToastListItem] {
         let toasts = viewModel.filteredToasts
 
-        guard viewModel.searchText.isEmpty,
+        guard launchCount > 1,
+              viewModel.searchText.isEmpty,
               toasts.count > Self.firstAdAfterIndex else {
             return toasts.map { .toast($0) }
         }
@@ -112,7 +113,7 @@ private struct ToastListContent: View {
                     .toastCardRowStyle()
                 case .ad:
                     ToastListNativeAdRow(
-                        shouldLoadAd: launchCount > 1,
+                        shouldLoadAd: true,
                         backgroundRowColor: .cardBackground
                     )
                     .listRowSeparator(.hidden)
