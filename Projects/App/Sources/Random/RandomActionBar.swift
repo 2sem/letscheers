@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-/// Pinned action row: favorite · "다시 뽑기" · share.
+/// Pinned actions: gold "다시 뽑기", "낭독 모드", favorite star, share.
 /// Reflows to a vertical stack at accessibility Dynamic Type sizes.
 struct RandomActionBar: View {
     let toast: Toast
@@ -16,21 +16,22 @@ struct RandomActionBar: View {
     let isRerollLocked: Bool
     let onReroll: () -> Void
     let onToggleFavorite: () -> Void
+    let onOpenDetail: () -> Void
 
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
+    @State private var rerollCount = 0
 
     private var isFavorite: Bool { toast.favorite != nil }
     private var canReroll: Bool { poolCount > 1 }
 
-    private var shareText: String {
-        "\(toast.title)\n\n\(toast.contents)\n\n— 술마셔 건배사"
-    }
-
     var body: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: 12) {
+            rerollButton
+
             if dynamicTypeSize >= .accessibility1 {
                 VStack(spacing: 12) {
-                    rerollButton
+                    detailButton
                     HStack(spacing: 12) {
                         favoriteButton
                         shareButton
@@ -38,8 +39,8 @@ struct RandomActionBar: View {
                 }
             } else {
                 HStack(spacing: 12) {
+                    detailButton
                     favoriteButton
-                    rerollButton
                     shareButton
                 }
             }
@@ -47,7 +48,7 @@ struct RandomActionBar: View {
             if !canReroll {
                 Text("이 카테고리엔 건배사가 하나뿐이에요")
                     .font(.caption)
-                    .foregroundStyle(Color.secondary)
+                    .foregroundStyle(Color.textSecondary)
                     .multilineTextAlignment(.center)
             }
         }
@@ -56,20 +57,34 @@ struct RandomActionBar: View {
         }
     }
 
+    // MARK: Detail
+
+    private var detailButton: some View {
+        Button(action: onOpenDetail) {
+            Label("낭독 모드", systemImage: "text.viewfinder")
+                .font(.headline)
+                .foregroundStyle(.white)
+                .frame(maxWidth: .infinity, minHeight: 52)
+                .background(Color.surfaceElevated, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+        }
+        .buttonStyle(.plain)
+        .accessibilityHint("크게 보기 화면으로 이동합니다")
+    }
+
     // MARK: Favorite
 
     private var favoriteButton: some View {
         Button(action: onToggleFavorite) {
-            Image(systemName: isFavorite ? "heart.fill" : "heart")
+            Image(systemName: isFavorite ? "star.fill" : "star")
                 .font(.title3)
-                .foregroundStyle(isFavorite ? Color.accentPurple : Color.primary)
+                .foregroundStyle(isFavorite ? Color.accentGold : Color.white)
                 .symbolEffect(.bounce, value: isFavorite)
-                .frame(width: 56, height: 56)
-                .background(Circle().fill(Color.iconContainer))
+                .frame(width: 52, height: 52)
+                .background(Circle().fill(Color.surfaceElevated))
                 .contentShape(Circle())
         }
         .buttonStyle(.plain)
-        .accessibilityLabel("즐겨찾기")
+        .accessibilityLabel(isFavorite ? "즐겨찾기 해제" : "즐겨찾기 추가")
         .accessibilityValue(isFavorite ? "추가됨" : "추가 안 됨")
         .accessibilityAddTraits(isFavorite ? [.isSelected] : [])
     }
@@ -78,14 +93,17 @@ struct RandomActionBar: View {
 
     private var rerollButton: some View {
         Button {
+            rerollCount += 1
             onReroll()
         } label: {
             HStack(spacing: 8) {
-                Image(systemName: "shuffle")
+                Image(systemName: "dice.fill")
+                    .symbolEffect(.bounce, value: rerollCount)
                 Text("다시 뽑기")
             }
         }
         .buttonStyle(RandomPrimaryButtonStyle())
+        .sensoryFeedback(.impact, trigger: rerollCount)
         .disabled(!canReroll || isRerollLocked)
         .opacity(canReroll ? 1 : 0.4)
         .accessibilityLabel("다시 뽑기")
@@ -96,14 +114,14 @@ struct RandomActionBar: View {
     // MARK: Share
 
     private var shareButton: some View {
-        ShareLink(item: shareText) {
+        ToastShareButton(toast: toast) {
             Image(systemName: "square.and.arrow.up")
                 .font(.title3)
-                .foregroundStyle(Color.primary)
-                .frame(width: 56, height: 56)
-                .background(Circle().fill(Color.iconContainer))
+                .foregroundStyle(Color.white)
+                .frame(width: 52, height: 52)
+                .background(Circle().fill(Color.surfaceElevated))
                 .contentShape(Circle())
         }
-        .accessibilityLabel("공유")
+        .accessibilityLabel("카드로 공유")
     }
 }

@@ -99,17 +99,22 @@ struct RandomAdPromptView: View {
                 isAccepting = true
                 onAccept()
             } label: {
-                if isAccepting {
-                    ProgressView()
-                        .tint(Color.navBar)
-                } else {
+                ZStack {
                     Text("광고 보고 뽑기")
+                        .opacity(isAccepting ? 0 : 1)
+                    if isAccepting {
+                        ProgressView()
+                            .tint(Color.navBar)
+                            .accessibilityHidden(true)
+                    }
                 }
+                .contentShape(Rectangle())
             }
             .buttonStyle(RandomPrimaryButtonStyle())
             .disabled(isAccepting)
             .accessibilityLabel("광고 보고 건배사 뽑기")
             .accessibilityHint("광고를 본 후 무작위 건배사를 보여줍니다.")
+            .accessibilityIdentifier("randomAdAccept")
 
             Button {
                 onDecline()

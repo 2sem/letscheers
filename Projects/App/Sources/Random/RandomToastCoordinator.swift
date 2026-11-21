@@ -99,6 +99,10 @@ final class RandomToastCoordinator: ObservableObject {
     /// during which no sheet is visible.
     private var pendingDraw: PendingDraw?
 
+    /// Toast the result sheet asked to open in 낭독 모드. Consumed by the result
+    /// sheet's `onDismiss` so the push happens after the sheet is gone.
+    private var pendingDetailToast: Toast?
+
     private struct PendingDraw {
         let toast: Toast
         let pool: RandomPool
@@ -199,6 +203,17 @@ final class RandomToastCoordinator: ObservableObject {
             flow.toast = toast
             presentedResult = flow
         }
+    }
+
+    // MARK: Detail hand-off
+
+    func requestDetail(of toast: Toast) {
+        pendingDetailToast = toast
+    }
+
+    func consumePendingDetail() -> Toast? {
+        defer { pendingDetailToast = nil }
+        return pendingDetailToast
     }
 
     // MARK: Leaving the flow

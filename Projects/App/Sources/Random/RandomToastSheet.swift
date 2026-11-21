@@ -27,6 +27,8 @@ struct RandomToastSheet: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     @State private var detent: PresentationDetent = .height(300)
     @State private var isExpanded = false
@@ -54,7 +56,10 @@ struct RandomToastSheet: View {
     /// One fixed detent per phase — the sheet is not resizable. Swipe-down to
     /// dismiss still works on `.result` (interactive dismiss is enabled there).
     private var detents: Set<PresentationDetent> {
-        [currentDetent]
+        if phase == .result, horizontalSizeClass == .regular, !isAccessibilitySize {
+            return [.medium, .large]
+        }
+        return [currentDetent]
     }
 
     private var currentDetent: PresentationDetent {
@@ -71,9 +76,9 @@ struct RandomToastSheet: View {
     }
 
     private var resultDetent: PresentationDetent {
-        // A single detent that clears the hero + action bar at default text
-        // size; `.large` at accessibility sizes where the content scrolls.
-        isAccessibilitySize ? .large : .fraction(0.65)
+        // `.large` on iPhone (the moment of use), `.medium` start on iPad
+        // (which also offers `.large`).
+        horizontalSizeClass == .regular && !isAccessibilitySize ? .medium : .large
     }
 
     private var subtitle: String? {
@@ -90,13 +95,14 @@ struct RandomToastSheet: View {
     var body: some View {
         content
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.cardBackground)
+            .background(LinearGradient.appScreen)
             .presentationDetents(detents, selection: $detent)
-            .presentationDragIndicator(.hidden)
-            .presentationBackground(Color.cardBackground)
+            .presentationDragIndicator(phase == .result ? .visible : .hidden)
+            .presentationBackground { LinearGradient.appScreen }
             .presentationCornerRadius(24)
             .interactiveDismissDisabled(phase != .result)
             .sensoryFeedback(.impact(weight: .light), trigger: heroTick)
+            .animation(reduceMotion ? nil : .snappy, value: liveToast.no)
             .onAppear {
                 detent = currentDetent
                 if isAccessibilitySize { isExpanded = true }
@@ -149,7 +155,8 @@ struct RandomToastSheet: View {
                 poolCount: live.poolCount,
                 isRerollLocked: rerollLocked,
                 onReroll: reroll,
-                onToggleFavorite: toggleFavorite
+                onToggleFavorite: toggleFavorite,
+                onOpenDetail: openDetail
             )
             .padding(.bottom, 16)
 
@@ -163,11 +170,11 @@ struct RandomToastSheet: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text("랜덤 건배사")
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.textSecondary)
                 if let subtitle {
                     Text(subtitle)
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.textSecondary)
                 }
             }
             .accessibilityElement(children: .combine)
@@ -179,7 +186,7 @@ struct RandomToastSheet: View {
             } label: {
                 Image(systemName: "xmark")
                     .font(.body.weight(.semibold))
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.textSecondary)
                     .frame(width: 44, height: 44)
                     .contentShape(Rectangle())
             }
@@ -213,7 +220,7 @@ struct RandomToastSheet: View {
         } label: {
             Text("닫기")
                 .font(.body)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.textSecondary)
                 .frame(maxWidth: .infinity, minHeight: 44)
                 .contentShape(Rectangle())
         }
@@ -244,6 +251,13 @@ struct RandomToastSheet: View {
         }
     }
 
+    /// 낭독 모드 — close the sheet; `MainScreen` pushes the big read-aloud view
+    /// from the sheet's `onDismiss` once the dismissal has finished.
+    private func openDetail() {
+        coordinator.requestDetail(of: liveToast)
+        dismiss()
+    }
+
     private func reroll() {
         guard !rerollLocked else { return }
         rerollLocked = true
@@ -257,15 +271,6 @@ struct RandomToastSheet: View {
     }
 
     private func toggleFavorite() {
-        let toast = liveToast
-        if let favorite = toast.favorite {
-            modelContext.delete(favorite)
-            toast.favorite = nil
-        } else {
-            let favorite = Favorite(toast: toast)
-            modelContext.insert(favorite)
-            toast.favorite = favorite
-        }
-        try? modelContext.save()
+        liveToast.toggleFavorite(in: modelContext)
     }
 }

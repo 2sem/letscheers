@@ -11,39 +11,26 @@ import SwiftData
 
 struct ToastListScreen: View {
     let title: String
-    let backgroundImage: UIImage?
     let viewModel: ToastListViewModel
 
-    @EnvironmentObject var favoritesManager: FavoritesManager
-
     var body: some View {
-        ToastListContent(
-            title: title,
-            backgroundImage: backgroundImage,
-            viewModel: viewModel
-        )
+        ToastListContent(title: title, viewModel: viewModel)
     }
 }
 
 // MARK: - Content View
 
 private struct ToastListContent: View {
-    @Environment(\.modelContext) private var modelContext
-
     let title: String
-    let backgroundImage: UIImage?
     @ObservedObject var viewModel: ToastListViewModel
     @Query var toasts: [Toast]
     @Query private var categoryMatches: [ToastCategory]
 
-    @EnvironmentObject var favoritesManager: FavoritesManager
-    @State private var selectedToast: ToastViewModel?
-    @State private var showShareAlert = false
+    @EnvironmentObject private var router: NavigationRouter
     @AppStorage("LaunchCount") private var launchCount = 0
 
-    init(title: String, backgroundImage: UIImage?, viewModel: ToastListViewModel) {
+    init(title: String, viewModel: ToastListViewModel) {
         self.title = title
-        self.backgroundImage = backgroundImage
         self.viewModel = viewModel
 
         let categoryName = viewModel.categoryName
@@ -57,10 +44,6 @@ private struct ToastListContent: View {
 
     private var randomPool: RandomPool? {
         categoryMatches.first.map { .category($0.persistentModelID) }
-    }
-
-    private var backgroundRowColor: Color {
-        Color.cardBackground.opacity(backgroundImage != nil ? 0.5 : 1.0)
     }
 
     /// Placement rules (manager decision on issue #91):
@@ -92,93 +75,75 @@ private struct ToastListContent: View {
     }
 
     var body: some View {
-        ZStack {
-            // Base background color (same as category grid)
-            Color.appBackground
-                .ignoresSafeArea()
-
-            // Background image layer
-            if let background = backgroundImage {
-                GeometryReader { geometry in
-                    Image(uiImage: background)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: geometry.size.width, height: geometry.size.height)
-                        .clipped()
-                        .opacity(0.2)
+        list
+            .overlay { emptyState }
+            .background { LinearGradient.appScreen.ignoresSafeArea() }
+            .navigationTitle(title)
+            .navigationBarTitleDisplayMode(.inline)
+            .searchable(text: $viewModel.searchText, prompt: "검색")
+            .onChange(of: viewModel.searchText, {
+                self.viewModel.refresh(toasts: toasts)
+            })
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    RandomToastButton(style: .icon, pool: randomPool)
                 }
-                .ignoresSafeArea()
             }
+            .task {
+                self.viewModel.refresh(toasts: toasts)
+            }
+    }
 
-            // List layer
-            List {
-                ForEach(displayItems) { item in
-                    switch item {
-                    case .toast(let toast):
-                        ToastRow(viewModel: toast) {
-                            viewModel.toggleFavorite(for: toast, modelContext: modelContext)
-                        }
-                        .listRowBackground(backgroundRowColor)
-                        .contentShape(Rectangle())
-                        .onTapGesture {
-                            selectedToast = toast
-                            showShareAlert = true
-                        }
-                    case .ad:
-                        ToastListNativeAdRow(
-                            shouldLoadAd: launchCount > 1,
-                            backgroundRowColor: backgroundRowColor
-                        )
+    // MARK: - Sections
+
+    private var list: some View {
+        List {
+            Text("\(viewModel.filteredToasts.count)개")
+                .font(.footnote)
+                .foregroundStyle(Color.textTertiary)
+                .toastCardRowStyle()
+
+            ForEach(displayItems) { item in
+                switch item {
+                case .toast(let toast):
+                    ToastCardRow(toast: toast.toast) {
+                        open(toast)
                     }
+                    .toastCardRowStyle()
+                case .ad:
+                    ToastListNativeAdRow(
+                        shouldLoadAd: launchCount > 1,
+                        backgroundRowColor: .cardBackground
+                    )
+                    .listRowSeparator(.hidden)
+                    .listRowInsets(EdgeInsets(top: 6, leading: 16, bottom: 6, trailing: 16))
                 }
             }
-            .scrollContentBackground(.hidden)
         }
-        .navigationTitle(title)
-        .navigationBarTitleDisplayMode(.inline)
-        .searchable(text: $viewModel.searchText, prompt: "검색")
-        .onChange(of: viewModel.searchText, {
-            self.viewModel.refresh(toasts: toasts)
-        })
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                RandomToastButton(style: .icon, pool: randomPool)
-            }
-        }
-        .alert(selectedToast?.toast.title ?? "추천 건배사", isPresented: $showShareAlert) {
-            Button("공유") {
-                if let toast = selectedToast {
-                    shareToast(toast)
-                }
-            }
-            Button("확인", role: .cancel) {}
-        } message: {
-            if let toast = selectedToast {
-                Text(toast.toast.contents)
-            }
-        }
-        .task {
-            self.viewModel.refresh(toasts: toasts)
+        .listStyle(.plain)
+        .scrollContentBackground(.hidden)
+        .readableColumn()
+    }
+
+    @ViewBuilder
+    private var emptyState: some View {
+        if !viewModel.searchText.isEmpty && viewModel.filteredToasts.isEmpty {
+            ContentUnavailableView(
+                "검색 결과가 없어요",
+                systemImage: "magnifyingglass",
+                description: Text("다른 단어로 검색해 보세요")
+            )
+        } else if toasts.isEmpty {
+            ContentUnavailableView("건배사가 없어요", systemImage: "wineglass")
         }
     }
 
-    private func shareToast(_ toastViewModel: ToastViewModel) {
-        let toast = toastViewModel.toast
-        var contents = toast.contents
-        if !contents.isEmpty {
-            contents = "\n- " + contents
-        }
+    // MARK: - Actions
 
-        let tag = UIApplication.shared.displayName != nil ? "" : "\n#" + (UIApplication.shared.displayName ?? "")
-        let message = toast.title + contents + tag
-
-        let activityVC = UIActivityViewController(activityItems: [message], applicationActivities: nil)
-
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-           let rootVC = windowScene.windows.first?.rootViewController {
-            activityVC.popoverPresentationController?.sourceView = rootVC.view
-            rootVC.present(activityVC, animated: true)
-        }
+    private func open(_ toast: ToastViewModel) {
+        let deck = viewModel.filteredToasts.map(\.toast)
+        guard let index = deck.firstIndex(where: { $0.no == toast.toast.no }) else { return }
+        router.openDetail(of: deck, at: index)
     }
 }
 
@@ -195,39 +160,5 @@ private enum ToastListItem: Identifiable {
         case .toast(let viewModel): return "toast-\(viewModel.id)"
         case .ad(let slotIndex): return "ad-\(slotIndex)"
         }
-    }
-}
-
-// MARK: - Toast Row
-
-struct ToastRow: View {
-    let viewModel: ToastViewModel
-    let onFavoriteTap: () -> Void
-
-    var body: some View {
-        HStack(alignment: .top, spacing: 12) {
-            VStack(alignment: .leading, spacing: 8) {
-                Text(viewModel.toast.title)
-                    .font(.headline)
-                    .foregroundColor(.primary)
-
-                Text(viewModel.toast.contents)
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-                    .lineLimit(3)
-            }
-
-            Spacer()
-
-            Button {
-                onFavoriteTap()
-            } label: {
-                Image(systemName: viewModel.isFavorite ? "star.fill" : "star")
-                    .font(.title3)
-                    .foregroundColor(viewModel.isFavorite ? .yellow : .secondary)
-            }
-            .buttonStyle(.plain)
-        }
-        .padding(.vertical, 8)
     }
 }

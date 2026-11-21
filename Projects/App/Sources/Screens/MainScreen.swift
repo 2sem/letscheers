@@ -14,22 +14,21 @@ struct MainScreen: View {
 
     var body: some View {
         NavigationStack(path: $router.path) {
-            CategoryGridScreen()
+            HomeScreen()
                 .navigationDestination(for: NavigationDestination.self) { destination in
                     switch destination {
-                    case .toastList(let category, let title, let backgroundImageName):
-                        let backgroundImage = backgroundImageName != nil ? UIImage(named: backgroundImageName!) : nil
+                    case .toastList(let category, let title):
                         ToastListScreen(
                             title: title,
-                            backgroundImage: backgroundImage,
                             viewModel: ToastListViewModel(categoryName: category)
                         )
                     case .favorites:
                         FavoritesScreen()
+                    case .toastDetail(let toastNos, let index):
+                        ToastDetailRoute(toastNos: toastNos, index: index)
                     }
                 }
         }
-        .environmentObject(router)
         .overlay {
             if randomCoordinator.isPresentingAd {
                 RandomAdWaitingOverlay()
@@ -38,7 +37,7 @@ struct MainScreen: View {
         .sheet(item: $randomCoordinator.presentedPrompt) { flow in
             RandomToastSheet(flow: flow)
         }
-        .sheet(item: $randomCoordinator.presentedResult) { flow in
+        .sheet(item: $randomCoordinator.presentedResult, onDismiss: pushPendingDetail) { flow in
             RandomToastSheet(flow: flow)
         }
         .sheet(item: $randomCoordinator.presentedEmpty) { presentation in
@@ -53,5 +52,15 @@ struct MainScreen: View {
                 randomCoordinator.close()
             }
         }
+        // Outermost on purpose: sheets inherit the environment of the view they
+        // are attached to, so `router` must be injected after every `.sheet`.
+        .environmentObject(router)
+    }
+
+    /// Pushes the read-aloud detail requested from the result sheet, once the
+    /// sheet is fully gone (pushing mid-dismissal is unreliable).
+    private func pushPendingDetail() {
+        guard let toast = randomCoordinator.consumePendingDetail() else { return }
+        router.openDetail(of: [toast], at: 0)
     }
 }
