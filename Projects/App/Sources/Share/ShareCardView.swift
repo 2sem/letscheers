@@ -54,19 +54,21 @@ struct ShareCardView: View {
     @ViewBuilder
     private var titleBlock: some View {
         if presentation.hasTitleCallAndResponse {
-            VStack(alignment: .leading, spacing: 14) {
+            VStack(alignment: .center, spacing: 14) {
                 ForEach(presentation.titleLines) { line in
-                    VStack(alignment: .leading, spacing: 6) {
+                    VStack(alignment: .center, spacing: 6) {
                         RoleLabel(role: line.role, fontSize: 12)
                         Text(line.text)
-                            .font(.system(size: 30, weight: .heavy, design: .rounded))
+                            .font(.system(size: 34, weight: .heavy, design: .rounded))
                             .foregroundStyle(.white)
                             .lineLimit(2)
                             .minimumScaleFactor(0.6)
+                            .multilineTextAlignment(.center)
+                            .frame(maxWidth: .infinity)
                     }
                 }
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
+            .frame(maxWidth: .infinity)
             .accessibilityElement(children: .ignore)
             .accessibilityLabel(presentation.titleAccessibilityLabel)
         } else {

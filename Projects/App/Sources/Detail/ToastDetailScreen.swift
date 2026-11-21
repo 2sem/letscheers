@@ -249,19 +249,21 @@ private struct ToastDetailPage: View {
     }
 
     private var titleCallAndResponse: some View {
-        VStack(alignment: .leading, spacing: 20) {
+        VStack(alignment: .center, spacing: 20) {
             ForEach(presentation.titleLines) { line in
-                VStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .center, spacing: 8) {
                     RoleLabel(role: line.role)
                     Text(line.text)
-                        .font(.system(size: titleSize * 0.8, weight: .heavy, design: .rounded))
+                        .font(.system(size: titleSize, weight: .heavy, design: .rounded))
                         .foregroundStyle(.white)
                         .minimumScaleFactor(0.5)
-                        .lineLimit(3)
+                        .lineLimit(2)
+                        .multilineTextAlignment(.center)
+                        .frame(maxWidth: .infinity)
                 }
             }
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .frame(maxWidth: .infinity)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(presentation.titleAccessibilityLabel)
         .accessibilityAddTraits(.isHeader)
