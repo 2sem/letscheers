@@ -10,64 +10,24 @@ import SwiftUI
 import SwiftData
 
 struct FavoritesScreen: View {
-    @EnvironmentObject var favoritesManager: FavoritesManager
     @Environment(\.modelContext) private var modelContext
+    @EnvironmentObject private var router: NavigationRouter
     @Query(sort: \Favorite.createdAt, order: .forward)
     private var favorites: [Favorite]
 
     @Environment(\.editMode) private var editMode
-    @State private var selectedToast: Toast?
-    @State private var showShareAlert = false
+    @State private var deleteTick = 0
 
     var body: some View {
-        ZStack {
-            // Background color (same as other screens)
-            Color.appBackground
-                .ignoresSafeArea()
-
-            VStack {
-                Spacer()
-                Image("bg_cheers")
-                    .resizable()
-                    .scaledToFit()
-            }
-            .ignoresSafeArea(edges: .bottom)
-
+        Group {
             if favorites.isEmpty {
-                // Empty state
-                VStack(spacing: 16) {
-                    Image(systemName: "star.slash")
-                        .font(.system(size: 60))
-                        .foregroundColor(.gray)
-                    
-                    Text("즐겨찾기가 없습니다")
-                        .font(.title3)
-                        .foregroundColor(.gray)
-                    
-                    Text("마음에 드는 건배사를 즐겨찾기에 추가해보세요")
-                        .font(.subheadline)
-                        .foregroundColor(.gray.opacity(0.8))
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 40)
-                }
+                emptyState
             } else {
-                List {
-                    ForEach(favorites, id: \.id) { favorite in
-                        Button {
-                            if editMode?.wrappedValue.isEditing == false {
-                                showToastAlert(favorite)
-                            }
-                        } label: {
-                            FavoriteRow(favorite: favorite)
-                        }
-                        .buttonStyle(.plain)
-                        .listRowBackground(Color.cardBackground.opacity(0.5))
-                    }
-                    .onDelete(perform: deleteFavorites)
-                }
-                .scrollContentBackground(.hidden)
+                list
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background { LinearGradient.appScreen.ignoresSafeArea() }
         .navigationTitle("즐겨찾기")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -77,77 +37,99 @@ struct FavoritesScreen: View {
                 }
             }
         }
-        .alert(selectedToast?.title ?? "", isPresented: $showShareAlert) {
-            Button("공유") {
-                if let toast = selectedToast {
-                    share(toast: toast)
+        .sensoryFeedback(.impact, trigger: deleteTick)
+    }
+
+    // MARK: - Sections
+
+    private var list: some View {
+        List {
+            Text("\(favorites.count)개의 나만의 건배사")
+                .font(.footnote)
+                .foregroundStyle(Color.textTertiary)
+                .toastCardRowStyle()
+
+            ForEach(favorites, id: \.persistentModelID) { favorite in
+                ToastCard(toast: favorite.toast) {
+                    delete(favorite)
                 }
+                .onTapGesture {
+                    open(favorite)
+                }
+                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                    Button(role: .destructive) {
+                        delete(favorite)
+                    } label: {
+                        Label("삭제", systemImage: "trash")
+                    }
+                }
+                .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                    Button {
+                        ToastSharePresenter.present(favorite.toast)
+                    } label: {
+                        Label("공유", systemImage: "square.and.arrow.up")
+                    }
+                    .tint(Color.accentPurple)
+                }
+                .toastCardRowStyle()
             }
-            Button("확인", role: .cancel) {}
-        } message: {
-            if let toast = selectedToast {
-                Text(toast.contents)
+            .onDelete(perform: deleteFavorites)
+        }
+        .listStyle(.plain)
+        .scrollContentBackground(.hidden)
+        .readableColumn()
+    }
+
+    private var emptyState: some View {
+        ContentUnavailableView {
+            Label("아직 즐겨찾기가 없어요", systemImage: "star")
+        } description: {
+            Text("마음에 드는 건배사의 별을 눌러 모아 보세요")
+        } actions: {
+            Button {
+                router.navigateToRoot()
+            } label: {
+                Text("건배사 둘러보기")
+                    .font(.headline)
+                    .foregroundStyle(Color.onGold)
+                    .padding(.horizontal, 20)
+                    .frame(minHeight: 44)
+                    .background(Capsule().fill(Color.accentGold))
             }
+            .buttonStyle(.plain)
         }
     }
-    
-    private func showToastAlert(_ favorite: Favorite) {
-        selectedToast = favorite.toast
-        showShareAlert = true
+
+    // MARK: - Actions
+
+    private func open(_ favorite: Favorite) {
+        guard editMode?.wrappedValue.isEditing != true else { return }
+        let deck = favorites.map(\.toast)
+        guard let index = favorites.firstIndex(where: { $0.persistentModelID == favorite.persistentModelID }) else { return }
+        router.openDetail(of: deck, at: index)
     }
-    
+
+    private func delete(_ favorite: Favorite) {
+        favorite.toast.favorite = nil
+        modelContext.delete(favorite)
+        save()
+    }
+
     private func deleteFavorites(at offsets: IndexSet) {
         for index in offsets {
             let favorite = favorites[index]
+            favorite.toast.favorite = nil
             modelContext.delete(favorite)
         }
+        save()
+    }
+
+    private func save() {
+        deleteTick += 1
         do {
             try modelContext.save()
         } catch {
             print("Failed to save after deleting favorites: \(error)")
         }
-    }
-    
-    private func share(toast: Toast) {
-        var contentsText = toast.contents
-        if !contentsText.isEmpty {
-            contentsText = "\n- " + contentsText
-        }
-        
-        let tag = UIApplication.shared.displayName != nil ? "" : "\n#" + (UIApplication.shared.displayName ?? "")
-        let message = toast.title + contentsText + tag
-        
-        let activityVC = UIActivityViewController(activityItems: [message], applicationActivities: nil)
-        
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-           let rootVC = windowScene.windows.first?.rootViewController {
-            activityVC.popoverPresentationController?.sourceView = rootVC.view
-            rootVC.present(activityVC, animated: true)
-        }
-    }
-}
-
-// MARK: - Favorite Row
-
-struct FavoriteRow: View {
-    let favorite: Favorite
-    
-    var body: some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 8) {
-                Text(favorite.toast.title)
-                    .font(.headline)
-                    .foregroundColor(.primary)
-                
-                Text(favorite.toast.contents)
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-                    .lineLimit(3)
-            }
-            
-            Spacer()
-        }
-        .padding(.vertical, 8)
-        .contentShape(Rectangle())
     }
 }

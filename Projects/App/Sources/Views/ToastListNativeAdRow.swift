@@ -55,7 +55,16 @@ struct ToastListNativeAdRow: View {
             }
         }
         // Same translucent fill as the toast rows (also set at the list level).
-        .listRowBackground(backgroundRowColor)
+        .listRowBackground(
+            RoundedRectangle(cornerRadius: Theme.cardRadius, style: .continuous)
+                .fill(backgroundRowColor)
+                .overlay(
+                    RoundedRectangle(cornerRadius: Theme.cardRadius, style: .continuous)
+                        .strokeBorder(Color.stroke, lineWidth: 1)
+                )
+                .padding(.horizontal, 16)
+                .padding(.vertical, 6)
+        )
         .task {
             // Early-returns once ATT has already been requested.
             await adManager.requestAppTrackingIfNeed()
@@ -88,7 +97,8 @@ struct ToastListNativeAdRow: View {
 
             adIcon(ad)
         }
-        .padding(.vertical, 8)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 12)
     }
 
     @ViewBuilder
@@ -134,7 +144,8 @@ struct ToastListNativeAdRow: View {
                 .fill(Color.iconContainer)
                 .frame(width: 40, height: 40)
         }
-        .padding(.vertical, 8)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 12)
         .accessibilityHidden(true)
     }
 

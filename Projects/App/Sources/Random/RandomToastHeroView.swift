@@ -16,35 +16,35 @@ struct RandomToastHeroView: View {
     @Binding var isExpanded: Bool
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @ScaledMetric(relativeTo: .largeTitle) private var titleSize: CGFloat = 40
 
     private var meaningLineLimit: Int? { isExpanded ? nil : 4 }
 
     var body: some View {
         VStack(spacing: 16) {
             Text(toast.title)
-                .font(.title)
-                .bold()
-                .foregroundStyle(Color.primary)
+                .font(.system(size: titleSize, weight: .heavy, design: .rounded))
+                .foregroundStyle(.white)
                 .multilineTextAlignment(.center)
                 .lineLimit(3)
-                .minimumScaleFactor(0.7)
-                .tracking(0.5)
+                .minimumScaleFactor(0.5)
 
             if !toast.contents.isEmpty {
                 Text(toast.contents)
                     .font(.body)
-                    .foregroundStyle(Color.secondary)
+                    .foregroundStyle(Color.textSecondary)
                     .multilineTextAlignment(.center)
                     .lineLimit(meaningLineLimit)
             }
 
             if showCategoryChip, let name = toast.category?.name {
+                let tint = Color.categoryTint(for: name)
                 Text(name)
-                    .font(.caption2)
-                    .foregroundStyle(Color.secondary)
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(tint)
                     .padding(.horizontal, 10)
                     .padding(.vertical, 4)
-                    .background(Capsule().fill(Color.iconContainer))
+                    .background(Capsule().fill(tint.opacity(0.2)))
             }
         }
         .frame(maxWidth: .infinity)

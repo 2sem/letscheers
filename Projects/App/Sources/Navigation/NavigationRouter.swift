@@ -9,8 +9,10 @@
 import SwiftUI
 
 enum NavigationDestination: Hashable {
-    case toastList(category: String, title: String, backgroundImage: String?)
+    case toastList(category: String, title: String)
     case favorites
+    /// A swipeable deck of toasts (by their unique `no`) opened at `index`.
+    case toastDetail(toastNos: [Int16], index: Int)
 }
 
 @MainActor
@@ -21,6 +23,10 @@ class NavigationRouter: ObservableObject {
         path.append(destination)
     }
     
+    func openDetail(of toasts: [Toast], at index: Int) {
+        navigate(to: .toastDetail(toastNos: toasts.map(\.no), index: index))
+    }
+
     func navigateBack() {
         path.removeLast()
     }

@@ -14,18 +14,18 @@ struct MainScreen: View {
 
     var body: some View {
         NavigationStack(path: $router.path) {
-            CategoryGridScreen()
+            HomeScreen()
                 .navigationDestination(for: NavigationDestination.self) { destination in
                     switch destination {
-                    case .toastList(let category, let title, let backgroundImageName):
-                        let backgroundImage = backgroundImageName != nil ? UIImage(named: backgroundImageName!) : nil
+                    case .toastList(let category, let title):
                         ToastListScreen(
                             title: title,
-                            backgroundImage: backgroundImage,
                             viewModel: ToastListViewModel(categoryName: category)
                         )
                     case .favorites:
                         FavoritesScreen()
+                    case .toastDetail(let toastNos, let index):
+                        ToastDetailRoute(toastNos: toastNos, index: index)
                     }
                 }
         }
