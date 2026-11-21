@@ -29,7 +29,6 @@ struct MainScreen: View {
                     }
                 }
         }
-        .environmentObject(router)
         .overlay {
             if randomCoordinator.isPresentingAd {
                 RandomAdWaitingOverlay()
@@ -38,7 +37,7 @@ struct MainScreen: View {
         .sheet(item: $randomCoordinator.presentedPrompt) { flow in
             RandomToastSheet(flow: flow)
         }
-        .sheet(item: $randomCoordinator.presentedResult) { flow in
+        .sheet(item: $randomCoordinator.presentedResult, onDismiss: pushPendingDetail) { flow in
             RandomToastSheet(flow: flow)
         }
         .sheet(item: $randomCoordinator.presentedEmpty) { presentation in
@@ -53,5 +52,15 @@ struct MainScreen: View {
                 randomCoordinator.close()
             }
         }
+        // Outermost on purpose: sheets inherit the environment of the view they
+        // are attached to, so `router` must be injected after every `.sheet`.
+        .environmentObject(router)
+    }
+
+    /// Pushes the read-aloud detail requested from the result sheet, once the
+    /// sheet is fully gone (pushing mid-dismissal is unreliable).
+    private func pushPendingDetail() {
+        guard let toast = randomCoordinator.consumePendingDetail() else { return }
+        router.openDetail(of: [toast], at: 0)
     }
 }

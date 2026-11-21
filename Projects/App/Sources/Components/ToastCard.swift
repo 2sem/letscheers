@@ -15,7 +15,7 @@ struct ToastCard: View {
     let onToggleFavorite: () -> Void
 
     var body: some View {
-        HStack(alignment: .top, spacing: 12) {
+        HStack(alignment: toast.contents.isEmpty ? .center : .top, spacing: 12) {
             VStack(alignment: .leading, spacing: 6) {
                 Text(toast.title)
                     .font(.system(.title3, design: .rounded, weight: .bold))

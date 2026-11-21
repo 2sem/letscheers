@@ -29,7 +29,6 @@ struct RandomToastSheet: View {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    @EnvironmentObject private var router: NavigationRouter
 
     @State private var detent: PresentationDetent = .height(300)
     @State private var isExpanded = false
@@ -252,11 +251,11 @@ struct RandomToastSheet: View {
         }
     }
 
-    /// 낭독 모드 — close the sheet, then push the big read-aloud view.
+    /// 낭독 모드 — close the sheet; `MainScreen` pushes the big read-aloud view
+    /// from the sheet's `onDismiss` once the dismissal has finished.
     private func openDetail() {
-        let toast = liveToast
+        coordinator.requestDetail(of: liveToast)
         dismiss()
-        router.openDetail(of: [toast], at: 0)
     }
 
     private func reroll() {

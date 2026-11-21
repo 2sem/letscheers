@@ -15,8 +15,10 @@ struct FavoritesScreen: View {
     @Query(sort: \Favorite.createdAt, order: .forward)
     private var favorites: [Favorite]
 
-    @Environment(\.editMode) private var editMode
+    @State private var editMode: EditMode = .inactive
     @State private var deleteTick = 0
+
+    private var isEditing: Bool { editMode.isEditing }
 
     var body: some View {
         Group {
@@ -33,10 +35,14 @@ struct FavoritesScreen: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 if !favorites.isEmpty {
-                    EditButton()
+                    Button(isEditing ? "완료" : "편집") {
+                        withAnimation { editMode = isEditing ? .inactive : .active }
+                    }
+                    .foregroundStyle(Color.accentGold)
                 }
             }
         }
+        .environment(\.editMode, $editMode)
         .sensoryFeedback(.impact, trigger: deleteTick)
     }
 
@@ -103,7 +109,7 @@ struct FavoritesScreen: View {
     // MARK: - Actions
 
     private func open(_ favorite: Favorite) {
-        guard editMode?.wrappedValue.isEditing != true else { return }
+        guard !isEditing else { return }
         let deck = favorites.map(\.toast)
         guard let index = favorites.firstIndex(where: { $0.persistentModelID == favorite.persistentModelID }) else { return }
         router.openDetail(of: deck, at: index)

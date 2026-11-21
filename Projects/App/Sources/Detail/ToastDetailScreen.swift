@@ -66,7 +66,9 @@ struct ToastDetailScreen: View {
             .toolbarBackground(.hidden, for: .navigationBar)
             .toolbarColorScheme(.dark, for: .navigationBar)
             .toolbar {
-                ToolbarItem(placement: .principal) { counter }
+                ToolbarItem(placement: .principal) {
+                    if toasts.count > 1 { counter }
+                }
                 ToolbarItem(placement: .topBarTrailing) { favoriteButton }
             }
             .onAppear { UIApplication.shared.isIdleTimerDisabled = true }
@@ -115,7 +117,7 @@ struct ToastDetailScreen: View {
     private var counter: some View {
         Text("\(index + 1) / \(toasts.count)")
             .font(.footnote)
-            .foregroundStyle(Color.textTertiary)
+            .foregroundStyle(Color.textSecondary)
             .monospacedDigit()
             .accessibilityLabel("\(toasts.count)개 중 \(index + 1)번째")
     }
