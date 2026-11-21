@@ -12,7 +12,7 @@ struct ShareCardView: View {
 
     let toast: Toast
 
-    private var presentation: ToastPresentation { ToastPresentation(contents: toast.contents) }
+    private var presentation: ToastPresentation { ToastPresentation(title: toast.title, contents: toast.contents) }
 
     var body: some View {
         ZStack {
@@ -51,7 +51,30 @@ struct ShareCardView: View {
         }
     }
 
+    @ViewBuilder
     private var titleBlock: some View {
+        if presentation.hasTitleCallAndResponse {
+            VStack(alignment: .leading, spacing: 14) {
+                ForEach(presentation.titleLines) { line in
+                    VStack(alignment: .leading, spacing: 6) {
+                        RoleLabel(role: line.role, fontSize: 12)
+                        Text(line.text)
+                            .font(.system(size: 30, weight: .heavy, design: .rounded))
+                            .foregroundStyle(.white)
+                            .lineLimit(2)
+                            .minimumScaleFactor(0.6)
+                    }
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(presentation.titleAccessibilityLabel)
+        } else {
+            plainTitle
+        }
+    }
+
+    private var plainTitle: some View {
         Text(toast.title)
             .font(.system(size: 34, weight: .heavy, design: .rounded))
             .foregroundStyle(.white)
