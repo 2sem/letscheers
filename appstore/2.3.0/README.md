@@ -8,7 +8,9 @@
 | `header_loop_3840x1646.mp4` | Product page header (iOS 27 creative asset), 10 s seamless loop, muted |
 
 Screenshots live in `fastlane/screenshots/ko/` (iPhone 6.9" 1320×2868, iPhone 6.3" 1206×2622,
-iPad 13" 2064×2752). They were uploaded by hand; the Fastfile passes `skip_screenshots: true`.
+iPad 13" 2064×2752). fastlane uploads them: the release lane (`fastlane ios upload isReleasing:true`)
+and the screenshots-only lane (`fastlane ios screenshots`) both use `overwrite_screenshots`, so the
+folder is the source of truth. The device slot comes from the resolution; previews are not touched.
 Re-frame raw simulator shots with `python3 frame.py <raw_dir> <out_dir> <width> <height>`.
 
 Also available: `header_3840x1646.png` (21:9 still) and `universal_5244x2950.png` (16:9, header + search).
