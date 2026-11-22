@@ -115,6 +115,26 @@ platform :ios do
     puts "iOS 인증서 설치 및 버전 관리 완료"
   end
 
+  # App Store screenshots only (fastlane/screenshots/<locale>/), no binary, no metadata, no review.
+  # Device slot is inferred from resolution; overwrite replaces the existing screenshot sets.
+  lane :screenshots do
+    loadiOSConfigs()
+
+    upload_to_app_store(
+      api_key_path: @api_key_path,
+      app_identifier: @package_name,
+      screenshots_path: "./fastlane/screenshots",
+      overwrite_screenshots: true,
+      skip_binary_upload: true,
+      skip_metadata: true,
+      skip_app_version_update: true,
+      submit_for_review: false,
+      run_precheck_before_submit: false,
+      force: true,
+    )
+    puts "iOS 스크린샷 업로드 완료"
+  end
+
   lane :upload do | options|
     loadiOSConfigs()
 
@@ -129,7 +149,8 @@ platform :ios do
           app_identifier: @package_name,
           submit_for_review: true,
           force: true,
-          skip_screenshots: true,
+          screenshots_path: "./fastlane/screenshots",
+          overwrite_screenshots: true,
           run_precheck_before_submit: false,
         )
         puts "iOS 심사 제출 완료"
