@@ -202,7 +202,7 @@ private struct ToastDetailPage: View {
     @ScaledMetric(relativeTo: .largeTitle) private var phoneTitleSize: CGFloat = 48
     @ScaledMetric(relativeTo: .largeTitle) private var padTitleSize: CGFloat = 56
 
-    private var presentation: ToastPresentation { ToastPresentation(contents: toast.contents) }
+    private var presentation: ToastPresentation { ToastPresentation(title: toast.title, contents: toast.contents) }
     private var titleSize: CGFloat { sizeClass == .regular ? padTitleSize : phoneTitleSize }
 
     var body: some View {
@@ -239,7 +239,37 @@ private struct ToastDetailPage: View {
         }
     }
 
+    @ViewBuilder
     private var title: some View {
+        if presentation.hasTitleCallAndResponse {
+            titleCallAndResponse
+        } else {
+            plainTitle
+        }
+    }
+
+    private var titleCallAndResponse: some View {
+        VStack(alignment: .center, spacing: 20) {
+            ForEach(presentation.titleLines) { line in
+                VStack(alignment: .center, spacing: 8) {
+                    RoleLabel(role: line.role)
+                    Text(line.text)
+                        .font(.system(size: titleSize, weight: .heavy, design: .rounded))
+                        .foregroundStyle(.white)
+                        .minimumScaleFactor(0.5)
+                        .lineLimit(2)
+                        .multilineTextAlignment(.center)
+                        .frame(maxWidth: .infinity)
+                }
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(presentation.titleAccessibilityLabel)
+        .accessibilityAddTraits(.isHeader)
+    }
+
+    private var plainTitle: some View {
         Text(toast.title)
             .font(.system(size: titleSize, weight: .heavy, design: .rounded))
             .foregroundStyle(.white)

@@ -22,12 +22,26 @@ struct ToastPresentation: Equatable {
         let text: String
     }
 
+    /// Call-and-response lines parsed from `contents`.
     let lines: [Line]
+    /// Lead/response pair parsed from a title like "(선)A (후)B". Empty when the title has no markers.
+    let titleLines: [Line]
     let meaning: String
 
     var hasCallAndResponse: Bool { !lines.isEmpty }
+    var hasTitleCallAndResponse: Bool { !titleLines.isEmpty }
+
+    /// Spoken-order description of the title pair, e.g. "선창, A. 후창, B".
+    var titleAccessibilityLabel: String {
+        titleLines.map { "\($0.role.rawValue), \($0.text)" }.joined(separator: ". ")
+    }
 
     init(contents: String) {
+        self.init(title: "", contents: contents)
+    }
+
+    init(title: String, contents: String) {
+        self.titleLines = Self.parseTitle(title)
         var lines: [Line] = []
         var meaningLines: [String] = []
 
@@ -47,6 +61,23 @@ struct ToastPresentation: Equatable {
     }
 
     // MARK: - Parsing
+
+    private static let titlePattern = try? NSRegularExpression(
+        pattern: "^\\s*[(（]?\\s*선\\s*[)）:：]\\s*(.+?)\\s+[(（]?\\s*후\\s*[)）:：]\\s*(.+?)\\s*$"
+    )
+
+    private static func parseTitle(_ title: String) -> [Line] {
+        let range = NSRange(title.startIndex..., in: title)
+        guard let match = titlePattern?.firstMatch(in: title, range: range),
+              let leadRange = Range(match.range(at: 1), in: title),
+              let responseRange = Range(match.range(at: 2), in: title) else {
+            return []
+        }
+        let lead = String(title[leadRange]).trimmingCharacters(in: .whitespaces)
+        let response = String(title[responseRange]).trimmingCharacters(in: .whitespaces)
+        guard !lead.isEmpty, !response.isEmpty else { return [] }
+        return [Line(id: 0, role: .lead, text: lead), Line(id: 1, role: .response, text: response)]
+    }
 
     private static let pattern = try? NSRegularExpression(
         pattern: "^(선창|후창|제창|건배)\\s*[:：\\-]?\\s*(.+)$"
