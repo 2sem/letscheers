@@ -2,8 +2,8 @@
 # App Store preview 886x1920 (iPhone 6.9"/6.7"), 30fps H.264 + AAC stereo 48k.
 set -euo pipefail
 cd "$(dirname "$0")"
-FR=src/framed
-IMGS=("$FR/01_home.png" "$FR/02_random.png" "$FR/03_detail.png" "$FR/04_list.png" "$FR/05_share.png" endcard.png)
+FR=../../fastlane/screenshots/ko
+IMGS=("$FR/iPhone69-01_home.png" "$FR/iPhone69-02_random.png" "$FR/iPhone69-03_detail.png" "$FR/iPhone69-04_list.png" "$FR/iPhone69-05_share.png" endcard.png)
 PAD=0.9; XF=0.4; LEAD=0.35; END=2.2
 durs=(); for n in 01 02 03 04 05; do
   a=$(ffprobe -v error -show_entries format=duration -of csv=p=0 audio/$n.mp3)
