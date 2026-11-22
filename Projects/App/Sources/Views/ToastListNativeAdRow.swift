@@ -14,7 +14,7 @@ import GoogleMobileAds
 ///
 /// - Reuses ``NativeAdSwiftUIView`` as the loader and click-tracking layer and
 ///   switches on its ``NativeAdPhase`` (the SwiftUI content only draws the visuals).
-/// - Collapses to zero height when the ad fails to load, so there is no empty gap
+/// - Collapses to zero height while loading and when the ad fails to load, so there is no empty gap
 ///   and no repeated reload attempts (the loader is fire-once per instance).
 /// - Matches toast rows: no border/card, `.padding(.vertical, 8)`, the shared row
 ///   background and the default list separator. The "광고" label and AdChoices
@@ -40,12 +40,9 @@ struct ToastListNativeAdRow: View {
                     .accessibilityLabel(accessibilityText(for: ad))
                     .accessibilityAddTraits(.isButton)
 
-            case .loading:
-                placeholderContent
-                    .accessibilityLabel("광고 불러오는 중")
-
-            case .failed:
-                // Collapse the row entirely — no gap, no separator, no retry.
+            case .loading, .failed:
+                // Invisible until an ad has loaded; also the failure state. Collapse the
+                // row entirely — no gap, no separator, no skeleton, no retry.
                 Color.clear
                     .frame(height: 0)
                     .listRowInsets(EdgeInsets())
@@ -125,35 +122,6 @@ struct ToastListNativeAdRow: View {
         if let body = ad.body, !body.isEmpty { return body }
         if let advertiser = ad.advertiser, !advertiser.isEmpty { return advertiser }
         return nil
-    }
-
-    // MARK: - Loading
-
-    private var placeholderContent: some View {
-        HStack(alignment: .top, spacing: 12) {
-            VStack(alignment: .leading, spacing: 8) {
-                skeletonLine(width: 34, height: 10)   // "광고"
-                skeletonLine(width: 200, height: 16)  // headline
-                skeletonLine(width: nil, height: 13)  // body
-                skeletonLine(width: 140, height: 13)
-            }
-
-            Spacer()
-
-            RoundedRectangle(cornerRadius: 8)
-                .fill(Color.iconContainer)
-                .frame(width: 40, height: 40)
-        }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 12)
-        .accessibilityHidden(true)
-    }
-
-    private func skeletonLine(width: CGFloat?, height: CGFloat) -> some View {
-        RoundedRectangle(cornerRadius: 4)
-            .fill(Color.iconContainer)
-            .frame(width: width, height: height)
-            .frame(maxWidth: width == nil ? .infinity : nil, alignment: .leading)
     }
 
     // MARK: - Accessibility
